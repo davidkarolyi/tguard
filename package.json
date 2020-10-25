@@ -8,6 +8,7 @@
     "lib",
     "package.json",
     "README.md",
+    "LICENSE",
     "yarn.lock"
   ],
   "scripts": {
@@ -21,6 +22,14 @@
     "type": "git",
     "url": "git+https://github.com/davidkarolyi/tguard.git"
   },
+  "keywords": [
+    "typescript",
+    "typeguard",
+    "typesafety",
+    "types",
+    "typevalidator",
+    "guard"
+  ],
   "author": {
     "name": "David Karolyi",
     "email": "davidkarolyi96@gmail.com"
