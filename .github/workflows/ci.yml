@@ -20,3 +20,5 @@ jobs:
         run: yarn check
       - name: Run Tests
         run: yarn test
+      - name: Upload Coverage to Codecov
+        run: yarn codecov
