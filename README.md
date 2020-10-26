@@ -2,6 +2,12 @@
 
 > Declarative type guarding system for TypeScript
 
+![CI](https://img.shields.io/github/workflow/status/davidkarolyi/tguard/CI/main)
+![codecov](https://codecov.io/gh/davidkarolyi/tguard/branch/main/graph/badge.svg?token=53LGJ96QQ0)
+![License](https://badgen.net/npm/license/tguard)
+![Version](https://badgen.net/npm/v/tguard)
+![Dependencies](https://badgen.net/david/dep/davidkarolyi/tguard)
+
 ## Installation
 
 ```sh
