@@ -47,6 +47,20 @@ if (UserGuard.accepts(john)) {
 }
 ```
 
+or the same thing by using the `createPredicate` method:
+
+```ts
+const isUser = Guard.createPredicate<User>({
+  name: TString,
+  posts: TArray(TString),
+});
+
+if (isUser(john)) {
+  // TypeScript infers john's type as 'User' in this block
+  const questions = john.posts.filter((post) => post.endsWith("?"));
+}
+```
+
 ## Guarding Types Manually
 
 TypeScript does a static analysis to infer types, but won't provide any guarantees for runtime type safety.
@@ -154,30 +168,6 @@ const UserGuard = new Guard<User>({
 });
 ```
 
-### Instance methods
-
-**`accepts(value: any) => booelan`**
-
-Returns if the given value is a valid type `T`.
-
-If it is, it will predicate the type of value to `T`, using TypeScript's built-in [type predicates](https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates) feature.
-
-> Note that this will only work if you provided the type `T` in the `Guard` construction.
-> Otherwise TypeScript can't figure out the type of `value`, and `value`'s type will remain the same.
-
-```ts
-const user: any = {
-  name: "Foo",
-  posts: ["foobar", "baz"],
-};
-
-if (UserGuard.accepts(user)) {
-  // you can use 'user' as type 'User' in this block
-} else {
-  // do something if 'user' is not a valid 'User'
-}
-```
-
 ## Guard Definition
 
 `GuardDefinition` can be either a single [Validator](#validators) or a `GuardDefinitionObject`.
@@ -200,6 +190,50 @@ const userDefinition: GuardDefinition = {
     numOfPosts: TNumber,
   },
 };
+```
+
+### Methods
+
+**`accepts(value: any) => value is T`**
+
+Returns if the given value is a valid type `T`.
+
+If it is, it will predicate the type of value to `T`, using TypeScript's built-in [type predicates](https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates) feature.
+
+> Note that this will only work if you provided the type `T` in the `Guard` construction.
+> Otherwise TypeScript can't figure out the type of `value`, and `value`'s type will remain the same.
+
+```ts
+const user: any = {
+  name: "Foo",
+  posts: ["foobar", "baz"],
+};
+
+if (UserGuard.accepts(user)) {
+  // you can use 'user' as type 'User' in this block
+} else {
+  // do something if 'user' is not a valid 'User'
+}
+```
+
+**`static createPredicate<T>(definition: GuardDefinition) => (value: any) => value is T`**
+
+Returns a type predicate function, which returns if the given value is a valid type `T`.
+
+This is a shorter form of instantiating a `Guard` and using the `accepts` method
+if you only need to create a type predicate function.
+
+```ts
+const isUser = Guard.createPredicate({
+  name: TString,
+  posts: TArray(TString),
+});
+
+if (isUser(user)) {
+  // you can use 'user' as type 'User' in this block
+} else {
+  // do something if 'user' is not a valid 'User'
+}
 ```
 
 ## Validators
@@ -263,7 +297,7 @@ console.log(validator(value)); // true
 
 ### `TGuard(guard: Guard)`
 
-Returns `true` if the value is accepted by the given [guard](#guard-class)
+Returns `true` if the value is accepted by the given [guard](#guard-class).
 
 ```ts
 interface Product {

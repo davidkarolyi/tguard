@@ -49,4 +49,51 @@ describe("Guard class", () => {
       expect(actual).toBe(true);
     });
   });
+
+  describe("Guard.createPredicate()", () => {
+    it("returns a type predicate function", () => {
+      const predicateFn = Guard.createPredicate(jest.fn());
+      expect(typeof predicateFn).toBe("function");
+    });
+
+    it("calls single validator in definition", () => {
+      const validator = jest.fn();
+      const predicateFn = Guard.createPredicate(validator);
+      predicateFn(10);
+
+      expect(validator).toHaveBeenCalledWith(10);
+    });
+
+    it("calls all validators in definition", () => {
+      const definition = {
+        foo: jest.fn().mockReturnValue(true),
+        bar: jest.fn().mockReturnValue(true),
+      };
+      const predicateFn = Guard.createPredicate(definition);
+      predicateFn({ foo: 1, bar: 2 });
+
+      expect(definition.foo).toHaveBeenCalledWith(1);
+      expect(definition.bar).toHaveBeenCalledWith(2);
+    });
+
+    it("returns true when the value is valid", () => {
+      const definition = {
+        foo: jest.fn().mockReturnValue(true),
+        bar: jest.fn().mockReturnValue(true),
+      };
+      const predicateFn = Guard.createPredicate(definition);
+
+      expect(predicateFn({ foo: 1, bar: 2 })).toBe(true);
+    });
+
+    it("returns false when the value is invalid", () => {
+      const definition = {
+        foo: jest.fn().mockReturnValue(true),
+        bar: jest.fn(),
+      };
+      const predicateFn = Guard.createPredicate(definition);
+
+      expect(predicateFn({ foo: 1, bar: 2 })).toBe(false);
+    });
+  });
 });
