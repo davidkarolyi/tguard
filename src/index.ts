@@ -1,4 +1,4 @@
-export { Guard } from "./guard";
+export { guard } from "./guard";
 export {
   TString,
   TAny,
@@ -10,17 +10,10 @@ export {
   TObject,
   TUndefined,
   TArray,
-  TGuard,
-  TDefinition,
   TObjectOfShape,
   TAnd,
   TOr,
   TNot,
 } from "./validators";
 
-export {
-  IGuard,
-  GuardDefinition,
-  GuardDefinitionObject,
-  Validator,
-} from "./types";
+export { GuardDefinition, GuardDefinitionObject, Validator } from "./types";

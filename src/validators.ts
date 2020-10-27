@@ -1,5 +1,4 @@
-import { Guard } from "./guard";
-import { Validator, IGuard, GuardDefinition } from "./types";
+import { Validator } from "./types";
 
 export const TString: Validator = (value: any) => typeof value === "string";
 
@@ -27,12 +26,6 @@ export const TArray = (validator: Validator) => (value: any) => {
   }
   return true;
 };
-
-export const TGuard = (guard: IGuard<any>) => (value: any) =>
-  Boolean(guard.accepts(value));
-
-export const TDefinition = (definition: GuardDefinition) =>
-  TGuard(new Guard(definition));
 
 export const TObjectOfShape = (shape: {
   keys: Validator;

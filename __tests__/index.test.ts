@@ -1,7 +1,6 @@
 import {
-  Guard,
+  guard,
   TArray,
-  TGuard,
   TNumber,
   TString,
   TAny,
@@ -11,12 +10,10 @@ import {
   TNull,
   TObject,
   TUndefined,
-  TDefinition,
   TObjectOfShape,
   TAnd,
   TOr,
   TNot,
-  IGuard,
   GuardDefinition,
   GuardDefinitionObject,
   Validator,
@@ -24,9 +21,8 @@ import {
 
 describe("Exports", () => {
   it("exported all names", () => {
-    expect(Guard).toBeDefined();
+    expect(guard).toBeDefined();
     expect(TArray).toBeDefined();
-    expect(TGuard).toBeDefined();
     expect(TNumber).toBeDefined();
     expect(TString).toBeDefined();
     expect(TAny).toBeDefined();
@@ -36,7 +32,6 @@ describe("Exports", () => {
     expect(TNull).toBeDefined();
     expect(TObject).toBeDefined();
     expect(TUndefined).toBeDefined();
-    expect(TDefinition).toBeDefined();
     expect(TObjectOfShape).toBeDefined();
     expect(TAnd).toBeDefined();
     expect(TOr).toBeDefined();
@@ -56,15 +51,15 @@ describe("Example", () => {
     body: string;
   }
 
-  const PostGuard = new Guard<Post>({
+  const isPost = guard<Post>({
     title: TString,
     body: TString,
   });
 
-  const UserGuard = new Guard<User>({
+  const isGuard = guard<User>({
     name: TString,
     age: TNumber,
-    posts: TArray(TGuard(PostGuard)),
+    posts: TArray(isPost),
   });
 
   it("accepts valid user", () => {
@@ -77,7 +72,7 @@ describe("Example", () => {
       ],
     };
 
-    expect(UserGuard.accepts(user)).toBe(true);
+    expect(isGuard(user)).toBe(true);
   });
 
   it("does not accept invalid user", () => {
@@ -89,6 +84,6 @@ describe("Example", () => {
         { title: "bar", body: "foo bar" },
       ],
     };
-    expect(UserGuard.accepts(user)).toBe(false);
+    expect(isGuard(user)).toBe(false);
   });
 });
