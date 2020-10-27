@@ -3,7 +3,7 @@ import { GuardDefinition, IGuard } from "./types";
 export class Guard<T> implements IGuard<T> {
   constructor(private readonly definition: GuardDefinition) {}
 
-  static createPredicate<T>(definition: GuardDefinition) {
+  public static createPredicate<T>(definition: GuardDefinition) {
     const guard = new Guard<T>(definition);
     return (value: any): value is T => guard.accepts(value);
   }
