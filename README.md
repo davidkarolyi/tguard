@@ -2,10 +2,9 @@
 
 > Declarative type guarding system for TypeScript
 
-![CI](https://img.shields.io/github/workflow/status/davidkarolyi/tguard/CI/main)
+![CI](https://github.com/davidkarolyi/tguard/workflows/CI/badge.svg)
 ![codecov](https://codecov.io/gh/davidkarolyi/tguard/branch/main/graph/badge.svg?token=53LGJ96QQ0)
 ![license](https://badgen.net/npm/license/tguard)
-![version](https://badgen.net/npm/v/tguard)
 ![dependencies](https://badgen.net/david/dep/davidkarolyi/tguard)
 
 ## Installation
@@ -326,11 +325,11 @@ Defining an email validator:
 ```ts
 const TEmail = (value: any) => typeof value === string && value.includes("@");
 
-const EmailGuard = new Guard<string>(TEmail);
+const isEmail = guard<string>(TEmail);
 
 const email: any = "foo@bar.com";
 
-if (EmailGuard.accepts(email)) {
+if (isEmail(email)) {
   // you can use 'email' as type 'string' in this block
 } else {
   // do something if 'email' is not a valid email
