@@ -1,7 +1,3 @@
-export interface IGuard<T> {
-  accepts(value: any): value is T;
-}
-
 export type GuardDefinition = Validator | GuardDefinitionObject;
 
 export interface GuardDefinitionObject {

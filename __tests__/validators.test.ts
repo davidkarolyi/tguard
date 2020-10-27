@@ -1,8 +1,6 @@
-import { IGuard } from "../src/types";
 import {
   TAnd,
   TArray,
-  TGuard,
   TNot,
   TOr,
   TAny,
@@ -14,7 +12,6 @@ import {
   TObject,
   TString,
   TUndefined,
-  TDefinition,
   TObjectOfShape,
 } from "../src/validators";
 
@@ -191,54 +188,6 @@ describe("Validators", () => {
         expect(shouldCall).toHaveBeenCalled();
         expect(shouldNotCall).not.toHaveBeenCalled();
       });
-    });
-  });
-
-  describe("TGuard", () => {
-    it("creates a validator function", () => {
-      const guard = ({ accepts: jest.fn() } as unknown) as IGuard<any>;
-      expect(typeof TGuard(guard)).toBe("function");
-    });
-
-    it("calls the provided guard", () => {
-      const guard = ({ accepts: jest.fn() } as unknown) as IGuard<any>;
-      TGuard(guard)(10);
-
-      expect(guard.accepts).toHaveBeenCalledWith(10);
-    });
-
-    it("returns the same value as the provided guard", () => {
-      const guard = ({
-        accepts: jest.fn().mockReturnValue(true),
-      } as unknown) as IGuard<any>;
-      const validator = TGuard(guard);
-
-      expect(validator("")).toBe(true);
-    });
-  });
-
-  describe("TDefinition", () => {
-    it("creates a validator function", () => {
-      const validator = TDefinition(jest.fn());
-      expect(typeof validator).toBe("function");
-    });
-
-    it("calls single validator of the definition", () => {
-      const definition = jest.fn();
-      TDefinition(definition)(10);
-
-      expect(definition).toHaveBeenCalledWith(10);
-    });
-
-    it("calls all validators of the definition", () => {
-      const definition = {
-        foo: jest.fn().mockReturnValue(true),
-        bar: jest.fn().mockReturnValue(true),
-      };
-      TDefinition(definition)({ foo: 1, bar: 2 });
-
-      expect(definition.foo).toHaveBeenCalledWith(1);
-      expect(definition.bar).toHaveBeenCalledWith(2);
     });
   });
 

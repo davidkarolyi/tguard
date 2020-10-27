@@ -1,30 +1,20 @@
-import { GuardDefinition, IGuard } from "./types";
+import { GuardDefinition } from "./types";
 
-export class Guard<T> implements IGuard<T> {
-  constructor(private readonly definition: GuardDefinition) {}
+export function guard<T>(definition: GuardDefinition) {
+  return (value: any): value is T => definitionAcceptsValue(definition, value);
+}
 
-  public static createPredicate<T>(definition: GuardDefinition) {
-    const guard = new Guard<T>(definition);
-    return (value: any): value is T => guard.accepts(value);
+function definitionAcceptsValue(
+  definition: GuardDefinition,
+  value: any
+): boolean {
+  if (typeof definition === "function") return definition(value);
+  if (typeof value !== "object" || value === null) return false;
+
+  for (const fieldName in definition) {
+    const subdefinition = definition[fieldName];
+    const fieldValue = value[fieldName];
+    if (!definitionAcceptsValue(subdefinition, fieldValue)) return false;
   }
-
-  accepts(value: any): value is T {
-    return this.valueSatisfiesDefinition(value, this.definition);
-  }
-
-  private valueSatisfiesDefinition(
-    value: any,
-    definition: GuardDefinition
-  ): boolean {
-    if (typeof definition === "function") return definition(value);
-    if (typeof value !== "object" || value === null) return false;
-
-    for (const fieldName in definition) {
-      const subdefinition = definition[fieldName];
-      const fieldValue = value[fieldName];
-      if (!this.valueSatisfiesDefinition(fieldValue, subdefinition))
-        return false;
-    }
-    return true;
-  }
+  return true;
 }
