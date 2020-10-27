@@ -14,8 +14,6 @@ jobs:
           node-version: "12"
       - name: Install
         run: yarn install
-      - name: Build Source
-        run: yarn build
       - name: Check Code Formatting
         run: yarn check
       - name: Run Tests
