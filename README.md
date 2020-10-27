@@ -4,9 +4,9 @@
 
 ![CI](https://img.shields.io/github/workflow/status/davidkarolyi/tguard/CI/main)
 ![codecov](https://codecov.io/gh/davidkarolyi/tguard/branch/main/graph/badge.svg?token=53LGJ96QQ0)
-![License](https://badgen.net/npm/license/tguard)
-![Version](https://badgen.net/npm/v/tguard)
-![Dependencies](https://badgen.net/david/dep/davidkarolyi/tguard)
+![license](https://badgen.net/npm/license/tguard)
+![version](https://badgen.net/npm/v/tguard)
+![dependencies](https://badgen.net/david/dep/davidkarolyi/tguard)
 
 ## Installation
 
@@ -23,14 +23,14 @@ yarn add tguard
 ## Example Usage
 
 ```ts
-import { Guard, TString, TArray } from "tguard";
+import { guard, TString, TArray } from "tguard";
 
 interface User {
   name: string;
   posts: string[];
 }
 
-const UserGuard = new Guard<User>({
+const isUser = guard<User>({
   name: TString,
   posts: TArray(TString),
 });
@@ -41,22 +41,11 @@ const john: any = {
   posts: ["Who am I?", "I am a user."],
 };
 
-if (UserGuard.accepts(john)) {
-  // TypeScript infers john's type as 'User' in this block
-  const questions = john.posts.filter((post) => post.endsWith("?"));
-}
-```
-
-or the same thing by using the `createPredicate` method:
-
-```ts
-const isUser = Guard.createPredicate<User>({
-  name: TString,
-  posts: TArray(TString),
-});
-
 if (isUser(john)) {
   // TypeScript infers john's type as 'User' in this block
+
+  // So, for example you can use array methods on posts,
+  // because it's recognised as 'string[]', not 'any'
   const questions = john.posts.filter((post) => post.endsWith("?"));
 }
 ```
@@ -142,27 +131,27 @@ Imagine the amount of guarding code you should write for types with more fields 
 **By using `tguard`, the same logic can be expressed as:**
 
 ```ts
-const UserGuard = new Guard<User>({
+import { guard } from "tguard";
+
+const isUser = guard<User>({
   name: TString,
   posts: TArray(TString),
 });
 ```
 
-## `Guard` class
+## Create guards
 
-### Creation
-
-To define a new type guard, use the `Guard` class's constructor,
+To define a new type guard, use the `guard<T>(definition: GuardDefinition)` function,
 which accepts a `T` generic type and a [GuardDefinition](#guard-definition) as the parameter.
 
 ```ts
-import { Guard, TString, TArray } from "tguard";
+import { guard, TString, TArray } from "tguard";
 
 // Using a single type validator
-const StringGuard = new Guard<string>(TString);
+const isString = guard<string>(TString);
 
 // Using an object definition
-const UserGuard = new Guard<User>({
+const isUser = guard<User>({
   name: TString,
   posts: TArray(TString),
 });
@@ -192,16 +181,20 @@ const userDefinition: GuardDefinition = {
 };
 ```
 
-### Methods
+You can also reuse your existing guards in guard definition, to learn more about this, check out the section about [reusing guards](#reusing-guards).
 
-**`accepts(value: any) => value is T`**
+## Type Predicate Functions
 
-Returns if the given value is a valid type `T`.
+The `guard<T>` function returns a [type predicate function](https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates), with the following signature:
 
-If it is, it will predicate the type of value to `T`, using TypeScript's built-in [type predicates](https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates) feature.
+```ts
+(value: any) => value is T:
+```
 
-> Note that this will only work if you provided the type `T` in the `Guard` construction.
-> Otherwise TypeScript can't figure out the type of `value`, and `value`'s type will remain the same.
+These are special functions in TypeScript, not only returns if the given value is a valid type `T`,
+but it will predicate the type of value to `T` if it's returned true.
+
+So you can use `isUser` type predicate function like this:
 
 ```ts
 const user: any = {
@@ -209,22 +202,8 @@ const user: any = {
   posts: ["foobar", "baz"],
 };
 
-if (UserGuard.accepts(user)) {
-  // you can use 'user' as type 'User' in this block
-} else {
-  // do something if 'user' is not a valid 'User'
-}
-```
-
-**`static createPredicate<T>(definition: GuardDefinition) => (value: any) => value is T`**
-
-Returns a type predicate function, which returns if the given value is a valid type `T`.
-
-This is a shorter form of instantiating a `Guard` and using the `accepts` method
-if you only need to create a type predicate function.
-
-```ts
-const isUser = Guard.createPredicate({
+// isUser is a type predicate function
+const isUser = guard<User>({
   name: TString,
   posts: TArray(TString),
 });
@@ -235,6 +214,9 @@ if (isUser(user)) {
   // do something if 'user' is not a valid 'User'
 }
 ```
+
+> Note that this will only work if you provided the type `T` in the `guard<T>` function.
+> Otherwise TypeScript can't figure out the type of `value`, and `value`'s type will remain untouched.
 
 ## Validators
 
@@ -293,40 +275,6 @@ const value: any = [1, 2, 3];
 const validator = TArray(TNumber);
 
 console.log(validator(value)); // true
-```
-
-### `TGuard(guard: Guard)`
-
-Returns `true` if the value is accepted by the given [guard](#guard-class).
-
-```ts
-interface Product {
-  id: number;
-}
-
-const ProductGuard = new Guard<Product>({
-  id: TNumber,
-});
-
-const validator = TArray(TGuard(ProductGuard));
-const products: any = [{ id: 1 }, { id: 2 }, { id: 3 }];
-
-console.log(validator(products)); // true
-```
-
-### `TDefinition(definition: GuardDefinition)`
-
-Returns `true` if the value is valid according to the given [guard definition](#guard-definition).
-
-```ts
-const validator = TArray(
-  TDefinition({
-    id: TNumber,
-  })
-);
-const products: any = [{ id: 1 }, { id: 2 }, { id: 3 }];
-
-console.log(validator(products)); // true
 ```
 
 ### `TObjectOfShape(shape: { keys: Validator, values: Validator,})`
@@ -399,4 +347,53 @@ const TArray = (validator: Validator) => (value: any) => {
   }
   return true;
 };
+```
+
+## Type Predicates vs Validators
+
+Notice that a [type predicate function](#type-predicate-functions) and a [validator](#validators)'
+function signature is very similar.
+
+```ts
+// type predicate function
+(value: any) => any is T
+
+// validator function
+(value: any) => boolean
+```
+
+**As you saw in all examples, we're using a naming convention of prefixing every validator with a `T`,
+and type predicate functions with `is` to differentiate them.**
+
+So both returns a `boolean`, but the validator function won't help TypeScript figuring out
+the type of `value`, while the type predicate function will.
+
+**We can say that every `type predicate function` is a `validator` as well**, but not visa-versa.
+
+### Reusing guards
+
+As a consequence we can use type predicates as validators in the [guard definition](#guard-definition):
+
+```ts
+import { guard, TString, TArray } from "tguard";
+
+interface User {
+  name: string;
+  posts: Post[];
+}
+
+interface Post {
+  header: string;
+  body: string;
+}
+
+const isPost = guard<Post>({
+  header: TString,
+  body: TString,
+});
+
+const isUser = guard<User>({
+  name: TString,
+  body: TArray(isPost),
+});
 ```
