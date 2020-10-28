@@ -4,7 +4,6 @@
 
 ![CI](https://github.com/davidkarolyi/tguard/workflows/CI/badge.svg)
 ![codecov](https://codecov.io/gh/davidkarolyi/tguard/branch/main/graph/badge.svg?token=53LGJ96QQ0)
-![license](https://badgen.net/npm/license/tguard)
 ![dependencies](https://badgen.net/david/dep/davidkarolyi/tguard)
 
 ## Installation
@@ -130,7 +129,7 @@ Imagine the amount of guarding code you should write for types with more fields 
 **By using `tguard`, the same logic can be expressed as:**
 
 ```ts
-import { guard } from "tguard";
+import { guard, TString, TArray } from "tguard";
 
 const isUser = guard<User>({
   name: TString,
@@ -361,8 +360,8 @@ function signature is very similar.
 (value: any) => boolean
 ```
 
-**As you saw in all examples, we're using a naming convention of prefixing every validator with a `T`,
-and type predicate functions with `is` to differentiate them.**
+As you saw in all examples, we're using a naming convention of prefixing every validator with a `T`,
+and type predicate functions with `is` or `has` to explicitly differentiate them.
 
 So both returns a `boolean`, but the validator function won't help TypeScript figuring out
 the type of `value`, while the type predicate function will.
