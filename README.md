@@ -4,7 +4,6 @@
 
 ![CI](https://github.com/davidkarolyi/tguard/workflows/CI/badge.svg)
 ![codecov](https://codecov.io/gh/davidkarolyi/tguard/branch/main/graph/badge.svg?token=53LGJ96QQ0)
-![dependencies](https://badgen.net/david/dep/davidkarolyi/tguard)
 
 ## Installation
 
