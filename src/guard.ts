@@ -12,9 +12,9 @@ function definitionAcceptsValue(
   if (typeof value !== "object" || value === null) return false;
 
   for (const fieldName in definition) {
-    const subdefinition = definition[fieldName];
+    const subDefinition = definition[fieldName];
     const fieldValue = value[fieldName];
-    if (!definitionAcceptsValue(subdefinition, fieldValue)) return false;
+    if (!definitionAcceptsValue(subDefinition, fieldValue)) return false;
   }
   return true;
 }
