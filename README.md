@@ -40,14 +40,11 @@ const john: any = {
 
 if (isUser(john)) {
   // TypeScript infers john's type as 'User' in this block
-
-  // So, for example you can use array methods on posts,
-  // because it's recognised as 'string[]', not 'any'
   const questions = john.posts.filter((post) => post.endsWith("?"));
 }
 ```
 
-## Guarding Types Manually
+## Guarding Types Manually ❌
 
 TypeScript does a static analysis to infer types, but won't provide any guarantees for runtime type safety.
 These checks should be done by the developer manually via [type guards](https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types).
@@ -125,7 +122,7 @@ Imagine the amount of guarding code you should write for types with more fields 
 
 `tguard` offers a declarative approach to achieve the same functionality, without complex manual type guarding.
 
-**By using `tguard`, the same logic can be expressed as:**
+**✅ By using `tguard`, the same logic can be expressed as:**
 
 ```ts
 import { guard, TString, TArray } from "tguard";
