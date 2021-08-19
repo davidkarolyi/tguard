@@ -56,7 +56,7 @@ describe("Example", () => {
     body: TString,
   });
 
-  const isGuard = guard<User>({
+  const isUser = guard<User>({
     name: TString,
     age: TNumber,
     posts: TArray(isPost),
@@ -72,7 +72,7 @@ describe("Example", () => {
       ],
     };
 
-    expect(isGuard(user)).toBe(true);
+    expect(isUser(user)).toBe(true);
   });
 
   it("does not accept invalid user", () => {
@@ -84,6 +84,23 @@ describe("Example", () => {
         { title: "bar", body: "foo bar" },
       ],
     };
-    expect(isGuard(user)).toBe(false);
+    expect(isUser(user)).toBe(false);
+  });
+
+  it("infers types correctly", () => {
+    const user = {
+      name: "John",
+      age: 30,
+      posts: [
+        { title: "foo", body: "foo bar" },
+        { title: "bar", body: "foo bar" },
+      ],
+    } as unknown as number;
+
+    if (isUser(user)) {
+      expect(user.name).toBe("John");
+    } else {
+      throw new Error("Not a valid user");
+    }
   });
 });
