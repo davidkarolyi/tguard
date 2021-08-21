@@ -1,20 +1,88 @@
-import { GuardDefinition } from "./types";
+import has from "lodash/has";
+import get from "lodash/get";
+import { Tree } from "./tree";
+import {
+  Constructor,
+  SchemaType,
+  ValidatorType,
+  Schema,
+  Validator,
+  ValidatorOrConstructor,
+} from "./types";
+import { MissingValueError, InvalidValueError } from "./errors";
 
-export function guard<T>(definition: GuardDefinition) {
-  return (value: any): value is T => definitionAcceptsValue(definition, value);
-}
+export type GuardType<G extends Guard<Schema>> = ValidatorType<G>;
 
-function definitionAcceptsValue(
-  definition: GuardDefinition,
-  value: any
-): boolean {
-  if (typeof definition === "function") return definition(value);
-  if (typeof value !== "object" || value === null) return false;
+export class Guard<S extends Schema> extends Validator<SchemaType<S>> {
+  readonly name;
+  readonly schema: Tree<Validator<unknown>>;
 
-  for (const fieldName in definition) {
-    const subDefinition = definition[fieldName];
-    const fieldValue = value[fieldName];
-    if (!definitionAcceptsValue(subDefinition, fieldValue)) return false;
+  constructor(schema: S) {
+    super();
+    this.schema = this.resolveSchema(schema);
+    this.name =
+      this.schema.value instanceof Validator
+        ? this.schema.value.name
+        : JSON.stringify(this.expectedSchema);
   }
-  return true;
+
+  get expectedSchema() {
+    return this.schema.map((validator) => validator.name).value;
+  }
+
+  isValid(value: any): value is SchemaType<S> {
+    try {
+      this.cast(value);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  cast(value: any): SchemaType<S> {
+    if (this.schema.isLeafNode(this.schema.value)) {
+      if (!this.schema.value.isValid(value))
+        throw new InvalidValueError([], this.schema.value.name);
+      return value as SchemaType<S>;
+    }
+
+    const result = this.schema.find(
+      (validator, path) =>
+        !has(value, path) || !validator.isValid(get(value, path))
+    );
+
+    if (!result) return value;
+
+    const { path, value: validator } = result;
+    if (!has(value, path)) throw new MissingValueError(path, validator.name);
+    throw new InvalidValueError(path, validator.name);
+  }
+
+  private resolveSchema(schema: Schema): Tree<Validator<unknown>> {
+    const tree = this.createTreeFromSchema(schema);
+    return this.instantiateValidatorsInSchemaTree(tree);
+  }
+
+  private createTreeFromSchema(schema: Schema): Tree<ValidatorOrConstructor> {
+    const isValidatorOrConstructor = (
+      value: Schema
+    ): value is Validator<unknown> | Constructor<Validator<unknown>> =>
+      value instanceof Validator || typeof value === "function";
+
+    return new Tree({
+      definition: schema,
+      isLeafNode: isValidatorOrConstructor,
+    });
+  }
+
+  private instantiateValidatorsInSchemaTree(
+    tree: Tree<ValidatorOrConstructor>
+  ): Tree<Validator<unknown>> {
+    return tree.map(
+      (value) => {
+        return value instanceof Validator ? value : new value();
+      },
+      (value): value is Validator<unknown> => value instanceof Validator
+    );
+  }
 }
