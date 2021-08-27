@@ -1,363 +1,317 @@
+import { Validator } from "../src/types";
 import {
-  TAnd,
-  TArray,
-  TNot,
-  TOr,
-  TAny,
-  TBigInt,
+  TString,
+  TNumber,
   TBoolean,
   TFunction,
-  TNull,
-  TNumber,
   TObject,
-  TString,
   TUndefined,
+  TBigInt,
+  TNull,
+  TAny,
+  TArray,
   TObjectOfShape,
+  TNot,
+  TOr,
 } from "../src/validators";
 
 describe("Validators", () => {
-  describe("TString", () => {
-    it("returns true if a string was given", () => {
-      expect(TString("")).toBe(true);
+  describe("primitive types", () => {
+    describe("TString", () => {
+      const validator = new TString();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string'", () => {
+        expect(validator.name).toBe("string");
+      });
+
+      it("returns true if a string was given", () => {
+        expect(validator.isValid("")).toBe(true);
+      });
+
+      it("returns false if a non-string value was given", () => {
+        expect(validator.isValid(0)).toBe(false);
+      });
     });
 
-    it("returns false if a non-string value was given", () => {
-      expect(TString(0)).toBe(false);
+    describe("TNumber", () => {
+      const validator = new TNumber();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'number'", () => {
+        expect(validator.name).toBe("number");
+      });
+
+      it("returns true if a number was given", () => {
+        expect(validator.isValid(0)).toBe(true);
+      });
+
+      it("returns false if a non-number value was given", () => {
+        expect(validator.isValid("")).toBe(false);
+      });
+    });
+
+    describe("TBoolean", () => {
+      const validator = new TBoolean();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'boolean'", () => {
+        expect(validator.name).toBe("boolean");
+      });
+
+      it("returns true if a boolean was given", () => {
+        expect(validator.isValid(false)).toBe(true);
+      });
+
+      it("returns false if a non-boolean value was given", () => {
+        expect(validator.isValid(undefined)).toBe(false);
+      });
+    });
+
+    describe("TFunction", () => {
+      const validator = new TFunction();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'function'", () => {
+        expect(validator.name).toBe("function");
+      });
+
+      it("returns true if a function was given", () => {
+        expect(validator.isValid(() => 10)).toBe(true);
+      });
+
+      it("returns false if a non-function value was given", () => {
+        expect(validator.isValid({})).toBe(false);
+      });
+    });
+
+    describe("TObject", () => {
+      const validator = new TObject();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'object'", () => {
+        expect(validator.name).toBe("object");
+      });
+
+      it("returns true if an object was given", () => {
+        expect(validator.isValid({})).toBe(true);
+      });
+
+      it("returns false if not an object value was given", () => {
+        expect(validator.isValid(() => 10)).toBe(false);
+      });
+
+      it("returns true if null value was given", () => {
+        expect(validator.isValid(null)).toBe(true);
+      });
+    });
+
+    describe("TUndefined", () => {
+      const validator = new TUndefined();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'undefined'", () => {
+        expect(validator.name).toBe("undefined");
+      });
+
+      it("returns true if undefined value was given", () => {
+        expect(validator.isValid(undefined)).toBe(true);
+      });
+
+      it("returns false if a not undefined value was given", () => {
+        expect(validator.isValid(null)).toBe(false);
+      });
+    });
+
+    describe("TBigInt", () => {
+      const validator = new TBigInt();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'bigint'", () => {
+        expect(validator.name).toBe("bigint");
+      });
+
+      it("returns true if a bigint value was given", () => {
+        const value = BigInt(10);
+        expect(validator.isValid(value)).toBe(true);
+      });
+
+      it("returns false if a non-bigint value was given", () => {
+        expect(validator.isValid(10)).toBe(false);
+      });
+    });
+
+    describe("TNull", () => {
+      const validator = new TNull();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'null'", () => {
+        expect(validator.name).toBe("null");
+      });
+
+      it("returns true if a null value was given", () => {
+        expect(validator.isValid(null)).toBe(true);
+      });
+
+      it("returns false if a non-null value was given", () => {
+        expect(validator.isValid({})).toBe(false);
+      });
+    });
+
+    describe("TAny", () => {
+      const validator = new TAny();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'any'", () => {
+        expect(validator.name).toBe("any");
+      });
+
+      it("returns true regardless of the input", () => {
+        expect(validator.isValid(null)).toBe(true);
+        expect(validator.isValid("")).toBe(true);
+        expect(validator.isValid(undefined)).toBe(true);
+        expect(validator.isValid(false)).toBe(true);
+        expect(validator.isValid({})).toBe(true);
+        expect(validator.isValid(0)).toBe(true);
+      });
     });
   });
 
-  describe("TNumber", () => {
-    it("returns true if a number was given", () => {
-      expect(TNumber(0)).toBe(true);
+  describe("compound validators", () => {
+    describe("TArray", () => {
+      const validator = TArray(TString);
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is '<type>[]'", () => {
+        expect(validator.name).toBe("string[]");
+      });
+
+      it("returns true if the provided value is a valid array", () => {
+        expect(validator.isValid(["foo", "bar"])).toBe(true);
+      });
+
+      it("returns false if the provided value is not an array", () => {
+        expect(validator.isValid({})).toBe(false);
+      });
+
+      it("returns false if one element is not valid", () => {
+        expect(validator.isValid(["foo", "bar", 2])).toBe(false);
+      });
+
+      it("returns true, if the array is empty", () => {
+        expect(validator.isValid([])).toBe(true);
+      });
     });
 
-    it("returns false if a non-number value was given", () => {
-      expect(TNumber("")).toBe(false);
-    });
-  });
+    describe("TObjectOfShape", () => {
+      const validator = TObjectOfShape({
+        keys: TString,
+        values: TNumber,
+      });
 
-  describe("TBoolean", () => {
-    it("returns true if a boolean was given", () => {
-      expect(TBoolean(false)).toBe(true);
-    });
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
 
-    it("returns false if a non-boolean value was given", () => {
-      expect(TBoolean(undefined)).toBe(false);
-    });
-  });
+      it("returns true, if the given object has the correct shape", () => {
+        expect(validator.isValid({ foo: 10 })).toBe(true);
+      });
 
-  describe("TFunction", () => {
-    it("returns true if a function was given", () => {
-      expect(TFunction(() => 10)).toBe(true);
-    });
+      it("it's name is '{[<keyType>]: <valueType>}'", () => {
+        expect(validator.name).toBe("{ [string]: number }");
+      });
 
-    it("returns false if a non-function value was given", () => {
-      expect(TFunction({})).toBe(false);
-    });
-  });
+      it("returns false, if the given value is not an object", () => {
+        expect(validator.isValid(null)).toBe(false);
+      });
 
-  describe("TObject", () => {
-    it("returns true if an object was given", () => {
-      expect(TObject({})).toBe(true);
-    });
+      it("returns false, if the key is invalid", () => {
+        const validator = TObjectOfShape({
+          keys: class TFalse extends Validator<string> {
+            readonly name = "false";
+            isValid(value: any): value is string {
+              return false;
+            }
+          },
+          values: TNumber,
+        });
 
-    it("returns false if not an object value was given", () => {
-      expect(TObject(() => 10)).toBe(false);
-    });
+        expect(validator.isValid({ foo: 10 })).toBe(false);
+      });
 
-    it("returns true if null value was given", () => {
-      expect(TObject(null)).toBe(true);
-    });
-  });
-
-  describe("TUndefined", () => {
-    it("returns true if undefined value was given", () => {
-      expect(TUndefined(undefined)).toBe(true);
+      it("returns false, if one of the values is invalid", () => {
+        expect(validator.isValid({ foo: "10" })).toBe(false);
+      });
     });
 
-    it("returns false if a not undefined value was given", () => {
-      expect(TUndefined(null)).toBe(false);
-    });
-  });
-
-  describe("TBigInt", () => {
-    it("returns true if a bigint value was given", () => {
-      const value = BigInt(10);
-      expect(TBigInt(value)).toBe(true);
-    });
-
-    it("returns false if a non-bigint value was given", () => {
-      expect(TBigInt(10)).toBe(false);
-    });
-  });
-
-  describe("TNull", () => {
-    it("returns true if a null value was given", () => {
-      expect(TNull(null)).toBe(true);
-    });
-
-    it("returns false if a non-null value was given", () => {
-      expect(TNull({})).toBe(false);
-    });
-  });
-
-  describe("TAny", () => {
-    it("returns true regardless of the input", () => {
-      expect(TAny(null)).toBe(true);
-      expect(TAny("")).toBe(true);
-      expect(TAny(undefined)).toBe(true);
-      expect(TAny(false)).toBe(true);
-      expect(TAny({})).toBe(true);
-      expect(TAny(0)).toBe(true);
-    });
-  });
-
-  describe("Logical operators", () => {
     describe("TNot", () => {
+      const validator = TNot(TString);
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is '!<type>'", () => {
+        expect(validator.name).toBe("!string");
+      });
+
       it("returns true if false was returned by the validator", () => {
-        const validator = TNot(jest.fn());
-        expect(validator("")).toBe(true);
+        expect(validator.isValid(10)).toBe(true);
       });
 
       it("returns false if true was returned by the validator", () => {
-        const validator = TNot(jest.fn().mockReturnValue(true));
-        expect(validator("")).toBe(false);
+        expect(validator.isValid("")).toBe(false);
       });
     });
 
     describe("TOr", () => {
-      it("returns true if at least one true returned by a validator", () => {
-        const validator = TOr(jest.fn(), jest.fn().mockReturnValue(true));
-        expect(validator("")).toBe(true);
+      const validator = TOr(TString, TNumber, TBoolean, TBigInt);
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
       });
 
-      it("returns false if none of the validators returned true", () => {
-        const validator = TOr(jest.fn(), jest.fn());
-        expect(validator("")).toBe(false);
+      it("it's name is '(<type1> | <type2> | ...)'", () => {
+        expect(validator.name).toBe("(string | number | boolean | bigint)");
       });
 
-      it("works with 2+ number of validators as arguments", () => {
-        const validator = TOr(
-          jest.fn(),
-          jest.fn(),
-          jest.fn().mockReturnValue(true),
-          jest.fn()
-        );
-        expect(validator("")).toBe(true);
+      it("returns true, if at least one validator matches the value", () => {
+        expect(validator.isValid(10)).toBe(true);
       });
 
-      it("does not call further validators after got back a true from one", () => {
-        const shouldNotCall = jest.fn();
-        const shouldCall = jest.fn().mockReturnValue(true);
-        TOr(jest.fn(), shouldCall, shouldNotCall)("");
-
-        expect(shouldCall).toHaveBeenCalled();
-        expect(shouldNotCall).not.toHaveBeenCalled();
+      it("returns false, if none of the validators match the value", () => {
+        expect(validator.isValid({ foo: "bar" })).toBe(false);
       });
-    });
-
-    describe("TAnd", () => {
-      it("returns false if at least one false returned by a validator", () => {
-        const validator = TAnd(jest.fn().mockReturnValue(true), jest.fn());
-        expect(validator("")).toBe(false);
-      });
-
-      it("returns true if all of the validators returned true", () => {
-        const validator = TAnd(
-          jest.fn().mockReturnValue(true),
-          jest.fn().mockReturnValue(true)
-        );
-        expect(validator("")).toBe(true);
-      });
-
-      it("works with 2+ number of validators as arguments", () => {
-        const validator = TAnd(
-          jest.fn().mockReturnValue(true),
-          jest.fn().mockReturnValue(true),
-          jest.fn(),
-          jest.fn().mockReturnValue(true)
-        );
-        expect(validator("")).toBe(false);
-      });
-
-      it("does not call further validators after got back a false from one", () => {
-        const shouldNotCall = jest.fn().mockReturnValue(true);
-        const shouldCall = jest.fn();
-        TAnd(jest.fn().mockReturnValue(true), shouldCall, shouldNotCall)("");
-
-        expect(shouldCall).toHaveBeenCalled();
-        expect(shouldNotCall).not.toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe("TArray", () => {
-    it("creates a validator function", () => {
-      const validator = TArray(jest.fn());
-      expect(typeof validator).toBe("function");
-    });
-
-    it("returns false if the provided value is not an array", () => {
-      const itemValidator = jest.fn().mockReturnValue(true);
-      const validator = TArray(itemValidator);
-
-      expect(validator({})).toBe(false);
-    });
-
-    it("does not call item validator, if the provided value is not an array", () => {
-      const itemValidator = jest.fn();
-      TArray(itemValidator)({});
-
-      expect(itemValidator).not.toHaveBeenCalled();
-    });
-
-    it("returns true, if the provided array is empty, regardless of the item validator", () => {
-      const itemValidator = jest.fn();
-      const validator = TArray(itemValidator);
-
-      expect(validator([])).toBe(true);
-    });
-
-    it("does not call item validator, if the provided array empty", () => {
-      const itemValidator = jest.fn();
-      TArray(itemValidator)([]);
-
-      expect(itemValidator).not.toHaveBeenCalled();
-    });
-
-    it("calls item validator on all items", () => {
-      const itemValidator = jest.fn().mockReturnValue(true);
-      TArray(itemValidator)([1, 2, 3]);
-
-      expect(itemValidator).toHaveBeenCalledTimes(3);
-    });
-
-    it("stops immediately after found an invalid item", () => {
-      const itemValidator = jest
-        .fn()
-        .mockImplementation((value) => value !== 2);
-      TArray(itemValidator)([1, 2, 3]);
-
-      expect(itemValidator).toHaveBeenCalledTimes(2);
-    });
-
-    it("returns false if there is at least one invalid item", () => {
-      const itemValidator = jest
-        .fn()
-        .mockImplementation((value) => value !== 2);
-      const validator = TArray(itemValidator);
-
-      expect(validator([1, 2, 3])).toBe(false);
-    });
-
-    it("returns true if all items are valid", () => {
-      const itemValidator = jest.fn().mockReturnValue(true);
-      const validator = TArray(itemValidator);
-
-      expect(validator([1, 2, 3])).toBe(true);
-    });
-  });
-
-  describe("TObjectOfShape", () => {
-    it("creates a validator function", () => {
-      const shape = {
-        keys: jest.fn(),
-        values: jest.fn(),
-      };
-      const validator = TObjectOfShape(shape);
-
-      expect(typeof validator).toBe("function");
-    });
-
-    it("returns false if the given value is not an object", () => {
-      const shape = {
-        keys: jest.fn(),
-        values: jest.fn(),
-      };
-      const validator = TObjectOfShape(shape);
-
-      expect(validator(null)).toBe(false);
-    });
-
-    it("returns true if the given value is {}", () => {
-      const shape = {
-        keys: jest.fn(),
-        values: jest.fn(),
-      };
-      const validator = TObjectOfShape(shape);
-
-      expect(validator({})).toBe(true);
-    });
-
-    it("calls shape validators with correct arguments", () => {
-      const shape = {
-        keys: jest.fn().mockReturnValue(true),
-        values: jest.fn(),
-      };
-      TObjectOfShape(shape)({
-        foo: 1,
-      });
-
-      expect(shape.keys).toHaveBeenCalledWith("foo");
-      expect(shape.values).toHaveBeenCalledWith(1);
-    });
-
-    it("calls all shape validators", () => {
-      const shape = {
-        keys: jest.fn().mockReturnValue(true),
-        values: jest.fn().mockReturnValue(true),
-      };
-      TObjectOfShape(shape)({
-        foo: 1,
-        bar: 2,
-      });
-
-      expect(shape.keys).toHaveBeenCalledTimes(2);
-      expect(shape.values).toHaveBeenCalledTimes(2);
-    });
-
-    it("stops immadiately after got a false from a shape validator", () => {
-      const shape = {
-        keys: jest.fn().mockReturnValue(true),
-        values: jest.fn(),
-      };
-      TObjectOfShape(shape)({
-        foo: 1,
-        bar: 2,
-      });
-
-      expect(shape.keys).toHaveBeenCalledTimes(1);
-      expect(shape.values).toHaveBeenCalledTimes(1);
-    });
-
-    it("returns false if a key is invalid", () => {
-      const shape = {
-        keys: jest.fn(),
-        values: jest.fn().mockReturnValue(true),
-      };
-      const validator = TObjectOfShape(shape);
-
-      expect(validator({ foo: 1 })).toBe(false);
-    });
-
-    it("returns false if a value is invalid", () => {
-      const shape = {
-        keys: jest.fn().mockReturnValue(true),
-        values: jest.fn(),
-      };
-      const validator = TObjectOfShape(shape);
-
-      expect(validator({ foo: 1 })).toBe(false);
-    });
-
-    it("returns true if both keys and values are all valid", () => {
-      const shape = {
-        keys: jest.fn().mockReturnValue(true),
-        values: jest.fn().mockReturnValue(true),
-      };
-      const validator = TObjectOfShape(shape);
-
-      expect(validator({ foo: 1 })).toBe(true);
     });
   });
 });
