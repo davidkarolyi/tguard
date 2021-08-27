@@ -13,6 +13,7 @@ import {
   TObjectOfShape,
   TOr,
   TNot,
+  GenericValidator,
 } from "../src";
 
 describe("Exports", () => {
@@ -31,21 +32,11 @@ describe("Exports", () => {
     expect(TObjectOfShape).toBeDefined();
     expect(TOr).toBeDefined();
     expect(TNot).toBeDefined();
+    expect(GenericValidator).toBeDefined();
   });
 });
 
 describe("Example", () => {
-  interface User {
-    name: string;
-    age: number;
-    posts: Post[];
-  }
-
-  interface Post {
-    title: string;
-    body: string;
-  }
-
   const TPost = new Guard({
     title: TString,
     body: TString,
