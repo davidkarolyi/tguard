@@ -13,6 +13,7 @@ export {
   TObjectOfShape,
   TOr,
   TNot,
+  GenericValidator,
 } from "./validators";
 
 export { Validator, Schema, ValidatorType, SchemaType } from "./types";

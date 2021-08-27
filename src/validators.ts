@@ -13,7 +13,7 @@ abstract class PrimitiveTypeValidator<T> extends Validator<T> {
   }
 }
 
-class GenericValidator<T> extends Validator<T> {
+export class GenericValidator<T> extends Validator<T> {
   readonly name: string;
   isValid: (value: any) => value is T;
 
