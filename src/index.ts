@@ -1,4 +1,4 @@
-export { Guard, GuardType } from "./guard";
+export { Guard, GuardedType } from "./guard";
 export * from "./validators";
 export { ValidationError } from "./errors";
 

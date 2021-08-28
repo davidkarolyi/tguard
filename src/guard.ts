@@ -11,7 +11,7 @@ import {
 } from "./types";
 import { MissingValueError, InvalidValueError } from "./errors";
 
-export type GuardType<G extends Guard<Schema>> = ValidatorType<G>;
+export type GuardedType<G extends Guard<Schema>> = ValidatorType<G>;
 
 export class Guard<S extends Schema> extends Validator<SchemaType<S>> {
   readonly name;
