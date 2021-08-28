@@ -99,7 +99,7 @@ describe("Guard", () => {
           try {
             guard.cast("foo");
             throw new Error("Didn't throw an error");
-          } catch (error) {
+          } catch (error: any) {
             expect(error).toBeInstanceOf(ValidationError);
             expect(error.message).toBe(
               "Validation failed: Invalid value, expected type: number"
@@ -127,7 +127,7 @@ describe("Guard", () => {
           try {
             guard.cast(value);
             throw new Error("Didn't throw an error");
-          } catch (error) {
+          } catch (error: any) {
             expect(error).toBeInstanceOf(ValidationError);
             expect(error.message).toBe(
               'Validation failed: Missing value at "cart.peach", expected type: number'
