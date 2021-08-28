@@ -9,11 +9,12 @@ export type ValidatorOrConstructor<T = unknown> =
   | Validator<T>
   | Constructor<Validator<T>>;
 
-export type ValidatorType<C extends Validator<unknown>> = C extends Validator<
-  infer T
->
-  ? T
-  : unknown;
+export type ValidatorType<C extends ValidatorOrConstructor<unknown>> =
+  C extends Validator<infer T>
+    ? T
+    : C extends Constructor<Validator<infer T>>
+    ? T
+    : unknown;
 
 export type Schema = TreeDefinition<ValidatorOrConstructor<any>>;
 

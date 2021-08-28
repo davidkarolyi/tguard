@@ -1,3 +1,4 @@
+import { Guard } from "../src/guard";
 import { Validator } from "../src/types";
 import {
   TString,
@@ -13,6 +14,9 @@ import {
   TObjectOfShape,
   TNot,
   TOr,
+  TNumberAsString,
+  TAnd,
+  TMatch,
 } from "../src/validators";
 
 describe("Validators", () => {
@@ -54,6 +58,30 @@ describe("Validators", () => {
 
       it("returns false if a non-number value was given", () => {
         expect(validator.isValid("")).toBe(false);
+      });
+    });
+
+    describe("TNumberAsString", () => {
+      const validator = new TNumberAsString();
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'number'", () => {
+        expect(validator.name).toBe("number(as a string)");
+      });
+
+      it("returns false if a number was given", () => {
+        expect(validator.isValid(0)).toBe(false);
+      });
+
+      it("returns false if the string cannot be converted to a number", () => {
+        expect(validator.isValid("foo")).toBe(false);
+      });
+
+      it("returns true if the string can be converted to a number", () => {
+        expect(validator.isValid("12.235")).toBe(true);
       });
     });
 
@@ -311,6 +339,49 @@ describe("Validators", () => {
 
       it("returns false, if none of the validators match the value", () => {
         expect(validator.isValid({ foo: "bar" })).toBe(false);
+      });
+    });
+
+    describe("TAnd", () => {
+      const validator = TAnd(
+        new Guard({ name: TString }),
+        new Guard({ age: TNumber })
+      );
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is '(<type1> & <type2> & ...)'", () => {
+        expect(validator.name).toBe('({"name":"string"} & {"age":"number"})');
+      });
+
+      it("returns false, if at least one validator rejects the value", () => {
+        expect(validator.isValid({ name: "John" })).toBe(false);
+      });
+
+      it("returns true, if none of the validators were rejected the value", () => {
+        expect(validator.isValid({ name: "John", age: 25 })).toBe(true);
+      });
+    });
+
+    describe("TMatch", () => {
+      const validator = TMatch("contains 'match'", /match/);
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(/<patterName>/)'", () => {
+        expect(validator.name).toBe("string(contains 'match')");
+      });
+
+      it("returns false, if the input didn't match the regexp", () => {
+        expect(validator.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input matches the regexp", () => {
+        expect(validator.isValid("foomatchbar")).toBe(true);
       });
     });
   });

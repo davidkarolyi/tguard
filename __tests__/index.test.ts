@@ -12,7 +12,10 @@ import {
   TUndefined,
   TObjectOfShape,
   TOr,
+  TAnd,
   TNot,
+  TMatch,
+  TNumberAsString,
   GenericValidator,
 } from "../src";
 
@@ -21,6 +24,7 @@ describe("Exports", () => {
     expect(Guard).toBeDefined();
     expect(TArray).toBeDefined();
     expect(TNumber).toBeDefined();
+    expect(TNumberAsString).toBeDefined();
     expect(TString).toBeDefined();
     expect(TAny).toBeDefined();
     expect(TBigInt).toBeDefined();
@@ -31,7 +35,9 @@ describe("Exports", () => {
     expect(TUndefined).toBeDefined();
     expect(TObjectOfShape).toBeDefined();
     expect(TOr).toBeDefined();
+    expect(TAnd).toBeDefined();
     expect(TNot).toBeDefined();
+    expect(TMatch).toBeDefined();
     expect(GenericValidator).toBeDefined();
   });
 });

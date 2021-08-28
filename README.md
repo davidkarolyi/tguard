@@ -310,6 +310,10 @@ Accepts only `null`.
 
 Accepts the JS type `number`.
 
+### `TNumberAsString`
+
+Accepts only `strings`, that can be converted to a valid `number`.
+
 ### `TObject`
 
 Accepts the JS type `boolean`. (including `null`)
@@ -351,7 +355,7 @@ validator.isValid({
   orange: 5,
 }); // true
 
-validator({
+validator.isValid({
   avocado: "green",
   orange: 5,
 }); // false
@@ -359,11 +363,31 @@ validator({
 validator.name === "{ [string]: number }"; // true
 ```
 
+### `TMatch(patternName: string, regexp: RegExp)`
+
+Accepts strings that matches `regexp`.
+`patternName` is used to describe the regular expression in a user-readable manner.
+For example:
+
+```ts
+const validator = new TMatch("email", /^\S+@\S+$/);
+
+validator.isValid("foo@bar.com"); // true
+validator.isValid("foobar.com"); // false
+validator.name === "string(email)"; // true
+```
+
 ### `TOr(...validators: Validator[])`
 
 Similar in concept as the `|` operator in TypeScript.
 
 Accepts a value when it was accepted by at least one of the `validators`.
+
+### `TAnd(validatorA: Validator, validatorB: Validator)`
+
+Similar in concept as the `&` operator in TypeScript.
+
+Accepts a value when it was accepted by both `validatorA` and `validatorB`.
 
 ### `TNot(validator: Validator)`
 

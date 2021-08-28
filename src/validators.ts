@@ -68,6 +68,14 @@ export class TAny extends Validator<any> {
   }
 }
 
+export class TNumberAsString extends Validator<string> {
+  readonly name = "number(as a string)";
+
+  isValid(value: any): value is string {
+    return typeof value === "string" && !isNaN(Number(value));
+  }
+}
+
 export function TArray<T>(
   validator: ValidatorOrConstructor<T>
 ): Validator<Array<T>> {
@@ -118,24 +126,52 @@ export function TNot<T>(
   return new GenericValidator(name, isValid);
 }
 
-export function TOr<A, B, T extends Array<Constructor<Validator<unknown>>>>(
-  validatorA: Constructor<Validator<A>>,
-  validatorB: Constructor<Validator<B>>,
+export function TOr<A, B, T extends Array<ValidatorOrConstructor<unknown>>>(
+  validatorA: ValidatorOrConstructor<A>,
+  validatorB: ValidatorOrConstructor<B>,
   ...others: T
-): Validator<A | B | ValidatorType<InstanceType<ArrayType<T>>>> {
+): Validator<A | B | ValidatorType<ArrayType<T>>> {
   const validators = [validatorA, validatorB, ...others].map(
-    (Validator) => new Validator()
+    (validator) => new Guard(validator)
   );
 
   const name = `(${validators.map(({ name }) => name).join(" | ")})`;
 
-  function isValid(
-    value: any
-  ): value is A | B | ValidatorType<InstanceType<ArrayType<T>>> {
+  function isValid(value: any): value is A | B | ValidatorType<ArrayType<T>> {
     for (const validator of validators) {
       if (validator.isValid(value)) return true;
     }
     return false;
+  }
+
+  return new GenericValidator(name, isValid);
+}
+
+export function TAnd<A, B>(
+  validatorA: ValidatorOrConstructor<A>,
+  validatorB: ValidatorOrConstructor<B>
+): Validator<A & B> {
+  const validators = [validatorA, validatorB].map(
+    (validator) => new Guard(validator)
+  );
+
+  const name = `(${validators.map(({ name }) => name).join(" & ")})`;
+
+  function isValid(value: any): value is A & B {
+    for (const validator of validators) {
+      if (!validator.isValid(value)) return false;
+    }
+    return true;
+  }
+
+  return new GenericValidator(name, isValid);
+}
+
+export function TMatch(patternName: string, regexp: RegExp): Validator<string> {
+  const name = `string(${patternName})`;
+
+  function isValid(value: any): value is string {
+    return regexp.test(value);
   }
 
   return new GenericValidator(name, isValid);
