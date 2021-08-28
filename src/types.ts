@@ -16,7 +16,7 @@ export type ValidatorType<C extends ValidatorOrConstructor<unknown>> =
     ? T
     : unknown;
 
-export type Schema = TreeDefinition<ValidatorOrConstructor<any>>;
+export type Schema<T = any> = TreeDefinition<ValidatorOrConstructor<T>>;
 
 export type SchemaType<C extends Schema> = C extends Constructor<
   Validator<unknown>
