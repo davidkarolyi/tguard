@@ -20,7 +20,7 @@ yarn add tguard
 ## Example Usage
 
 ```ts
-import { Guard, TString, TArray, GuardType } from "tguard";
+import { Guard, TString, TArray, GuardedType } from "tguard";
 
 // 1. Here you have some TypeScript types in your program:
 interface User {
@@ -47,8 +47,8 @@ const TUser = new Guard({
 
 // Note: If you don't want to define these types twice
 // (once as an interface, once as a guard):
-type User = GuardType<typeof TUser>;
-type Post = GuardType<typeof TPost>;
+type User = GuardedType<typeof TUser>;
+type Post = GuardedType<typeof TPost>;
 
 // 3. We have an unknown value, that we fetched from an external API,
 // TypeScript will implicitly infer it as "any" type:
