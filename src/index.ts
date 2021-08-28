@@ -1,19 +1,10 @@
 export { Guard, GuardType } from "./guard";
-export {
-  TString,
-  TAny,
-  TBigInt,
-  TBoolean,
-  TFunction,
-  TNull,
-  TNumber,
-  TObject,
-  TUndefined,
-  TArray,
-  TObjectOfShape,
-  TOr,
-  TNot,
-  GenericValidator,
-} from "./validators";
+export * from "./validators";
 
-export { Validator, Schema, ValidatorType, SchemaType } from "./types";
+export {
+  Validator,
+  Schema,
+  ValidatorType,
+  SchemaType,
+  ValidatorOrConstructor,
+} from "./types";

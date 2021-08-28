@@ -69,9 +69,9 @@ export class TAny extends Validator<any> {
 }
 
 export function TArray<T>(
-  itemValidator: ValidatorOrConstructor<T>
+  validator: ValidatorOrConstructor<T>
 ): Validator<Array<T>> {
-  const guard = new Guard(itemValidator);
+  const guard = new Guard(validator);
   const name = `${guard.name}[]`;
 
   function isValid(value: any): value is Array<T> {

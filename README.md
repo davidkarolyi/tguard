@@ -45,7 +45,12 @@ const TUser = new Guard({
   posts: TArray(TPost),
 });
 
-// 3. We have an unknown value, that we fetched from a network request,
+// Note: If you don't want to define these types twice
+// (once as an interface, once as a guard):
+type User = GuardType<typeof TUser>;
+type Post = GuardType<typeof TPost>;
+
+// 3. We have an unknown value, that we fetched from an external API,
 // TypeScript will implicitly infer it as "any" type:
 const john: any = {
   name: "John",
@@ -54,13 +59,10 @@ const john: any = {
 
 // 4. Validate if John is a valid 'User' type or not:
 if (TUser.isValid(john)) {
-  // 5. TypeScript willinfer John's type as 'User' in this block
+  // 5. TypeScript will infer John's type as 'User' in this block
   // So this line won't throw any type errors:
   const questions = john.posts.filter((post) => post.title.endsWith("?"));
 }
-
-// If you don't want to define the User type twice (once as an interface, once as a guard):
-type User = GuardType<typeof TUser>;
 ```
 
 ## Motivation, Guarding Types Manually ❌
@@ -160,7 +162,7 @@ To define a new type guard, use the `Guard` class,
 which accepts a [Schema](#schema) as the parameter.
 
 ```ts
-import { Guard, TString, TArray } from "tguard";
+import { Guard, TString, TArray, TNumber } from "tguard";
 
 // The schema can be a single Validator or Guard
 new Guard(TString);
@@ -234,7 +236,7 @@ if (TUser.isValid(user)) {
 
 > Note that this is possible, because Guard could automatically figure out the guarded type from the schema.
 
-### Type casting
+### Type Casting
 
 The `cast` method will take any value and return the same value, but typed as the guarded type.
 If the value isn't matching the schema, it will throw an `Error` containing the reason of failure.
@@ -320,9 +322,9 @@ Accepts the JS type `undefined`.
 
 A function that returns a [Validator](#validators), called a compound validator.
 
-### `TArray(itemValidator: Validator)`
+### `TArray(validator: Validator)`
 
-Accpets an `array` of the type validated by the given `itemValidator`.
+Accpets an `array` of the type validated by the given `validator`.
 
 ```ts
 const validator = new TArray(TNumber);
@@ -399,9 +401,9 @@ import {
 } from "tguard";
 
 export function TArray<T>(
-  itemValidator: ValidatorOrConstructor<T>
+  validator: ValidatorOrConstructor<T>
 ): Validator<Array<T>> {
-  const guard = new Guard(itemValidator);
+  const guard = new Guard(validator);
   const name = `${guard.name}[]`;
 
   function isValid(value: any): value is Array<T> {

@@ -128,7 +128,7 @@ describe("Guard", () => {
             throw new Error("Didn't throw an error");
           } catch (error) {
             expect(error.message).toBe(
-              'Validation failed: Missing value at path "cart.peach", expected type: number'
+              'Validation failed: Missing value at "cart.peach", expected type: number'
             );
             expect(error.path).toEqual(["cart", "peach"]);
             expect(error.expectedType).toEqual("number");
