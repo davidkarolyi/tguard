@@ -59,9 +59,18 @@ const john: any = {
 
 // 4. Validate if John is a valid 'User' type or not:
 if (TUser.isValid(john)) {
-  // 5. TypeScript will infer John's type as 'User' in this block
+  // TypeScript will infer John's type as 'User' in this block
   // So this line won't throw any type errors:
   const questions = john.posts.filter((post) => post.title.endsWith("?"));
+}
+
+// 5. Or try to cast a value to the User type:
+try {
+  const user = TUser.cast({ posts: ["Who am I?", "I am a user."] });
+  // typeof user == User
+} catch (error) {
+  error.message ===
+    'Validation failed: Missing value at path "name", expected type: string'; // true
 }
 ```
 
@@ -257,9 +266,10 @@ try {
   const user = TUser.cast(value);
   // typeof user === User
 } catch (error) {
-  error.message === "Validation failed: Missing value at path "cart.total", expected type: number" // true
-  error.path === ["cart", "total"] // false because it's a reference 🙄, but you got the idea
-  error.expectedType === "number" //true
+  error.message ===
+    'Validation failed: Missing value at path "cart.total", expected type: number'; // true
+  error.path === ["cart", "total"]; // false because it's a reference 🙄, but you got the idea
+  error.expectedType === "number"; //true
 }
 ```
 

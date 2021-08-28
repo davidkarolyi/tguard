@@ -1,4 +1,4 @@
-import { InvalidValueError } from "../src/errors";
+import { ValidationError } from "../src/errors";
 import { Guard } from "../src/guard";
 import { Validator } from "../src/types";
 import { TNumber, TString } from "../src/validators";
@@ -100,6 +100,7 @@ describe("Guard", () => {
             guard.cast("foo");
             throw new Error("Didn't throw an error");
           } catch (error) {
+            expect(error).toBeInstanceOf(ValidationError);
             expect(error.message).toBe(
               "Validation failed: Invalid value, expected type: number"
             );
@@ -127,6 +128,7 @@ describe("Guard", () => {
             guard.cast(value);
             throw new Error("Didn't throw an error");
           } catch (error) {
+            expect(error).toBeInstanceOf(ValidationError);
             expect(error.message).toBe(
               'Validation failed: Missing value at "cart.peach", expected type: number'
             );

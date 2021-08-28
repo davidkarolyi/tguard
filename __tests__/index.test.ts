@@ -17,6 +17,7 @@ import {
   TMatch,
   TNumberAsString,
   GenericValidator,
+  ValidationError,
 } from "../src";
 
 describe("Exports", () => {
@@ -39,6 +40,7 @@ describe("Exports", () => {
     expect(TNot).toBeDefined();
     expect(TMatch).toBeDefined();
     expect(GenericValidator).toBeDefined();
+    expect(ValidationError).toBeDefined();
   });
 });
 

@@ -1,4 +1,4 @@
-class ValidationError extends Error {
+export class ValidationError extends Error {
   readonly path: Array<string>;
   readonly expectedType: string;
 

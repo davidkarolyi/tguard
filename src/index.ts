@@ -1,5 +1,6 @@
 export { Guard, GuardType } from "./guard";
 export * from "./validators";
+export { ValidationError } from "./errors";
 
 export {
   Validator,
