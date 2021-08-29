@@ -70,7 +70,7 @@ try {
   // typeof user == User
 } catch (error) {
   error.message ===
-    'Validation failed: Missing value at path "name", expected type: string'; // true
+    'Validation failed: Missing value at "name", expected type: string'; // true
 }
 ```
 
@@ -267,7 +267,7 @@ try {
   // typeof user === User
 } catch (error) {
   error.message ===
-    'Validation failed: Missing value at path "cart.total", expected type: number'; // true
+    'Validation failed: Missing value at "cart.total", expected type: number'; // true
   error.path === ["cart", "total"]; // false because it's a reference 🙄, but you got the idea
   error.expectedType === "number"; //true
 }
