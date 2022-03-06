@@ -11,9 +11,8 @@ export class ValidationError extends Error {
 
 export class InvalidValueError extends ValidationError {
   constructor(path: Array<string>, expectedType: string) {
-    const pathInfo = path.length ? ` at "${path.join(".")}"` : "";
     super(
-      `Invalid value${pathInfo}, expected type: ${expectedType}`,
+      "Invalid " + getValueDescription(path, expectedType),
       path,
       expectedType
     );
@@ -22,11 +21,18 @@ export class InvalidValueError extends ValidationError {
 
 export class MissingValueError extends ValidationError {
   constructor(path: Array<string>, expectedType: string) {
-    const pathInfo = path.length ? ` at "${path.join(".")}"` : "";
     super(
-      `Missing value${pathInfo}, expected type: ${expectedType}`,
+      "Missing " + getValueDescription(path, expectedType),
       path,
       expectedType
     );
   }
+}
+
+function getValueDescription(
+  path: Array<string>,
+  expectedType: string
+): string {
+  const pathInfo = path.length ? ` at "${path.join(".")}"` : "";
+  return `value${pathInfo}, expected type: ${expectedType}`;
 }

@@ -17,6 +17,18 @@ import {
   TNumberAsString,
   TAnd,
   TStringMatch,
+  TStringBase64,
+  TStringEmail,
+  TStringISODate,
+  TStringJSON,
+  TStringJWT,
+  TStringMIMEType,
+  TStringPhoneNumber,
+  TStringOfLength,
+  TStringSemVer,
+  TStringURL,
+  TStringUUID,
+  TValidate,
 } from "../src/validators";
 
 describe("Validators", () => {
@@ -362,6 +374,240 @@ describe("Validators", () => {
 
       it("returns true, if the input matches the regexp", () => {
         expect(validator.isValid("foomatchbar")).toBe(true);
+      });
+    });
+
+    describe("TStringBase64", () => {
+      const validator = TStringBase64({ urlSafe: false });
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(base64(?URL))'", () => {
+        expect(validator.name).toBe("string(base64)");
+        expect(TStringBase64({ urlSafe: true }).name).toBe("string(base64URL)");
+      });
+
+      it("returns false, if the input is not a base64 string", () => {
+        expect(validator.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is a base64 string", () => {
+        expect(validator.isValid("c29tZXRoaW5n")).toBe(true);
+      });
+    });
+
+    describe("TStringEmail", () => {
+      it("is an instance of Validator", () => {
+        expect(TStringEmail).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(email)'", () => {
+        expect(TStringEmail.name).toBe("string(email)");
+      });
+
+      it("returns false, if the input is not an email", () => {
+        expect(TStringEmail.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is an email", () => {
+        expect(TStringEmail.isValid("foobar@email.com")).toBe(true);
+      });
+    });
+
+    describe("TStringISODate", () => {
+      it("is an instance of Validator", () => {
+        expect(TStringISODate).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(date)'", () => {
+        expect(TStringISODate.name).toBe("string(date)");
+      });
+
+      it("returns false, if the input is not a ISO date string", () => {
+        expect(TStringISODate.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is a ISO date string", () => {
+        expect(TStringISODate.isValid("2022-03-06T22:01:41.160Z")).toBe(true);
+      });
+    });
+
+    describe("TStringJSON", () => {
+      it("is an instance of Validator", () => {
+        expect(TStringJSON).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(JSON)'", () => {
+        expect(TStringJSON.name).toBe("string(JSON)");
+      });
+
+      it("returns false, if the input is not a JSON string", () => {
+        expect(TStringJSON.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is a JSON string", () => {
+        expect(TStringJSON.isValid('{"foo": 2}')).toBe(true);
+      });
+    });
+
+    describe("TStringJWT", () => {
+      it("is an instance of Validator", () => {
+        expect(TStringJWT).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(JWT)'", () => {
+        expect(TStringJWT.name).toBe("string(JWT)");
+      });
+
+      it("returns false, if the input is not a JWT string", () => {
+        expect(TStringJWT.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is a JWT string", () => {
+        expect(
+          TStringJWT.isValid(
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          )
+        ).toBe(true);
+      });
+    });
+
+    describe("TStringMIMEType", () => {
+      it("is an instance of Validator", () => {
+        expect(TStringMIMEType).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(MIME type)'", () => {
+        expect(TStringMIMEType.name).toBe("string(MIME type)");
+      });
+
+      it("returns false, if the input is not a MIME type string", () => {
+        expect(TStringMIMEType.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is a MIME type string", () => {
+        expect(TStringMIMEType.isValid("application/json")).toBe(true);
+      });
+    });
+
+    describe("TStringPhoneNumber", () => {
+      it("is an instance of Validator", () => {
+        expect(TStringPhoneNumber).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(phone number)'", () => {
+        expect(TStringPhoneNumber.name).toBe("string(phone number)");
+      });
+
+      it("returns false, if the input is not a phone number string", () => {
+        expect(TStringPhoneNumber.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is a phone number string", () => {
+        expect(TStringPhoneNumber.isValid("061555555")).toBe(true);
+      });
+    });
+
+    describe("TStringSemVer", () => {
+      it("is an instance of Validator", () => {
+        expect(TStringSemVer).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(SemVer)'", () => {
+        expect(TStringSemVer.name).toBe("string(SemVer)");
+      });
+
+      it("returns false, if the input is not a SemVer string", () => {
+        expect(TStringSemVer.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is a SemVer string", () => {
+        expect(TStringSemVer.isValid("1.0.7")).toBe(true);
+      });
+    });
+
+    describe("TStringOfLength", () => {
+      const validator = TStringOfLength({ min: 5 });
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string([min=<min>][,max=<max>])'", () => {
+        expect(validator.name).toBe("string(min=5)");
+        expect(TStringOfLength({ min: 5, max: 10 }).name).toBe(
+          "string(min=5,max=10)"
+        );
+        expect(TStringOfLength({ max: 10 }).name).toBe("string(max=10)");
+      });
+
+      it("returns false, if the input is not a string of the given length constraint", () => {
+        expect(validator.isValid("1234")).toBe(false);
+      });
+
+      it("returns true, if the input is a string of the given length constraint", () => {
+        expect(validator.isValid("123456")).toBe(true);
+      });
+    });
+
+    describe("TStringURL", () => {
+      it("is an instance of Validator", () => {
+        expect(TStringURL).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(URL)'", () => {
+        expect(TStringURL.name).toBe("string(URL)");
+      });
+
+      it("returns false, if the input is not a URL", () => {
+        expect(TStringURL.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is a URL", () => {
+        expect(TStringURL.isValid("foobar.com")).toBe(true);
+      });
+    });
+
+    describe("TStringUUID", () => {
+      const validator = TStringUUID({ version: 4 });
+
+      it("is an instance of Validator", () => {
+        expect(validator).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'string(UUID-v4)'", () => {
+        expect(validator.name).toBe("string(UUID-v4)");
+        expect(TStringUUID({ version: "all" }).name).toBe("string(UUID-all)");
+      });
+
+      it("returns false, if the input is not UUID", () => {
+        expect(validator.isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is UUID", () => {
+        expect(validator.isValid("936a0dd4-cf7f-497d-a0cd-7c891416c719")).toBe(
+          true
+        );
+      });
+    });
+
+    describe("TValidate", () => {
+      it("is an instance of Validator", () => {
+        expect(TValidate("custom", () => true)).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is the name provided as an argument", () => {
+        expect(TValidate("custom", () => true).name).toBe("custom");
+      });
+
+      it("returns false, if the given function return false", () => {
+        expect(TValidate("custom", () => false).isValid("foobar")).toBe(false);
+      });
+
+      it("returns true, if the input is UUID", () => {
+        expect(TValidate("custom", () => true).isValid("foobar")).toBe(true);
       });
     });
   });

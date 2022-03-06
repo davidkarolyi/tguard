@@ -170,7 +170,7 @@ export function TStringMatch(
 
 export function TStringBase64(options: { urlSafe: boolean }) {
   return TValidate<string>(
-    "string(base64)",
+    `string(base64${options.urlSafe ? "URL" : ""})`,
     (value: any) => typeof value === "string" && isBase64(value, options)
   );
 }
@@ -178,10 +178,11 @@ export function TStringBase64(options: { urlSafe: boolean }) {
 export function TStringOfLength(options: { min?: number; max?: number }) {
   let name = "string";
   const isOptionEmpty = options.min === undefined && options.max === undefined;
-  if (isOptionEmpty) name += "(";
-  if (options.min !== undefined) name += options.min;
-  if (options.max !== undefined) name += options.max;
-  if (isOptionEmpty) name += ")";
+  if (!isOptionEmpty) name += "(";
+  if (options.min !== undefined) name += `min=${options.min}`;
+  if (options.min !== undefined && options.max !== undefined) name += ",";
+  if (options.max !== undefined) name += `max=${options.max}`;
+  if (!isOptionEmpty) name += ")";
 
   return TValidate<string>(
     name,
@@ -214,7 +215,7 @@ export const TStringMIMEType = TValidate<string>(
   (value: any) => typeof value === "string" && isMimeType(value)
 );
 
-export const TStringMobilePhone = TValidate<string>(
+export const TStringPhoneNumber = TValidate<string>(
   "string(phone number)",
   (value: any) => typeof value === "string" && isMobilePhone(value)
 );
@@ -229,7 +230,8 @@ export const TStringURL = TValidate<string>(
   (value: any) => typeof value === "string" && isURL(value)
 );
 
-export function TStringUUID(version: UUIDVersion) {
+export function TStringUUID(options: { version: UUIDVersion }) {
+  const { version } = options;
   return TValidate<string>(
     `string(UUID-${version === "all" ? version : "v" + version})`,
     (value: any) => typeof value === "string" && isUUID(value, version)

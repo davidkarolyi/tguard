@@ -38,13 +38,13 @@ interface Post {
 // 2. Unfortunatelly these types are only exist in TypeScript world.
 // So let's represent those types as type guards:
 const TPost = new Guard({
-  id: TStringUUID(4);
+  id: TStringUUID({version: 4});
   title: TString,
   body: TString,
 });
 
 const TUser = new Guard({
-  id: TStringUUID(4);
+  id: TStringUUID({version: 4});
   name: TString,
   posts: TArray(TPost),
 });
