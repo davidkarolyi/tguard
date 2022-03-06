@@ -20,15 +20,17 @@ yarn add tguard
 ## Example Usage
 
 ```ts
-import { Guard, TString, TArray, GuardedType } from "tguard";
+import { Guard, TString, TArray, TStringUUID, GuardedType } from "tguard";
 
 // 1. Here you have some TypeScript types in your program:
 interface User {
+  id: string;
   name: string;
   posts: Array<Post>;
 }
 
 interface Post {
+  id: string;
   title: string;
   body: string;
 }
@@ -36,11 +38,13 @@ interface Post {
 // 2. Unfortunatelly these types are only exist in TypeScript world.
 // So let's represent those types as type guards:
 const TPost = new Guard({
+  id: TStringUUID(4);
   title: TString,
   body: TString,
 });
 
 const TUser = new Guard({
+  id: TStringUUID(4);
   name: TString,
   posts: TArray(TPost),
 });
@@ -59,18 +63,15 @@ const john: any = {
 
 // 4. Validate if John is a valid 'User' type or not:
 if (TUser.isValid(john)) {
-  // TypeScript will infer John's type as 'User' in this block
-  // So this line won't throw any type errors:
-  const questions = john.posts.filter((post) => post.title.endsWith("?"));
+  // TypeScript will infer John's type as 'User' in this block.
 }
 
 // 5. Or try to cast a value to the User type:
 try {
   const user = TUser.cast({ posts: ["Who am I?", "I am a user."] });
-  // typeof user == User
+  // Type of user is User
 } catch (error) {
-  error.message ===
-    'Validation failed: Missing value at "name", expected type: string'; // true
+  // error.message === 'Validation failed: Missing value at "name", expected type: string'
 }
 ```
 
@@ -189,7 +190,7 @@ new Guard({
 
 ## Schema
 
-`Schema` can be a single [Validator](#validators), a [Validator](#validators)'s constructor,
+`Schema` can be a single [Validator](#validators),
 a Guard, or an object of these types.
 
 ```ts
@@ -275,7 +276,7 @@ try {
 
 ## Validators
 
-Validators are classes that have an `isValid` method, and a name property, which represents the name of the guarded type.
+Validators are instances of `Validator` that have an `isValid` method, and a `name` property, which represents the name of the guarded type.
 
 > Note that this means that Guards are Validators as well. This means you can reuse them in other guard schemas.
 
@@ -405,49 +406,17 @@ Accepts a value when it was **not** accepted by the given validator.
 
 ## Custom Validators
 
-You can define any custom [validator](#validators) or [compound validator](#compound-validators) until
-call signatures are matching.
+You can define any custom [validator](#validators) or [compound validator](#compound-validators) with the `TValidator` compound validator.
 
 ### Examples
 
-Defining an email validator:
+Defining a validator that validates if a number is bigger than 10:
 
 ```ts
-import { Validator } from "tguard";
+import { TValidate } from "tguard";
 
-class TEmail extends Validator<string> {
-  readonly name = "email";
-
-  isValid(value: any): value is string {
-    return typeof value === string && value.includes("@");
-  }
-}
-```
-
-Implementation of the built-in `TArray` [compound validator](#compound-validators):
-
-```ts
-import {
-  Validator,
-  ValidatorOrConstructor,
-  GenericValidator,
-  Guard,
-} from "tguard";
-
-export function TArray<T>(
-  validator: ValidatorOrConstructor<T>
-): Validator<Array<T>> {
-  const guard = new Guard(validator);
-  const name = `${guard.name}[]`;
-
-  function isValid(value: any): value is Array<T> {
-    if (!Array.isArray(value)) return false;
-    for (const item of value) {
-      if (!guard.isValid(item)) return false;
-    }
-    return true;
-  }
-
-  return new GenericValidator(name, isValid);
-}
+const TBiggerThan10 = TValidate(
+  "number(bigger than 10)",
+  (value) => typeof value === "number" && value > 10
+);
 ```

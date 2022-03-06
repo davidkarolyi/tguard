@@ -1,48 +1,4 @@
-import {
-  Guard,
-  TArray,
-  TNumber,
-  TString,
-  TAny,
-  TBigInt,
-  TBoolean,
-  TFunction,
-  TNull,
-  TObject,
-  TUndefined,
-  TObjectOfShape,
-  TOr,
-  TAnd,
-  TNot,
-  TMatch,
-  TNumberAsString,
-  GenericValidator,
-  ValidationError,
-} from "../src";
-
-describe("Exports", () => {
-  it("exported all names", () => {
-    expect(Guard).toBeDefined();
-    expect(TArray).toBeDefined();
-    expect(TNumber).toBeDefined();
-    expect(TNumberAsString).toBeDefined();
-    expect(TString).toBeDefined();
-    expect(TAny).toBeDefined();
-    expect(TBigInt).toBeDefined();
-    expect(TBoolean).toBeDefined();
-    expect(TFunction).toBeDefined();
-    expect(TNull).toBeDefined();
-    expect(TObject).toBeDefined();
-    expect(TUndefined).toBeDefined();
-    expect(TObjectOfShape).toBeDefined();
-    expect(TOr).toBeDefined();
-    expect(TAnd).toBeDefined();
-    expect(TNot).toBeDefined();
-    expect(TMatch).toBeDefined();
-    expect(GenericValidator).toBeDefined();
-    expect(ValidationError).toBeDefined();
-  });
-});
+import { Guard, TArray, TNumber, TString } from "../src";
 
 describe("Example", () => {
   const TPost = new Guard({

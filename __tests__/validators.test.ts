@@ -16,218 +16,198 @@ import {
   TOr,
   TNumberAsString,
   TAnd,
-  TMatch,
+  TStringMatch,
 } from "../src/validators";
 
 describe("Validators", () => {
   describe("primitive types", () => {
     describe("TString", () => {
-      const validator = new TString();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TString).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'string'", () => {
-        expect(validator.name).toBe("string");
+        expect(TString.name).toBe("string");
       });
 
       it("returns true if a string was given", () => {
-        expect(validator.isValid("")).toBe(true);
+        expect(TString.isValid("")).toBe(true);
       });
 
       it("returns false if a non-string value was given", () => {
-        expect(validator.isValid(0)).toBe(false);
+        expect(TString.isValid(0)).toBe(false);
       });
     });
 
     describe("TNumber", () => {
-      const validator = new TNumber();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TNumber).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'number'", () => {
-        expect(validator.name).toBe("number");
+        expect(TNumber.name).toBe("number");
       });
 
       it("returns true if a number was given", () => {
-        expect(validator.isValid(0)).toBe(true);
+        expect(TNumber.isValid(0)).toBe(true);
       });
 
       it("returns false if a non-number value was given", () => {
-        expect(validator.isValid("")).toBe(false);
+        expect(TNumber.isValid("")).toBe(false);
       });
     });
 
     describe("TNumberAsString", () => {
-      const validator = new TNumberAsString();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TNumberAsString).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'number'", () => {
-        expect(validator.name).toBe("number(as a string)");
+        expect(TNumberAsString.name).toBe("number(as a string)");
       });
 
       it("returns false if a number was given", () => {
-        expect(validator.isValid(0)).toBe(false);
+        expect(TNumberAsString.isValid(0)).toBe(false);
       });
 
       it("returns false if the string cannot be converted to a number", () => {
-        expect(validator.isValid("foo")).toBe(false);
+        expect(TNumberAsString.isValid("foo")).toBe(false);
       });
 
       it("returns true if the string can be converted to a number", () => {
-        expect(validator.isValid("12.235")).toBe(true);
+        expect(TNumberAsString.isValid("12.235")).toBe(true);
       });
     });
 
     describe("TBoolean", () => {
-      const validator = new TBoolean();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TBoolean).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'boolean'", () => {
-        expect(validator.name).toBe("boolean");
+        expect(TBoolean.name).toBe("boolean");
       });
 
       it("returns true if a boolean was given", () => {
-        expect(validator.isValid(false)).toBe(true);
+        expect(TBoolean.isValid(false)).toBe(true);
       });
 
       it("returns false if a non-boolean value was given", () => {
-        expect(validator.isValid(undefined)).toBe(false);
+        expect(TBoolean.isValid(undefined)).toBe(false);
       });
     });
 
     describe("TFunction", () => {
-      const validator = new TFunction();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TFunction).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'function'", () => {
-        expect(validator.name).toBe("function");
+        expect(TFunction.name).toBe("function");
       });
 
       it("returns true if a function was given", () => {
-        expect(validator.isValid(() => 10)).toBe(true);
+        expect(TFunction.isValid(() => 10)).toBe(true);
       });
 
       it("returns false if a non-function value was given", () => {
-        expect(validator.isValid({})).toBe(false);
+        expect(TFunction.isValid({})).toBe(false);
       });
     });
 
     describe("TObject", () => {
-      const validator = new TObject();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TObject).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'object'", () => {
-        expect(validator.name).toBe("object");
+        expect(TObject.name).toBe("object");
       });
 
       it("returns true if an object was given", () => {
-        expect(validator.isValid({})).toBe(true);
+        expect(TObject.isValid({})).toBe(true);
       });
 
       it("returns false if not an object value was given", () => {
-        expect(validator.isValid(() => 10)).toBe(false);
+        expect(TObject.isValid(() => 10)).toBe(false);
       });
 
       it("returns true if null value was given", () => {
-        expect(validator.isValid(null)).toBe(true);
+        expect(TObject.isValid(null)).toBe(true);
       });
     });
 
     describe("TUndefined", () => {
-      const validator = new TUndefined();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TUndefined).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'undefined'", () => {
-        expect(validator.name).toBe("undefined");
+        expect(TUndefined.name).toBe("undefined");
       });
 
       it("returns true if undefined value was given", () => {
-        expect(validator.isValid(undefined)).toBe(true);
+        expect(TUndefined.isValid(undefined)).toBe(true);
       });
 
       it("returns false if a not undefined value was given", () => {
-        expect(validator.isValid(null)).toBe(false);
+        expect(TUndefined.isValid(null)).toBe(false);
       });
     });
 
     describe("TBigInt", () => {
-      const validator = new TBigInt();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TBigInt).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'bigint'", () => {
-        expect(validator.name).toBe("bigint");
+        expect(TBigInt.name).toBe("bigint");
       });
 
       it("returns true if a bigint value was given", () => {
         const value = BigInt(10);
-        expect(validator.isValid(value)).toBe(true);
+        expect(TBigInt.isValid(value)).toBe(true);
       });
 
       it("returns false if a non-bigint value was given", () => {
-        expect(validator.isValid(10)).toBe(false);
+        expect(TBigInt.isValid(10)).toBe(false);
       });
     });
 
     describe("TNull", () => {
-      const validator = new TNull();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TNull).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'null'", () => {
-        expect(validator.name).toBe("null");
+        expect(TNull.name).toBe("null");
       });
 
       it("returns true if a null value was given", () => {
-        expect(validator.isValid(null)).toBe(true);
+        expect(TNull.isValid(null)).toBe(true);
       });
 
       it("returns false if a non-null value was given", () => {
-        expect(validator.isValid({})).toBe(false);
+        expect(TNull.isValid({})).toBe(false);
       });
     });
 
     describe("TAny", () => {
-      const validator = new TAny();
-
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(TAny).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'any'", () => {
-        expect(validator.name).toBe("any");
+        expect(TAny.name).toBe("any");
       });
 
       it("returns true regardless of the input", () => {
-        expect(validator.isValid(null)).toBe(true);
-        expect(validator.isValid("")).toBe(true);
-        expect(validator.isValid(undefined)).toBe(true);
-        expect(validator.isValid(false)).toBe(true);
-        expect(validator.isValid({})).toBe(true);
-        expect(validator.isValid(0)).toBe(true);
+        expect(TAny.isValid(null)).toBe(true);
+        expect(TAny.isValid("")).toBe(true);
+        expect(TAny.isValid(undefined)).toBe(true);
+        expect(TAny.isValid(false)).toBe(true);
+        expect(TAny.isValid({})).toBe(true);
+        expect(TAny.isValid(0)).toBe(true);
       });
     });
   });
@@ -365,14 +345,14 @@ describe("Validators", () => {
       });
     });
 
-    describe("TMatch", () => {
-      const validator = TMatch("contains 'match'", /match/);
+    describe("TStringMatch", () => {
+      const validator = TStringMatch("contains 'match'", /match/);
 
       it("is an instance of Validator", () => {
         expect(validator).toBeInstanceOf(Validator);
       });
 
-      it("it's name is 'string(/<patterName>/)'", () => {
+      it("it's name is 'string(<patterName>)'", () => {
         expect(validator.name).toBe("string(contains 'match')");
       });
 
