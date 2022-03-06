@@ -293,6 +293,8 @@ TUser.name === '{"name":"string"}'; //true
 Validators are prefixed with the letter `T`, to indicate that they are representing a type of some sort,
 and to differentiate them from the built-in vanilla JavaScript types, like `Array` or `String`.
 
+> ⚠️ Not all the validators are documented here. Check `validators.ts`, or exported members to see all of them.
+
 ### `TAny`
 
 Accepts every value.
@@ -337,6 +339,8 @@ Accepts the JS type `undefined`.
 
 A function that returns a [Validator](#validators), called a compound validator.
 
+> ⚠️ Not all the validators are documented here. Check `validators.ts`, or exported members to see all of them.
+
 ### `TArray(validator: Validator)`
 
 Accpets an `array` of the type validated by the given `validator`.
@@ -374,14 +378,14 @@ validator.isValid({
 validator.name === "{ [string]: number }"; // true
 ```
 
-### `TMatch(patternName: string, regexp: RegExp)`
+### `TStringMatch(patternName: string, regexp: RegExp)`
 
 Accepts strings that matches `regexp`.
 `patternName` is used to describe the regular expression in a user-readable manner.
 For example:
 
 ```ts
-const validator = new TMatch("email", /^\S+@\S+$/);
+const validator = new TStringMatch("email", /^\S+@\S+$/);
 
 validator.isValid("foo@bar.com"); // true
 validator.isValid("foobar.com"); // false
