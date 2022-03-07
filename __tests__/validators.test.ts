@@ -65,10 +65,13 @@ describe("Validators", () => {
 
       it("returns true if a number was given", () => {
         expect(TNumber.isValid(0)).toBe(true);
+        expect(TNumber.isValid(-12.23)).toBe(true);
+        expect(TNumber.isValid(12.23)).toBe(true);
       });
 
       it("returns false if a non-number value was given", () => {
         expect(TNumber.isValid("")).toBe(false);
+        expect(TNumber.isValid(NaN)).toBe(false);
       });
     });
 
@@ -83,10 +86,12 @@ describe("Validators", () => {
 
       it("returns true if a whole number was given", () => {
         expect(TInteger.isValid(1)).toBe(true);
+        expect(TInteger.isValid(-12)).toBe(true);
       });
 
       it("returns false if not a whole number value was given", () => {
         expect(TInteger.isValid(1.2)).toBe(false);
+        expect(TInteger.isValid(NaN)).toBe(false);
       });
     });
 
@@ -103,12 +108,19 @@ describe("Validators", () => {
         expect(TNumberAsString.isValid(0)).toBe(false);
       });
 
-      it("returns false if the string cannot be converted to a number", () => {
+      it("returns false if the string isn't a valid number", () => {
         expect(TNumberAsString.isValid("foo")).toBe(false);
+        expect(TNumberAsString.isValid("")).toBe(false);
+        expect(TNumberAsString.isValid("-0")).toBe(false);
+        expect(TNumberAsString.isValid("- 12")).toBe(false);
       });
 
-      it("returns true if the string can be converted to a number", () => {
+      it("returns true if the string is a valid number", () => {
         expect(TNumberAsString.isValid("12.235")).toBe(true);
+        expect(TNumberAsString.isValid("12")).toBe(true);
+        expect(TNumberAsString.isValid("-12.34")).toBe(true);
+        expect(TNumberAsString.isValid("-12")).toBe(true);
+        expect(TNumberAsString.isValid("0")).toBe(true);
       });
     });
 
@@ -127,10 +139,17 @@ describe("Validators", () => {
 
       it("returns false if the string is not an integer", () => {
         expect(TIntegerAsString.isValid("1.23")).toBe(false);
+        expect(TIntegerAsString.isValid("")).toBe(false);
+        expect(TIntegerAsString.isValid("01")).toBe(false);
+        expect(TIntegerAsString.isValid("-0")).toBe(false);
+        expect(TIntegerAsString.isValid("--1")).toBe(false);
+        expect(TIntegerAsString.isValid("- 0")).toBe(false);
       });
 
       it("returns true if the string is a valid integer", () => {
         expect(TIntegerAsString.isValid("1")).toBe(true);
+        expect(TIntegerAsString.isValid("-5")).toBe(true);
+        expect(TIntegerAsString.isValid("0")).toBe(true);
       });
     });
 
@@ -148,6 +167,7 @@ describe("Validators", () => {
       });
 
       it("returns false if a non-boolean value was given", () => {
+        expect(TBoolean.isValid("true")).toBe(false);
         expect(TBoolean.isValid(undefined)).toBe(false);
       });
     });
@@ -185,10 +205,8 @@ describe("Validators", () => {
 
       it("returns false if not an object value was given", () => {
         expect(TObject.isValid(() => 10)).toBe(false);
-      });
-
-      it("returns true if null value was given", () => {
-        expect(TObject.isValid(null)).toBe(true);
+        expect(TObject.isValid(null)).toBe(false);
+        expect(TObject.isValid(BigInt(100))).toBe(false);
       });
     });
 
@@ -244,6 +262,8 @@ describe("Validators", () => {
 
       it("returns false if a non-null value was given", () => {
         expect(TNull.isValid({})).toBe(false);
+        expect(TNull.isValid(0)).toBe(false);
+        expect(TNull.isValid(undefined)).toBe(false);
       });
     });
 
@@ -357,7 +377,7 @@ describe("Validators", () => {
         expect(validator.isValid({ foo: 10 })).toBe(false);
       });
 
-      it("returns false, if one of the values is invalid", () => {
+      it("returns false, if one of the values are invalid", () => {
         expect(validator.isValid({ foo: "10" })).toBe(false);
       });
     });

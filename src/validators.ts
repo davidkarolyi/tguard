@@ -66,13 +66,14 @@ export const TString = TValidate<string>(
 );
 
 /**
- * Primitive validator that only accepts the JS type `number`.
+ * Primitive validator that only accepts numbers.
+ * Not accepts NaN.
  *
  * `validator.name`: `"number"`
  */
 export const TNumber = TValidate<number>(
   "number",
-  (value) => typeof value === "number"
+  (value) => typeof value === "number" && !isNaN(value)
 );
 
 /**
@@ -96,13 +97,14 @@ export const TFunction = TValidate<Function>(
 );
 
 /**
- * Primitive validator that only accepts the JS type `object`.
+ * Primitive validator that only accepts objects.
+ * Does not accept null.
  *
  * `validator.name`: `"object"`
  */
 export const TObject = TValidate<Object>(
   "object",
-  (value) => typeof value === "object"
+  (value) => typeof value === "object" && value !== null
 );
 
 /**
@@ -157,7 +159,7 @@ export const TInteger = TValidate<number>(
 );
 
 /**
- * Validator that accepts strings, which can be parsed as a valid number.
+ * Validator that accepts strings, which represents a valid number.
  *
  * `validator.name`: `"number(as a string)"`
  *
@@ -170,7 +172,11 @@ export const TInteger = TValidate<number>(
  */
 export const TNumberAsString = TValidate<string>(
   "number(as a string)",
-  (value) => typeof value === "string" && value !== "" && !isNaN(Number(value))
+  (value) =>
+    typeof value === "string" &&
+    value !== "" &&
+    value !== "-0" &&
+    !isNaN(Number(value))
 );
 
 /**
@@ -187,7 +193,10 @@ export const TNumberAsString = TValidate<string>(
  */
 export const TIntegerAsString = TValidate<string>(
   "integer(as a string)",
-  (value) => typeof value === "string" && isInt(value)
+  (value) =>
+    typeof value === "string" &&
+    isInt(value, { allow_leading_zeroes: false }) &&
+    value !== "-0"
 );
 
 /**
