@@ -48,7 +48,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors.ts:5](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/errors.ts#L5)
+[src/errors.ts:5](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/errors.ts#L5)
 
 ## Properties
 
@@ -58,7 +58,7 @@ Error.constructor
 
 #### Defined in
 
-[src/errors.ts:3](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/errors.ts#L3)
+[src/errors.ts:3](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/errors.ts#L3)
 
 ___
 
@@ -96,7 +96,7 @@ ___
 
 #### Defined in
 
-[src/errors.ts:2](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/errors.ts#L2)
+[src/errors.ts:2](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/errors.ts#L2)
 
 ___
 

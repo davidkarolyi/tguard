@@ -300,6 +300,8 @@ and to differentiate them from the built-in vanilla JavaScript types, like `Arra
 - [TBigInt](/docs/modules.md#tbigint)
 - [TBoolean](/docs/modules.md#tboolean)
 - [TFunction](/docs/modules.md#tfunction)
+- [TInteger](/docs/modules.md#tinteger)
+- [TIntegerAsString](/docs/modules.md#tintegerasstring)
 - [TNull](/docs/modules.md#tnull)
 - [TNumber](/docs/modules.md#tnumber)
 - [TNumberAsString](/docs/modules.md#tnumberasstring)

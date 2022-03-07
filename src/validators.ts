@@ -16,6 +16,7 @@ import isMobilePhone from "validator/lib/isMobilePhone";
 import isSemVer from "validator/lib/isSemVer";
 import isURL from "validator/lib/isURL";
 import isUUID, { UUIDVersion } from "validator/lib/isUUID";
+import isInt from "validator/lib/isInt";
 
 class GenericValidator<T> extends Validator<T> {
   readonly name: string;
@@ -77,7 +78,7 @@ export const TNumber = TValidate<number>(
 /**
  * Primitive validator that only accepts the JS type `boolean`.
  *
- * `validator.name`: `"number"`
+ * `validator.name`: `"boolean"`
  */
 export const TBoolean = TValidate<boolean>(
   "boolean",
@@ -139,13 +140,54 @@ export const TNull = TValidate<null>("null", (value) => value === null);
 export const TAny = TValidate<any>("any", () => true);
 
 /**
+ * Validator that accepts whole numbers.
+ *
+ * `validator.name`: `"integer"`
+ *
+ * @example
+ *  ```ts
+ * TInteger.isValid("15"); // false
+ * TInteger.isValid(15.223); // false
+ * TInteger.isValid(15); // true
+ * ```
+ */
+export const TInteger = TValidate<number>(
+  "integer",
+  (value) => typeof value === "number" && Number.isInteger(value)
+);
+
+/**
  * Validator that accepts strings, which can be parsed as a valid number.
  *
  * `validator.name`: `"number(as a string)"`
+ *
+ * @example
+ *  ```ts
+ * TNumberAsString.isValid("abcd"); // false
+ * TNumberAsString.isValid(15.223); // false
+ * TNumberAsString.isValid("15.223"); // true
+ * ```
  */
 export const TNumberAsString = TValidate<string>(
   "number(as a string)",
   (value) => typeof value === "string" && value !== "" && !isNaN(Number(value))
+);
+
+/**
+ * Validator that accepts strings, which can be parsed as a valid integer.
+ *
+ * `validator.name`: `"integer(as a string)"`
+ *
+ * @example
+ *  ```ts
+ * TIntegerAsString.isValid("15.223"); // false
+ * TIntegerAsString.isValid(15); // false
+ * TIntegerAsString.isValid("15"); // true
+ * ```
+ */
+export const TIntegerAsString = TValidate<string>(
+  "integer(as a string)",
+  (value) => typeof value === "string" && isInt(value)
 );
 
 /**
@@ -154,8 +196,13 @@ export const TNumberAsString = TValidate<string>(
  * @returns
  * A `Validator` that checks if the given value is an array of the given type.
  *
- * `validator.name`: `"<type>[]"`
+ * `validator.name`: `"<type>[](minLength:<minLength>,maxLength:<maxLength>)"`
+ *
  * @param validator - The validator, which validates the elements of the array.
+ *
+ * @param options.minLength - The array must be at least this long.
+ * @param options.maxLength - The array can't be longer than this.
+ *
  * @example
  * ```ts
  * const validator = TArray(TNumber);
@@ -165,13 +212,30 @@ export const TNumberAsString = TValidate<string>(
  * ```
  */
 export function TArray<T>(
-  validator: ValidatorOrConstructor<T>
+  validator: ValidatorOrConstructor<T>,
+  options?: { minLength?: number; maxLength?: number }
 ): Validator<Array<T>> {
   const guard = new Guard(validator);
-  const name = `${guard.name}[]`;
+
+  const isOptionEmpty =
+    options?.minLength === undefined && options?.maxLength === undefined;
+  let name = `${guard.name}[]`;
+  if (!isOptionEmpty) name += "(";
+  if (options?.minLength !== undefined)
+    name += `minLength=${options.minLength}`;
+  if (options?.minLength !== undefined && options.maxLength !== undefined)
+    name += ",";
+  if (options?.maxLength !== undefined)
+    name += `maxLength=${options.maxLength}`;
+  if (!isOptionEmpty) name += ")";
 
   return TValidate<Array<T>>(name, (value) => {
     if (!Array.isArray(value)) return false;
+    if (
+      (options?.minLength || 0) > value.length ||
+      (options?.maxLength || Infinity) < value.length
+    )
+      return false;
     for (const item of value) {
       if (!guard.isValid(item)) return false;
     }
@@ -379,7 +443,7 @@ export function TStringMatch(
 export function TStringBase64(options: { urlSafe: boolean }) {
   return TValidate<string>(
     `string(base64${options.urlSafe ? "URL" : ""})`,
-    (value: any) => typeof value === "string" && isBase64(value, options)
+    (value) => typeof value === "string" && isBase64(value, options)
   );
 }
 
@@ -392,28 +456,35 @@ export function TStringBase64(options: { urlSafe: boolean }) {
  * @returns
  * A `Validator` that accepts only strings, which is the given length.
  *
- * `validator.name`: `"string([min=<min>][,max=<max>])"`
+ * `validator.name`: `"string(minLength=<minLength>,maxLength=<maxLength>)"`
  *
  * @example
  * ```ts
- * const validator = TStringOfLength({ min: 5 });
+ * const validator = TStringOfLength({ minLength: 5 });
  * validator.isValid("1234"); // false
  * validator.isValid("123456789"); // true
- * validator.name === "string(min=5)"; // true
+ * validator.name === "string(minLength=5)"; // true
  * ```
  */
-export function TStringOfLength(options: { min?: number; max?: number }) {
+export function TStringOfLength(options: {
+  minLength?: number;
+  maxLength?: number;
+}) {
   let name = "string";
-  const isOptionEmpty = options.min === undefined && options.max === undefined;
+  const isOptionEmpty =
+    options.minLength === undefined && options.maxLength === undefined;
   if (!isOptionEmpty) name += "(";
-  if (options.min !== undefined) name += `min=${options.min}`;
-  if (options.min !== undefined && options.max !== undefined) name += ",";
-  if (options.max !== undefined) name += `max=${options.max}`;
+  if (options.minLength !== undefined) name += `minLength=${options.minLength}`;
+  if (options.minLength !== undefined && options.maxLength !== undefined)
+    name += ",";
+  if (options.maxLength !== undefined) name += `maxLength=${options.maxLength}`;
   if (!isOptionEmpty) name += ")";
 
   return TValidate<string>(
     name,
-    (value: any) => typeof value === "string" && isByteLength(value, options)
+    (value) =>
+      typeof value === "string" &&
+      isByteLength(value, { min: options.minLength, max: options.maxLength })
   );
 }
 
@@ -431,7 +502,7 @@ export function TStringOfLength(options: { min?: number; max?: number }) {
  */
 export const TStringEmail = TValidate<string>(
   "string(email)",
-  (value: any) => typeof value === "string" && isEmail(value)
+  (value) => typeof value === "string" && isEmail(value)
 );
 
 /**
@@ -448,7 +519,7 @@ export const TStringEmail = TValidate<string>(
  */
 export const TStringISODate = TValidate<string>(
   "string(date)",
-  (value: any) => typeof value === "string" && isISO8601(value)
+  (value) => typeof value === "string" && isISO8601(value)
 );
 
 /**
@@ -465,7 +536,7 @@ export const TStringISODate = TValidate<string>(
  */
 export const TStringJSON = TValidate<string>(
   "string(JSON)",
-  (value: any) => typeof value === "string" && isJSON(value)
+  (value) => typeof value === "string" && isJSON(value)
 );
 
 /**
@@ -482,7 +553,7 @@ export const TStringJSON = TValidate<string>(
  */
 export const TStringJWT = TValidate<string>(
   "string(JWT)",
-  (value: any) => typeof value === "string" && isJWT(value)
+  (value) => typeof value === "string" && isJWT(value)
 );
 
 /**
@@ -499,7 +570,7 @@ export const TStringJWT = TValidate<string>(
  */
 export const TStringMIMEType = TValidate<string>(
   "string(MIME type)",
-  (value: any) => typeof value === "string" && isMimeType(value)
+  (value) => typeof value === "string" && isMimeType(value)
 );
 
 /**
@@ -517,7 +588,7 @@ export const TStringMIMEType = TValidate<string>(
  */
 export const TStringPhoneNumber = TValidate<string>(
   "string(phone number)",
-  (value: any) => typeof value === "string" && isMobilePhone(value)
+  (value) => typeof value === "string" && isMobilePhone(value)
 );
 
 /**
@@ -534,7 +605,7 @@ export const TStringPhoneNumber = TValidate<string>(
  */
 export const TStringSemVer = TValidate<string>(
   "string(SemVer)",
-  (value: any) => typeof value === "string" && isSemVer(value)
+  (value) => typeof value === "string" && isSemVer(value)
 );
 
 /**
@@ -551,7 +622,7 @@ export const TStringSemVer = TValidate<string>(
  */
 export const TStringURL = TValidate<string>(
   "string(URL)",
-  (value: any) => typeof value === "string" && isURL(value)
+  (value) => typeof value === "string" && isURL(value)
 );
 
 /**
@@ -576,6 +647,6 @@ export function TStringUUID(options: { version: UUIDVersion }) {
   const { version } = options;
   return TValidate<string>(
     `string(UUID-${version === "all" ? version : "v" + version})`,
-    (value: any) => typeof value === "string" && isUUID(value, version)
+    (value) => typeof value === "string" && isUUID(value, version)
   );
 }

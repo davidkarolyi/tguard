@@ -14,7 +14,9 @@ import {
   TObjectOfShape,
   TNot,
   TOr,
+  TInteger,
   TNumberAsString,
+  TIntegerAsString,
   TAnd,
   TStringMatch,
   TStringBase64,
@@ -69,6 +71,24 @@ describe("Validators", () => {
       });
     });
 
+    describe("TInteger", () => {
+      it("is an instance of Validator", () => {
+        expect(TInteger).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'integer'", () => {
+        expect(TInteger.name).toBe("integer");
+      });
+
+      it("returns true if a whole number was given", () => {
+        expect(TInteger.isValid(1)).toBe(true);
+      });
+
+      it("returns false if not a whole number value was given", () => {
+        expect(TInteger.isValid(1.2)).toBe(false);
+      });
+    });
+
     describe("TNumberAsString", () => {
       it("is an instance of Validator", () => {
         expect(TNumberAsString).toBeInstanceOf(Validator);
@@ -88,6 +108,28 @@ describe("Validators", () => {
 
       it("returns true if the string can be converted to a number", () => {
         expect(TNumberAsString.isValid("12.235")).toBe(true);
+      });
+    });
+
+    describe("TIntegerAsString", () => {
+      it("is an instance of Validator", () => {
+        expect(TIntegerAsString).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'number'", () => {
+        expect(TIntegerAsString.name).toBe("integer(as a string)");
+      });
+
+      it("returns false if a number was given", () => {
+        expect(TIntegerAsString.isValid(0)).toBe(false);
+      });
+
+      it("returns false if the string is not an integer", () => {
+        expect(TIntegerAsString.isValid("1.23")).toBe(false);
+      });
+
+      it("returns true if the string is a valid integer", () => {
+        expect(TIntegerAsString.isValid("1")).toBe(true);
       });
     });
 
@@ -250,6 +292,31 @@ describe("Validators", () => {
 
       it("returns true, if the array is empty", () => {
         expect(validator.isValid([])).toBe(true);
+      });
+
+      describe("when options were provided", () => {
+        const validator = TArray(TString, { minLength: 2, maxLength: 5 });
+
+        it("it's name is '<type>[](minLength=<minLength>,maxLength=<maxLength>)'", () => {
+          expect(validator.name).toBe("string[](minLength=2,maxLength=5)");
+          expect(TArray(TString, { maxLength: 2 }).name).toBe(
+            "string[](maxLength=2)"
+          );
+          expect(TArray(TString, { minLength: 2 }).name).toBe(
+            "string[](minLength=2)"
+          );
+        });
+
+        it("returns true if the provided array is within the range", () => {
+          expect(validator.isValid(["foo", "bar", "baz"])).toBe(true);
+        });
+
+        it("returns false if the provided array is outside the range", () => {
+          expect(validator.isValid(["foo"])).toBe(false);
+          expect(
+            validator.isValid(["foo", "bar", "baz", "foo", "bar", "baz"])
+          ).toBe(false);
+        });
       });
     });
 
@@ -529,18 +596,20 @@ describe("Validators", () => {
     });
 
     describe("TStringOfLength", () => {
-      const validator = TStringOfLength({ min: 5 });
+      const validator = TStringOfLength({ minLength: 5 });
 
       it("is an instance of Validator", () => {
         expect(validator).toBeInstanceOf(Validator);
       });
 
-      it("it's name is 'string([min=<min>][,max=<max>])'", () => {
-        expect(validator.name).toBe("string(min=5)");
-        expect(TStringOfLength({ min: 5, max: 10 }).name).toBe(
-          "string(min=5,max=10)"
+      it("it's name is 'string(minLength=<minLength>,maxLength=<maxLength>)'", () => {
+        expect(validator.name).toBe("string(minLength=5)");
+        expect(TStringOfLength({ minLength: 5, maxLength: 10 }).name).toBe(
+          "string(minLength=5,maxLength=10)"
         );
-        expect(TStringOfLength({ max: 10 }).name).toBe("string(max=10)");
+        expect(TStringOfLength({ maxLength: 10 }).name).toBe(
+          "string(maxLength=10)"
+        );
       });
 
       it("returns false, if the input is not a string of the given length constraint", () => {

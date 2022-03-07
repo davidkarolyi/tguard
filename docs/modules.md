@@ -27,6 +27,8 @@
 - [TBigInt](modules.md#tbigint)
 - [TBoolean](modules.md#tboolean)
 - [TFunction](modules.md#tfunction)
+- [TInteger](modules.md#tinteger)
+- [TIntegerAsString](modules.md#tintegerasstring)
 - [TNull](modules.md#tnull)
 - [TNumber](modules.md#tnumber)
 - [TNumberAsString](modules.md#tnumberasstring)
@@ -69,7 +71,7 @@
 
 #### Defined in
 
-[src/types.ts:44](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/types.ts#L44)
+[src/types.ts:44](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/types.ts#L44)
 
 ___
 
@@ -89,7 +91,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:48](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/types.ts#L48)
+[src/types.ts:48](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/types.ts#L48)
 
 ___
 
@@ -105,7 +107,7 @@ ___
 
 #### Defined in
 
-[src/guard.ts:14](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/guard.ts#L14)
+[src/guard.ts:14](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/guard.ts#L14)
 
 ___
 
@@ -121,7 +123,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:27](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/types.ts#L27)
+[src/types.ts:27](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/types.ts#L27)
 
 ___
 
@@ -139,7 +141,7 @@ Infers the type, that the given `Schema` represents.
 
 #### Defined in
 
-[src/types.ts:32](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/types.ts#L32)
+[src/types.ts:32](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/types.ts#L32)
 
 ___
 
@@ -155,7 +157,7 @@ ___
 
 #### Defined in
 
-[src/tree.ts:1](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/tree.ts#L1)
+[src/tree.ts:1](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/tree.ts#L1)
 
 ___
 
@@ -171,7 +173,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:13](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/types.ts#L13)
+[src/types.ts:13](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/types.ts#L13)
 
 ___
 
@@ -189,7 +191,7 @@ Infers the type, that the given `Validator` validates.
 
 #### Defined in
 
-[src/types.ts:20](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/types.ts#L20)
+[src/types.ts:20](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/types.ts#L20)
 
 ## Variables
 
@@ -203,7 +205,7 @@ Validator that accepts any value.
 
 #### Defined in
 
-[src/validators.ts:139](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L139)
+[src/validators.ts:140](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L140)
 
 ___
 
@@ -217,7 +219,7 @@ Primitive validator that only accepts the JS type `bigint`.
 
 #### Defined in
 
-[src/validators.ts:122](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L122)
+[src/validators.ts:123](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L123)
 
 ___
 
@@ -227,11 +229,11 @@ ___
 
 Primitive validator that only accepts the JS type `boolean`.
 
-`validator.name`: `"number"`
+`validator.name`: `"boolean"`
 
 #### Defined in
 
-[src/validators.ts:82](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L82)
+[src/validators.ts:83](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L83)
 
 ___
 
@@ -245,7 +247,49 @@ Primitive validator that only accepts the JS type `function`.
 
 #### Defined in
 
-[src/validators.ts:92](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L92)
+[src/validators.ts:93](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L93)
+
+___
+
+### TInteger
+
+• `Const` **TInteger**: [`Validator`](classes/Validator.md)<`number`\>
+
+Validator that accepts whole numbers.
+
+`validator.name`: `"integer"`
+
+**`example`**
+ ```ts
+TInteger.isValid("15"); // false
+TInteger.isValid(15.223); // false
+TInteger.isValid(15); // true
+```
+
+#### Defined in
+
+[src/validators.ts:154](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L154)
+
+___
+
+### TIntegerAsString
+
+• `Const` **TIntegerAsString**: [`Validator`](classes/Validator.md)<`string`\>
+
+Validator that accepts strings, which can be parsed as a valid integer.
+
+`validator.name`: `"integer(as a string)"`
+
+**`example`**
+ ```ts
+TIntegerAsString.isValid("15.223"); // false
+TIntegerAsString.isValid(15); // false
+TIntegerAsString.isValid("15"); // true
+```
+
+#### Defined in
+
+[src/validators.ts:188](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L188)
 
 ___
 
@@ -259,7 +303,7 @@ Validator that only accepts `null`.
 
 #### Defined in
 
-[src/validators.ts:132](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L132)
+[src/validators.ts:133](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L133)
 
 ___
 
@@ -273,7 +317,7 @@ Primitive validator that only accepts the JS type `number`.
 
 #### Defined in
 
-[src/validators.ts:72](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L72)
+[src/validators.ts:73](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L73)
 
 ___
 
@@ -285,9 +329,16 @@ Validator that accepts strings, which can be parsed as a valid number.
 
 `validator.name`: `"number(as a string)"`
 
+**`example`**
+ ```ts
+TNumberAsString.isValid("abcd"); // false
+TNumberAsString.isValid(15.223); // false
+TNumberAsString.isValid("15.223"); // true
+```
+
 #### Defined in
 
-[src/validators.ts:146](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L146)
+[src/validators.ts:171](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L171)
 
 ___
 
@@ -301,7 +352,7 @@ Primitive validator that only accepts the JS type `object`.
 
 #### Defined in
 
-[src/validators.ts:102](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L102)
+[src/validators.ts:103](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L103)
 
 ___
 
@@ -315,7 +366,7 @@ Primitive validator that only accepts the JS type `string`.
 
 #### Defined in
 
-[src/validators.ts:62](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L62)
+[src/validators.ts:63](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L63)
 
 ___
 
@@ -336,7 +387,7 @@ TStringEmail.name === "string(email)"; // true
 
 #### Defined in
 
-[src/validators.ts:432](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L432)
+[src/validators.ts:503](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L503)
 
 ___
 
@@ -357,7 +408,7 @@ TStringISODate.name === "string(date)"; // true
 
 #### Defined in
 
-[src/validators.ts:449](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L449)
+[src/validators.ts:520](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L520)
 
 ___
 
@@ -378,7 +429,7 @@ TStringJSON.name === "string(JSON)"; // true
 
 #### Defined in
 
-[src/validators.ts:466](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L466)
+[src/validators.ts:537](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L537)
 
 ___
 
@@ -399,7 +450,7 @@ TStringJWT.name === "string(JSON)"; // true
 
 #### Defined in
 
-[src/validators.ts:483](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L483)
+[src/validators.ts:554](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L554)
 
 ___
 
@@ -420,7 +471,7 @@ TStringMIMEType.name === "string(MIME type)"; // true
 
 #### Defined in
 
-[src/validators.ts:500](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L500)
+[src/validators.ts:571](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L571)
 
 ___
 
@@ -442,7 +493,7 @@ TStringPhoneNumber.name === "string(phone number)"; // true
 
 #### Defined in
 
-[src/validators.ts:518](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L518)
+[src/validators.ts:589](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L589)
 
 ___
 
@@ -463,7 +514,7 @@ TStringSemVer.name === "string(SemVer)"; // true
 
 #### Defined in
 
-[src/validators.ts:535](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L535)
+[src/validators.ts:606](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L606)
 
 ___
 
@@ -484,7 +535,7 @@ TStringURL.name === "string(URL)"; // true
 
 #### Defined in
 
-[src/validators.ts:552](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L552)
+[src/validators.ts:623](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L623)
 
 ___
 
@@ -498,7 +549,7 @@ Primitive validator that only accepts the JS type `undefined`.
 
 #### Defined in
 
-[src/validators.ts:112](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L112)
+[src/validators.ts:113](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L113)
 
 ## Functions
 
@@ -533,13 +584,13 @@ Accepts a value when it was accepted by both `validatorA` and `validatorB`.
 
 #### Defined in
 
-[src/validators.ts:313](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L313)
+[src/validators.ts:377](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L377)
 
 ___
 
 ### TArray
 
-▸ **TArray**<`T`\>(`validator`): [`Validator`](classes/Validator.md)<`T`[]\>
+▸ **TArray**<`T`\>(`validator`, `options?`): [`Validator`](classes/Validator.md)<`T`[]\>
 
 Validates an array of elements.
 
@@ -562,6 +613,9 @@ validator.name === "number[]"; // true
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `validator` | [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`T`\> | The validator, which validates the elements of the array. |
+| `options?` | `Object` | - |
+| `options.maxLength?` | `number` | The array can't be longer than this. |
+| `options.minLength?` | `number` | The array must be at least this long. |
 
 #### Returns
 
@@ -569,11 +623,11 @@ validator.name === "number[]"; // true
 
 A `Validator` that checks if the given value is an array of the given type.
 
-`validator.name`: `"<type>[]"`
+`validator.name`: `"<type>[](minLength:<minLength>,maxLength:<maxLength>)"`
 
 #### Defined in
 
-[src/validators.ts:167](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L167)
+[src/validators.ts:214](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L214)
 
 ___
 
@@ -613,7 +667,7 @@ A `Validator` that accepts a value when it was **not** accepted by the given val
 
 #### Defined in
 
-[src/validators.ts:255](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L255)
+[src/validators.ts:319](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L319)
 
 ___
 
@@ -671,7 +725,7 @@ Similar in concept as TypeScript's `{[keys: string]: number}` type annotations.
 
 #### Defined in
 
-[src/validators.ts:217](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L217)
+[src/validators.ts:281](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L281)
 
 ___
 
@@ -717,7 +771,7 @@ Accepts a value when it was accepted by at least one of the `validators`.
 
 #### Defined in
 
-[src/validators.ts:282](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L282)
+[src/validators.ts:346](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L346)
 
 ___
 
@@ -752,7 +806,7 @@ A `Validator` that accepts only strings that are base64 encoded.
 
 #### Defined in
 
-[src/validators.ts:379](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L379)
+[src/validators.ts:443](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L443)
 
 ___
 
@@ -787,7 +841,7 @@ A `Validator` that accepts only strings that matches the given `regexp`.
 
 #### Defined in
 
-[src/validators.ts:351](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L351)
+[src/validators.ts:415](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L415)
 
 ___
 
@@ -799,19 +853,19 @@ Validates if a string is in the given length range.
 
 **`example`**
 ```ts
-const validator = TStringOfLength({ min: 5 });
+const validator = TStringOfLength({ minLength: 5 });
 validator.isValid("1234"); // false
 validator.isValid("123456789"); // true
-validator.name === "string(min=5)"; // true
+validator.name === "string(minLength=5)"; // true
 ```
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `options` | `Object` | - |
-| `options.max?` | `number` | Don't be longer than this. |
-| `options.min?` | `number` | Be at list this long. |
+| Name | Type |
+| :------ | :------ |
+| `options` | `Object` |
+| `options.maxLength?` | `number` |
+| `options.minLength?` | `number` |
 
 #### Returns
 
@@ -819,11 +873,11 @@ validator.name === "string(min=5)"; // true
 
 A `Validator` that accepts only strings, which is the given length.
 
-`validator.name`: `"string([min=<min>][,max=<max>])"`
+`validator.name`: `"string(minLength=<minLength>,maxLength=<maxLength>)"`
 
 #### Defined in
 
-[src/validators.ts:405](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L405)
+[src/validators.ts:469](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L469)
 
 ___
 
@@ -858,7 +912,7 @@ A `Validator` which checks if the string is a valid UUID of the given `version`.
 
 #### Defined in
 
-[src/validators.ts:575](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L575)
+[src/validators.ts:646](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L646)
 
 ___
 
@@ -896,4 +950,4 @@ const TBiggerThan10 = TValidate<number>(
 
 #### Defined in
 
-[src/validators.ts:50](https://github.com/davidkarolyi/tguard/blob/316c9d1/src/validators.ts#L50)
+[src/validators.ts:51](https://github.com/davidkarolyi/tguard/blob/f6f4bca/src/validators.ts#L51)
