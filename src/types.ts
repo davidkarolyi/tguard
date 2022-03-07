@@ -1,5 +1,10 @@
 import { TreeDefinition } from "./tree";
 
+/**
+ * An abstract class, which has an `isValid` method, and a `name` property, which represents the name of the guarded type.
+ *
+ * ⚠️ Don't use this directly to create custom validators, use `TValidate` instead.
+ */
 export abstract class Validator<T> {
   abstract readonly name: string;
   abstract isValid(value: any): value is T;

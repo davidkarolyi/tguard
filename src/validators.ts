@@ -30,9 +30,14 @@ class GenericValidator<T> extends Validator<T> {
 
 /**
  * Creates a custom `Validator` from the given params.
- * @param name The name of the type this validator will guard.
- * @param isValid Callback function, decides if a given value is valid or not
- * @typeParam T - The type the created validator will guard
+ *
+ * @param name - The name of the type this validator will guard.
+ * @param isValid - Callback function, decides if a given value is valid or not
+ *
+ * @typeParam T - The type the created validator will guard.
+ *
+ * > ⚠️ Don't forget to provide `T` type parameter!
+ *
  * @example
  * Defining a validator that validates if a number is bigger than 10:
  * ```ts
@@ -144,11 +149,13 @@ export const TNumberAsString = TValidate<string>(
 );
 
 /**
+ * Validates an array of elements.
+ *
  * @returns
- * A validator that checks if the given value is an array of the given type.
+ * A `Validator` that checks if the given value is an array of the given type.
  *
  * `validator.name`: `"<type>[]"`
- * @param validator The validator, which validates the elements of the array.
+ * @param validator - The validator, which validates the elements of the array.
  * @example
  * ```ts
  * const validator = TArray(TNumber);
@@ -173,8 +180,10 @@ export function TArray<T>(
 }
 
 /**
+ * Validates the shape of an object.
+ *
  * @returns
- * A validator that checks if the given value matches the provided object shape.
+ * A `Validator` that checks if the given value matches the provided object shape.
  *
  * Accpets not-null objects, where all `keys`
  * and `values` are accepted by the given shape `validators`.
@@ -226,12 +235,14 @@ export function TObjectOfShape<T>(shape: {
 }
 
 /**
+ * Negates a type criteria.
+ *
  * @returns
- * A validator that accepts a value when it was **not** accepted by the given validator.
+ * A `Validator` that accepts a value when it was **not** accepted by the given validator.
  *
  * `validator.name`: `"!<type>"`
  *
- * @param validator The validator, which will be negated.
+ * @param validator - The validator, which will be negated.
  *
  * @example
  * ```ts
@@ -251,8 +262,10 @@ export function TNot<T>(
 }
 
 /**
+ * Validates if at least one type criteria is met.
+ *
  * @returns
- * A validator that is similar in concept as the `|` operator in TypeScript.
+ * A `Validator` that is similar in concept as the `|` operator in TypeScript.
  * Accepts a value when it was accepted by at least one of the `validators`.
  *
  * `validator.name`: `"<typeA> | <typeB>"`
@@ -289,8 +302,10 @@ export function TOr<A, B, T extends Array<ValidatorOrConstructor<unknown>>>(
 }
 
 /**
+ * Validates if criterias of two types are both met.
+ *
  * @returns
- * A validator that is similar in concept as the `&` operator in TypeScript.
+ * A `Validator` that is similar in concept as the `&` operator in TypeScript.
  * Accepts a value when it was accepted by both `validatorA` and `validatorB`.
  *
  * `validator.name`: `"<typeA> & <typeB>"`
@@ -315,13 +330,15 @@ export function TAnd<A, B>(
 }
 
 /**
+ * Validates if a string matches a regexp.
+ * 
  * @returns
- * A validator that accepts only strings that matches the given `regexp`.
+ * A `Validator` that accepts only strings that matches the given `regexp`.
  *
  * `validator.name`: `"string(<regexpName>)"`
  * 
- * @param patternName Describes the regular expression in a user-readable manner.
- * @param regexp The regexp to use for validation of incoming values.
+ * @param patternName - Describes the regular expression in a user-readable manner.
+ * @param regexp - The regexp to use for validation of incoming values.
  * 
  * @example
  * ```ts
@@ -341,6 +358,24 @@ export function TStringMatch(
   );
 }
 
+/**
+ * Validates if a string is a base64 encoded data.
+ *
+ * @param options.urlSafe - If set to true, it will check if the string is bas64URL encoded
+ *
+ * @returns
+ * A `Validator` that accepts only strings that are base64 encoded.
+ *
+ * `validator.name`: `"string(base64<?URL>)"`
+ *
+ * @example
+ * ```ts
+ * const validator = TStringBase64({ urlSafe: true });
+ * validator.isValid("foobar"); // false
+ * validator.isValid("c29tZXRoaW5n"); // true
+ * validator.name === "string(base64URL)"; // true
+ * ```
+ */
 export function TStringBase64(options: { urlSafe: boolean }) {
   return TValidate<string>(
     `string(base64${options.urlSafe ? "URL" : ""})`,
@@ -348,6 +383,25 @@ export function TStringBase64(options: { urlSafe: boolean }) {
   );
 }
 
+/**
+ * Validates if a string is in the given length range.
+ *
+ * @param options.min - Be at list this long.
+ * @param options.max - Don't be longer than this.
+ *
+ * @returns
+ * A `Validator` that accepts only strings, which is the given length.
+ *
+ * `validator.name`: `"string([min=<min>][,max=<max>])"`
+ *
+ * @example
+ * ```ts
+ * const validator = TStringOfLength({ min: 5 });
+ * validator.isValid("1234"); // false
+ * validator.isValid("123456789"); // true
+ * validator.name === "string(min=5)"; // true
+ * ```
+ */
 export function TStringOfLength(options: { min?: number; max?: number }) {
   let name = "string";
   const isOptionEmpty = options.min === undefined && options.max === undefined;
@@ -363,46 +417,161 @@ export function TStringOfLength(options: { min?: number; max?: number }) {
   );
 }
 
+/**
+ * A `Validator` which validates if a string is a valid email.
+ *
+ * `validator.name`: `"string(email)"`
+ *
+ * @example
+ * ```ts
+ * TEmail.isValid("1234"); // false
+ * TEmail.isValid("foo@bar.com"); // true
+ * TEmail.name === "string(email)"; // true
+ * ```
+ */
 export const TStringEmail = TValidate<string>(
   "string(email)",
   (value: any) => typeof value === "string" && isEmail(value)
 );
 
+/**
+ * A `Validator` which validates if a string is a valid email.
+ *
+ * `validator.name`: `"string(email)"`
+ *
+ * @example
+ * ```ts
+ * TEmail.isValid("1234"); // false
+ * TEmail.isValid("foo@bar.com"); // true
+ * TEmail.name === "string(email)"; // true
+ * ```
+ */
 export const TStringISODate = TValidate<string>(
   "string(date)",
   (value: any) => typeof value === "string" && isISO8601(value)
 );
 
+/**
+ * A `Validator` which validates if a string is a valid JSON.
+ *
+ * `validator.name`: `"string(JSON)"`
+ *
+ * @example
+ * ```ts
+ * TStringJSON.isValid("1234"); // false
+ * TStringJSON.isValid("{\"foo\": 2}"); // true
+ * TStringJSON.name === "string(JSON)"; // true
+ * ```
+ */
 export const TStringJSON = TValidate<string>(
   "string(JSON)",
   (value: any) => typeof value === "string" && isJSON(value)
 );
 
+/**
+ * A `Validator` which validates if a string is a valid JSON Web Token.
+ *
+ * `validator.name`: `"string(JWT)"`
+ *
+ * @example
+ * ```ts
+ * TStringJWT.isValid("1234"); // false
+ * TStringJWT.isValid("something.fooo.bar"); // true
+ * TStringJWT.name === "string(JSON)"; // true
+ * ```
+ */
 export const TStringJWT = TValidate<string>(
   "string(JWT)",
   (value: any) => typeof value === "string" && isJWT(value)
 );
 
+/**
+ * A `Validator` which validates if a string is a valid [MIME type](https://en.wikipedia.org/wiki/Media_type).
+ *
+ * `validator.name`: `"string(MIME type)"`
+ *
+ * @example
+ * ```ts
+ * TStringMIMEType.isValid("foobar"); // false
+ * TStringMIMEType.isValid("application/json"); // true
+ * TStringMIMEType.name === "string(MIME type)"; // true
+ * ```
+ */
 export const TStringMIMEType = TValidate<string>(
   "string(MIME type)",
   (value: any) => typeof value === "string" && isMimeType(value)
 );
 
+/**
+ * A `Validator` which validates if a string is a valid phone number.
+ * (all locale formats are accepted)
+ *
+ * `validator.name`: `"string(phone number)"`
+ *
+ * @example
+ * ```ts
+ * TStringPhoneNumber.isValid("foobar"); // false
+ * TStringPhoneNumber.isValid("061555555"); // true
+ * TStringPhoneNumber.name === "string(phone number)"; // true
+ * ```
+ */
 export const TStringPhoneNumber = TValidate<string>(
   "string(phone number)",
   (value: any) => typeof value === "string" && isMobilePhone(value)
 );
 
+/**
+ * A `Validator` which checks if the string is a Semantic Versioning Specification (SemVer).
+ *
+ * `validator.name`: `"string(SemVer)"`
+ *
+ * @example
+ * ```ts
+ * TStringSemVer.isValid("foobar"); // false
+ * TStringSemVer.isValid("1.0.4"); // true
+ * TStringSemVer.name === "string(SemVer)"; // true
+ * ```
+ */
 export const TStringSemVer = TValidate<string>(
   "string(SemVer)",
   (value: any) => typeof value === "string" && isSemVer(value)
 );
 
+/**
+ * A `Validator` which checks if the string is a valid URL.
+ *
+ * `validator.name`: `"string(URL)"`
+ *
+ * @example
+ * ```ts
+ * TStringURL.isValid("foobar"); // false
+ * TStringURL.isValid("foobar.com"); // true
+ * TStringURL.name === "string(URL)"; // true
+ * ```
+ */
 export const TStringURL = TValidate<string>(
   "string(URL)",
   (value: any) => typeof value === "string" && isURL(value)
 );
 
+/**
+ * Checks if the string is a valid UUID.
+ *
+ * @param options.version - The uuid version (3 | 4 | 5 | "3" | "4" | "5" | "all")
+ *
+ * @returns
+ * A `Validator` which checks if the string is a valid UUID of the given `version`.
+ *
+ * `validator.name`: `"string(UUID-v<version>)"`
+ *
+ * @example
+ * ```ts
+ * const validator = TStringUUID({ version: 4 })
+ * TStringURL.isValid("foobar"); // false
+ * TStringURL.isValid("936a0dd4-cf7f-497d-a0cd-7c891416c719"); // true
+ * TStringURL.name === "string(UUID-v4)"; // true
+ * ```
+ */
 export function TStringUUID(options: { version: UUIDVersion }) {
   const { version } = options;
   return TValidate<string>(
