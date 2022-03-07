@@ -14,6 +14,9 @@ export type ValidatorOrConstructor<T = unknown> =
   | Validator<T>
   | Constructor<Validator<T>>;
 
+/**
+ * Infers the type, that the given `Validator` validates.
+ */
 export type ValidatorType<C extends ValidatorOrConstructor<unknown>> =
   C extends Validator<infer T>
     ? T
@@ -23,6 +26,9 @@ export type ValidatorType<C extends ValidatorOrConstructor<unknown>> =
 
 export type Schema<T = any> = TreeDefinition<ValidatorOrConstructor<T>>;
 
+/**
+ * Infers the type, that the given `Schema` represents.
+ */
 export type SchemaType<C extends Schema> = C extends Constructor<
   Validator<unknown>
 >

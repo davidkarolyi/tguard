@@ -1,3 +1,5 @@
+tguard / [Exports](modules.md)
+
 # tguard 💂
 
 > Declarative type guarding system for TypeScript.

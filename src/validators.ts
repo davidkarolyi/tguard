@@ -424,9 +424,9 @@ export function TStringOfLength(options: { min?: number; max?: number }) {
  *
  * @example
  * ```ts
- * TEmail.isValid("1234"); // false
- * TEmail.isValid("foo@bar.com"); // true
- * TEmail.name === "string(email)"; // true
+ * TStringEmail.isValid("1234"); // false
+ * TStringEmail.isValid("foo@bar.com"); // true
+ * TStringEmail.name === "string(email)"; // true
  * ```
  */
 export const TStringEmail = TValidate<string>(
@@ -435,15 +435,15 @@ export const TStringEmail = TValidate<string>(
 );
 
 /**
- * A `Validator` which validates if a string is a valid email.
+ * A `Validator` which validates if a string is a valid ISO date string.
  *
- * `validator.name`: `"string(email)"`
+ * `validator.name`: `"string(date)"`
  *
  * @example
  * ```ts
- * TEmail.isValid("1234"); // false
- * TEmail.isValid("foo@bar.com"); // true
- * TEmail.name === "string(email)"; // true
+ * TStringISODate.isValid("1234"); // false
+ * TStringISODate.isValid("2022-03-06T22:01:41.160Z"); // true
+ * TStringISODate.name === "string(date)"; // true
  * ```
  */
 export const TStringISODate = TValidate<string>(

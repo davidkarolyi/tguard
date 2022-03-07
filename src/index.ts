@@ -8,4 +8,8 @@ export {
   ValidatorType,
   SchemaType,
   ValidatorOrConstructor,
+  Constructor,
+  ArrayType,
 } from "./types";
+
+export { TreeDefinition } from "./tree";

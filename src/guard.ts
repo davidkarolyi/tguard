@@ -14,7 +14,7 @@ import { MissingValueError, InvalidValueError } from "./errors";
 export type GuardedType<G extends Guard<Schema>> = ValidatorType<G>;
 
 /**
- * @param schema - Can be a single `Validator`, an other `Guard`, or an object of these types.
+ * Guards a type defined by the given schema.
  *
  * @example
  * ```ts
@@ -58,8 +58,12 @@ export type GuardedType<G extends Guard<Schema>> = ValidatorType<G>;
  */
 export class Guard<S extends Schema> extends Validator<SchemaType<S>> {
   readonly name;
-  readonly schema: Tree<Validator<unknown>>;
+  private readonly schema: Tree<Validator<unknown>>;
 
+  /**
+   *
+   * @param schema  - Can be a single `Validator`, an other `Guard`, or an object of these types.
+   */
   constructor(schema: S) {
     super();
     this.schema = this.resolveSchema(schema);
