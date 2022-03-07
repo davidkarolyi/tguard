@@ -1,11 +1,11 @@
-export { Guard, GuardedType } from "./guard";
+export { Guard } from "./guard";
 export * from "./validators";
 export { ValidationError } from "./errors";
 
 export {
   Validator,
   Schema,
-  ValidatorType,
+  GuardedType,
   SchemaType,
   ValidatorOrConstructor,
   Constructor,

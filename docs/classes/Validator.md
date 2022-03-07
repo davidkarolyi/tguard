@@ -52,7 +52,7 @@ An abstract class, which has an `isValid` method, and a `name` property, which r
 
 #### Defined in
 
-[src/types.ts:9](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/types.ts#L9)
+[src/types.ts:9](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L9)
 
 ## Methods
 
@@ -72,4 +72,4 @@ value is T
 
 #### Defined in
 
-[src/types.ts:10](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/types.ts#L10)
+[src/types.ts:10](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L10)

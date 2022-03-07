@@ -1,7 +1,7 @@
 import { Guard } from "./guard";
 import {
   ArrayType,
-  ValidatorType,
+  GuardedType,
   Validator,
   ValidatorOrConstructor,
 } from "./types";
@@ -356,12 +356,12 @@ export function TOr<A, B, T extends Array<ValidatorOrConstructor<unknown>>>(
   validatorA: ValidatorOrConstructor<A>,
   validatorB: ValidatorOrConstructor<B>,
   ...others: T
-): Validator<A | B | ValidatorType<ArrayType<T>>> {
+): Validator<A | B | GuardedType<ArrayType<T>>> {
   const validators = [validatorA, validatorB, ...others].map(
     (validator) => new Guard(validator)
   );
 
-  return TValidate<A | B | ValidatorType<ArrayType<T>>>(
+  return TValidate<A | B | GuardedType<ArrayType<T>>>(
     `(${validators.map(({ name }) => name).join(" | ")})`,
     (value) => {
       {

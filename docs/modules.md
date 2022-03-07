@@ -19,7 +19,6 @@
 - [SchemaType](modules.md#schematype)
 - [TreeDefinition](modules.md#treedefinition)
 - [ValidatorOrConstructor](modules.md#validatororconstructor)
-- [ValidatorType](modules.md#validatortype)
 
 ### Variables
 
@@ -72,7 +71,7 @@
 
 #### Defined in
 
-[src/types.ts:44](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/types.ts#L44)
+[src/types.ts:44](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L44)
 
 ___
 
@@ -92,23 +91,25 @@ ___
 
 #### Defined in
 
-[src/types.ts:48](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/types.ts#L48)
+[src/types.ts:48](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L48)
 
 ___
 
 ### GuardedType
 
-Ƭ **GuardedType**<`G`\>: [`ValidatorType`](modules.md#validatortype)<`G`\>
+Ƭ **GuardedType**<`C`\>: `C` extends [`Validator`](classes/Validator.md)<infer T\> ? `T` : `C` extends [`Constructor`](modules.md#constructor)<[`Validator`](classes/Validator.md)<infer T\>\> ? `T` : `unknown`
+
+Infers the type, that the given `Validator` guards.
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `G` | extends [`Guard`](classes/Guard.md)<[`Schema`](modules.md#schema)\> |
+| `C` | extends [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`unknown`\> |
 
 #### Defined in
 
-[src/guard.ts:14](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L14)
+[src/types.ts:20](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L20)
 
 ___
 
@@ -124,13 +125,13 @@ ___
 
 #### Defined in
 
-[src/types.ts:27](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/types.ts#L27)
+[src/types.ts:27](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L27)
 
 ___
 
 ### SchemaType
 
-Ƭ **SchemaType**<`C`\>: `C` extends [`Constructor`](modules.md#constructor)<[`Validator`](classes/Validator.md)<`unknown`\>\> ? [`ValidatorType`](modules.md#validatortype)<`InstanceType`<`C`\>\> : `C` extends [`Validator`](classes/Validator.md)<`unknown`\> ? [`ValidatorType`](modules.md#validatortype)<`C`\> : `C` extends { `[fieldName: string]`: [`Schema`](modules.md#schema);  } ? { [Property in keyof C]: SchemaType<C[Property]\> } : `unknown`
+Ƭ **SchemaType**<`C`\>: `C` extends [`Constructor`](modules.md#constructor)<[`Validator`](classes/Validator.md)<`unknown`\>\> ? [`GuardedType`](modules.md#guardedtype)<`InstanceType`<`C`\>\> : `C` extends [`Validator`](classes/Validator.md)<`unknown`\> ? [`GuardedType`](modules.md#guardedtype)<`C`\> : `C` extends { `[fieldName: string]`: [`Schema`](modules.md#schema);  } ? { [Property in keyof C]: SchemaType<C[Property]\> } : `unknown`
 
 Infers the type, that the given `Schema` represents.
 
@@ -142,7 +143,7 @@ Infers the type, that the given `Schema` represents.
 
 #### Defined in
 
-[src/types.ts:32](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/types.ts#L32)
+[src/types.ts:32](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L32)
 
 ___
 
@@ -158,7 +159,7 @@ ___
 
 #### Defined in
 
-[src/tree.ts:1](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/tree.ts#L1)
+[src/tree.ts:1](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/tree.ts#L1)
 
 ___
 
@@ -174,25 +175,7 @@ ___
 
 #### Defined in
 
-[src/types.ts:13](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/types.ts#L13)
-
-___
-
-### ValidatorType
-
-Ƭ **ValidatorType**<`C`\>: `C` extends [`Validator`](classes/Validator.md)<infer T\> ? `T` : `C` extends [`Constructor`](modules.md#constructor)<[`Validator`](classes/Validator.md)<infer T\>\> ? `T` : `unknown`
-
-Infers the type, that the given `Validator` validates.
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `C` | extends [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`unknown`\> |
-
-#### Defined in
-
-[src/types.ts:20](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/types.ts#L20)
+[src/types.ts:13](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L13)
 
 ## Variables
 
@@ -206,7 +189,7 @@ Validator that accepts any value.
 
 #### Defined in
 
-[src/validators.ts:142](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L142)
+[src/validators.ts:142](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L142)
 
 ___
 
@@ -220,7 +203,7 @@ Primitive validator that only accepts the JS type `bigint`.
 
 #### Defined in
 
-[src/validators.ts:125](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L125)
+[src/validators.ts:125](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L125)
 
 ___
 
@@ -234,7 +217,7 @@ Primitive validator that only accepts the JS type `boolean`.
 
 #### Defined in
 
-[src/validators.ts:84](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L84)
+[src/validators.ts:84](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L84)
 
 ___
 
@@ -248,7 +231,7 @@ Primitive validator that only accepts the JS type `function`.
 
 #### Defined in
 
-[src/validators.ts:94](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L94)
+[src/validators.ts:94](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L94)
 
 ___
 
@@ -269,7 +252,7 @@ TInteger.isValid(15); // true
 
 #### Defined in
 
-[src/validators.ts:156](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L156)
+[src/validators.ts:156](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L156)
 
 ___
 
@@ -290,7 +273,7 @@ TIntegerAsString.isValid("15"); // true
 
 #### Defined in
 
-[src/validators.ts:194](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L194)
+[src/validators.ts:194](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L194)
 
 ___
 
@@ -304,7 +287,7 @@ Validator that only accepts `null`.
 
 #### Defined in
 
-[src/validators.ts:135](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L135)
+[src/validators.ts:135](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L135)
 
 ___
 
@@ -319,7 +302,7 @@ Not accepts NaN.
 
 #### Defined in
 
-[src/validators.ts:74](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L74)
+[src/validators.ts:74](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L74)
 
 ___
 
@@ -340,7 +323,7 @@ TNumberAsString.isValid("15.223"); // true
 
 #### Defined in
 
-[src/validators.ts:173](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L173)
+[src/validators.ts:173](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L173)
 
 ___
 
@@ -355,7 +338,7 @@ Does not accept null.
 
 #### Defined in
 
-[src/validators.ts:105](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L105)
+[src/validators.ts:105](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L105)
 
 ___
 
@@ -369,7 +352,7 @@ Primitive validator that only accepts the JS type `string`.
 
 #### Defined in
 
-[src/validators.ts:63](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L63)
+[src/validators.ts:63](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L63)
 
 ___
 
@@ -390,7 +373,7 @@ TStringEmail.name === "string(email)"; // true
 
 #### Defined in
 
-[src/validators.ts:512](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L512)
+[src/validators.ts:512](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L512)
 
 ___
 
@@ -411,7 +394,7 @@ TStringISODate.name === "string(date)"; // true
 
 #### Defined in
 
-[src/validators.ts:529](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L529)
+[src/validators.ts:529](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L529)
 
 ___
 
@@ -432,7 +415,7 @@ TStringJSON.name === "string(JSON)"; // true
 
 #### Defined in
 
-[src/validators.ts:546](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L546)
+[src/validators.ts:546](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L546)
 
 ___
 
@@ -453,7 +436,7 @@ TStringJWT.name === "string(JSON)"; // true
 
 #### Defined in
 
-[src/validators.ts:563](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L563)
+[src/validators.ts:563](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L563)
 
 ___
 
@@ -474,7 +457,7 @@ TStringMIMEType.name === "string(MIME type)"; // true
 
 #### Defined in
 
-[src/validators.ts:580](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L580)
+[src/validators.ts:580](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L580)
 
 ___
 
@@ -496,7 +479,7 @@ TStringPhoneNumber.name === "string(phone number)"; // true
 
 #### Defined in
 
-[src/validators.ts:598](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L598)
+[src/validators.ts:598](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L598)
 
 ___
 
@@ -517,7 +500,7 @@ TStringSemVer.name === "string(SemVer)"; // true
 
 #### Defined in
 
-[src/validators.ts:615](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L615)
+[src/validators.ts:615](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L615)
 
 ___
 
@@ -538,7 +521,7 @@ TStringURL.name === "string(URL)"; // true
 
 #### Defined in
 
-[src/validators.ts:632](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L632)
+[src/validators.ts:632](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L632)
 
 ___
 
@@ -552,7 +535,7 @@ Primitive validator that only accepts the JS type `undefined`.
 
 #### Defined in
 
-[src/validators.ts:115](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L115)
+[src/validators.ts:115](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L115)
 
 ## Functions
 
@@ -587,7 +570,7 @@ Accepts a value when it was accepted by both `validatorA` and `validatorB`.
 
 #### Defined in
 
-[src/validators.ts:386](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L386)
+[src/validators.ts:386](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L386)
 
 ___
 
@@ -630,7 +613,7 @@ A `Validator` that checks if the given value is an array of the given type.
 
 #### Defined in
 
-[src/validators.ts:223](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L223)
+[src/validators.ts:223](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L223)
 
 ___
 
@@ -674,7 +657,7 @@ A `Validator` which checks if the given value is equals to the `constant` litera
 
 #### Defined in
 
-[src/validators.ts:686](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L686)
+[src/validators.ts:686](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L686)
 
 ___
 
@@ -714,7 +697,7 @@ A `Validator` that accepts a value when it was **not** accepted by the given val
 
 #### Defined in
 
-[src/validators.ts:328](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L328)
+[src/validators.ts:328](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L328)
 
 ___
 
@@ -772,13 +755,13 @@ Similar in concept as TypeScript's `{[keys: string]: number}` type annotations.
 
 #### Defined in
 
-[src/validators.ts:290](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L290)
+[src/validators.ts:290](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L290)
 
 ___
 
 ### TOr
 
-▸ **TOr**<`A`, `B`, `T`\>(`validatorA`, `validatorB`, ...`others`): [`Validator`](classes/Validator.md)<`A` \| `B` \| [`ValidatorType`](modules.md#validatortype)<[`ArrayType`](modules.md#arraytype)<`T`\>\>\>
+▸ **TOr**<`A`, `B`, `T`\>(`validatorA`, `validatorB`, ...`others`): [`Validator`](classes/Validator.md)<`A` \| `B` \| [`GuardedType`](modules.md#guardedtype)<[`ArrayType`](modules.md#arraytype)<`T`\>\>\>
 
 Validates if at least one type criteria is met.
 
@@ -809,7 +792,7 @@ validator.name === "number | string"; // true
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`A` \| `B` \| [`ValidatorType`](modules.md#validatortype)<[`ArrayType`](modules.md#arraytype)<`T`\>\>\>
+[`Validator`](classes/Validator.md)<`A` \| `B` \| [`GuardedType`](modules.md#guardedtype)<[`ArrayType`](modules.md#arraytype)<`T`\>\>\>
 
 A `Validator` that is similar in concept as the `|` operator in TypeScript.
 Accepts a value when it was accepted by at least one of the `validators`.
@@ -818,7 +801,7 @@ Accepts a value when it was accepted by at least one of the `validators`.
 
 #### Defined in
 
-[src/validators.ts:355](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L355)
+[src/validators.ts:355](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L355)
 
 ___
 
@@ -853,7 +836,7 @@ A `Validator` that accepts only strings that are base64 encoded.
 
 #### Defined in
 
-[src/validators.ts:452](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L452)
+[src/validators.ts:452](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L452)
 
 ___
 
@@ -888,7 +871,7 @@ A `Validator` that accepts only strings that matches the given `regexp`.
 
 #### Defined in
 
-[src/validators.ts:424](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L424)
+[src/validators.ts:424](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L424)
 
 ___
 
@@ -924,7 +907,7 @@ A `Validator` that accepts only strings, which is the given length.
 
 #### Defined in
 
-[src/validators.ts:478](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L478)
+[src/validators.ts:478](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L478)
 
 ___
 
@@ -959,7 +942,7 @@ A `Validator` which checks if the string is a valid UUID of the given `version`.
 
 #### Defined in
 
-[src/validators.ts:655](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L655)
+[src/validators.ts:655](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L655)
 
 ___
 
@@ -997,4 +980,4 @@ const TBiggerThan10 = TValidate<number>(
 
 #### Defined in
 
-[src/validators.ts:51](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/validators.ts#L51)
+[src/validators.ts:51](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L51)

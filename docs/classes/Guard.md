@@ -103,7 +103,7 @@ const user = TUser.cast({ posts: ["Who am I?", "I am a user."] });
 
 #### Defined in
 
-[src/guard.ts:67](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L67)
+[src/guard.ts:64](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/guard.ts#L64)
 
 ## Properties
 
@@ -117,7 +117,7 @@ const user = TUser.cast({ posts: ["Who am I?", "I am a user."] });
 
 #### Defined in
 
-[src/guard.ts:60](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L60)
+[src/guard.ts:57](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/guard.ts#L57)
 
 ___
 
@@ -127,7 +127,7 @@ ___
 
 #### Defined in
 
-[src/guard.ts:61](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L61)
+[src/guard.ts:58](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/guard.ts#L58)
 
 ## Accessors
 
@@ -141,7 +141,7 @@ ___
 
 #### Defined in
 
-[src/guard.ts:76](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L76)
+[src/guard.ts:73](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/guard.ts#L73)
 
 ## Methods
 
@@ -186,7 +186,7 @@ const user = TUser.cast({ posts: ["Who am I?", "I am a user."] });
 
 #### Defined in
 
-[src/guard.ts:121](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L121)
+[src/guard.ts:118](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/guard.ts#L118)
 
 ___
 
@@ -206,7 +206,7 @@ ___
 
 #### Defined in
 
-[src/guard.ts:145](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L145)
+[src/guard.ts:142](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/guard.ts#L142)
 
 ___
 
@@ -226,7 +226,7 @@ ___
 
 #### Defined in
 
-[src/guard.ts:157](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L157)
+[src/guard.ts:154](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/guard.ts#L154)
 
 ___
 
@@ -255,7 +255,7 @@ If the the given `value` is matching the `schema`.
 
 #### Defined in
 
-[src/guard.ts:86](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L86)
+[src/guard.ts:83](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/guard.ts#L83)
 
 ___
 
@@ -275,4 +275,4 @@ ___
 
 #### Defined in
 
-[src/guard.ts:140](https://github.com/davidkarolyi/tguard/blob/4afe72c/src/guard.ts#L140)
+[src/guard.ts:137](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/guard.ts#L137)

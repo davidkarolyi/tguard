@@ -4,14 +4,11 @@ import { Tree } from "./tree";
 import {
   Constructor,
   SchemaType,
-  ValidatorType,
   Schema,
   Validator,
   ValidatorOrConstructor,
 } from "./types";
 import { MissingValueError, InvalidValueError } from "./errors";
-
-export type GuardedType<G extends Guard<Schema>> = ValidatorType<G>;
 
 /**
  * Guards a type defined by the given schema.

@@ -15,9 +15,9 @@ export type ValidatorOrConstructor<T = unknown> =
   | Constructor<Validator<T>>;
 
 /**
- * Infers the type, that the given `Validator` validates.
+ * Infers the type, that the given `Validator` guards.
  */
-export type ValidatorType<C extends ValidatorOrConstructor<unknown>> =
+export type GuardedType<C extends ValidatorOrConstructor<unknown>> =
   C extends Validator<infer T>
     ? T
     : C extends Constructor<Validator<infer T>>
@@ -32,9 +32,9 @@ export type Schema<T = any> = TreeDefinition<ValidatorOrConstructor<T>>;
 export type SchemaType<C extends Schema> = C extends Constructor<
   Validator<unknown>
 >
-  ? ValidatorType<InstanceType<C>>
+  ? GuardedType<InstanceType<C>>
   : C extends Validator<unknown>
-  ? ValidatorType<C>
+  ? GuardedType<C>
   : C extends {
       [fieldName: string]: Schema;
     }
