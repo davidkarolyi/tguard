@@ -30,7 +30,8 @@
     "typesafety",
     "types",
     "typevalidator",
-    "guard"
+    "guard",
+    "dto"
   ],
   "author": {
     "name": "David Karolyi",
