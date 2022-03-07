@@ -321,6 +321,7 @@ A function that returns a [Validator](#validators), called a compound validator.
 
 - [TAnd](/docs/modules.md#tand)
 - [TArray](/docs/modules.md#tarray)
+- [TConstant](/docs/modules.md#tconstant)
 - [TNot](/docs/modules.md#tnot)
 - [TObjectOfShape](/docs/modules.md#tobjectofshape)
 - [TOr](/docs/modules.md#tor)

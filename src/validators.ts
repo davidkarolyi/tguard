@@ -58,7 +58,7 @@ export function TValidate<T = never>(
 /**
  * Primitive validator that only accepts the JS type `string`.
  *
- * `validator.name`: `"string"`
+ * `validator.name`: `string`
  */
 export const TString = TValidate<string>(
   "string",
@@ -648,5 +648,37 @@ export function TStringUUID(options: { version: UUIDVersion }) {
   return TValidate<string>(
     `string(UUID-${version === "all" ? version : "v" + version})`,
     (value) => typeof value === "string" && isUUID(value, version)
+  );
+}
+
+/**
+ * Validates equality to a literal value.
+ *
+ * @param constant - The literal to compare values against.
+ * Only can be a string, number, boolean or bigint.
+ *
+ * @returns
+ * A `Validator` which checks if the given value is equals to the `constant` literal.
+ *
+ * `validator.name`: `"constant(<constant>)"`
+ *
+ * @example
+ * ```ts
+ * const validator = TConstant("foo")
+ *
+ * validator.isValid("foobar"); // false
+ * validator.isValid("bar"); // false
+ * validator.isValid("foo"); // true
+ *
+ * validator.name === 'constant("foo")'; // true
+ * TConstant(2).name === 'constant(2)'; // true
+ * ```
+ */
+export function TConstant<T extends string | number | boolean | BigInt>(
+  constant: T
+): Validator<T> {
+  return TValidate<T>(
+    `constant(${typeof constant === "string" ? `"${constant}"` : constant})`,
+    (value) => value === constant
   );
 }

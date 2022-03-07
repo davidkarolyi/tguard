@@ -31,6 +31,7 @@ import {
   TStringURL,
   TStringUUID,
   TValidate,
+  TConstant,
 } from "../src/validators";
 
 describe("Validators", () => {
@@ -671,12 +672,39 @@ describe("Validators", () => {
         expect(TValidate("custom", () => true).name).toBe("custom");
       });
 
-      it("returns false, if the given function return false", () => {
+      it("returns false, if the given function returns false", () => {
         expect(TValidate("custom", () => false).isValid("foobar")).toBe(false);
       });
 
-      it("returns true, if the input is UUID", () => {
+      it("returns true, if the given function returns true", () => {
         expect(TValidate("custom", () => true).isValid("foobar")).toBe(true);
+      });
+    });
+
+    describe("TConstant", () => {
+      it("is an instance of Validator", () => {
+        expect(TConstant(5)).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is 'constant(<constant>)'", () => {
+        expect(TConstant(5).name).toBe("constant(5)");
+        expect(TConstant("foo").name).toBe('constant("foo")');
+        expect(TConstant(BigInt(100)).name).toBe("constant(100)");
+        expect(TConstant(true).name).toBe("constant(true)");
+      });
+
+      it("returns false, if the given value is not equal to the constant", () => {
+        expect(TConstant("foo").isValid("foobar")).toBe(false);
+        expect(TConstant(2).isValid(2.1)).toBe(false);
+        expect(TConstant(true).isValid(false)).toBe(false);
+        expect(TConstant(2).isValid("2")).toBe(false);
+      });
+
+      it("returns true, if the input is UUID", () => {
+        expect(TConstant("foo").isValid("foo")).toBe(true);
+        expect(TConstant(2).isValid(2)).toBe(true);
+        expect(TConstant(false).isValid(false)).toBe(true);
+        expect(TConstant("2").isValid("2")).toBe(true);
       });
     });
   });
