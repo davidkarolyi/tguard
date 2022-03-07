@@ -28,6 +28,20 @@ class GenericValidator<T> extends Validator<T> {
   }
 }
 
+/**
+ * Creates a custom `Validator` from the given params.
+ * @param name The name of the type this validator will guard.
+ * @param isValid Callback function, decides if a given value is valid or not
+ * @typeParam T - The type the created validator will guard
+ * @example
+ * Defining a validator that validates if a number is bigger than 10:
+ * ```ts
+ * const TBiggerThan10 = TValidate<number>(
+ *   "number(bigger than 10)",
+ *   (value) => typeof value === "number" && value > 10
+ * );
+ * ```
+ */
 export function TValidate<T = never>(
   name: string,
   isValid: (value: any) => boolean
@@ -35,45 +49,114 @@ export function TValidate<T = never>(
   return new GenericValidator(name, (value: any): value is T => isValid(value));
 }
 
-// primitives
+/**
+ * Primitive validator that only accepts the JS type `string`.
+ *
+ * `validator.name`: `"string"`
+ */
 export const TString = TValidate<string>(
   "string",
   (value) => typeof value === "string"
 );
+
+/**
+ * Primitive validator that only accepts the JS type `number`.
+ *
+ * `validator.name`: `"number"`
+ */
 export const TNumber = TValidate<number>(
   "number",
   (value) => typeof value === "number"
 );
+
+/**
+ * Primitive validator that only accepts the JS type `boolean`.
+ *
+ * `validator.name`: `"number"`
+ */
 export const TBoolean = TValidate<boolean>(
   "boolean",
   (value) => typeof value === "boolean"
 );
+
+/**
+ * Primitive validator that only accepts the JS type `function`.
+ *
+ * `validator.name`: `"function"`
+ */
 export const TFunction = TValidate<Function>(
   "function",
   (value) => typeof value === "function"
 );
+
+/**
+ * Primitive validator that only accepts the JS type `object`.
+ *
+ * `validator.name`: `"object"`
+ */
 export const TObject = TValidate<Object>(
   "object",
   (value) => typeof value === "object"
 );
+
+/**
+ * Primitive validator that only accepts the JS type `undefined`.
+ *
+ * `validator.name`: `"undefined"`
+ */
 export const TUndefined = TValidate<undefined>(
   "undefined",
   (value) => typeof value === "undefined"
 );
+
+/**
+ * Primitive validator that only accepts the JS type `bigint`.
+ *
+ * `validator.name`: `"bigint"`
+ */
 export const TBigInt = TValidate<BigInt>(
   "bigint",
   (value) => typeof value === "bigint"
 );
 
+/**
+ * Validator that only accepts `null`.
+ *
+ * `validator.name`: `"null"`
+ */
 export const TNull = TValidate<null>("null", (value) => value === null);
 
+/**
+ * Validator that accepts any value.
+ *
+ * `validator.name`: `"any"`
+ */
 export const TAny = TValidate<any>("any", () => true);
 
+/**
+ * Validator that accepts strings, which can be parsed as a valid number.
+ *
+ * `validator.name`: `"number(as a string)"`
+ */
 export const TNumberAsString = TValidate<string>(
   "number(as a string)",
   (value) => typeof value === "string" && value !== "" && !isNaN(Number(value))
 );
 
+/**
+ * @returns
+ * A validator that checks if the given value is an array of the given type.
+ *
+ * `validator.name`: `"<type>[]"`
+ * @param validator The validator, which validates the elements of the array.
+ * @example
+ * ```ts
+ * const validator = TArray(TNumber);
+ * validator.isValid([1, 2, 3]); // true
+ * validator.isValid([1, 2, "3"]); // false
+ * validator.name === "number[]"; // true
+ * ```
+ */
 export function TArray<T>(
   validator: ValidatorOrConstructor<T>
 ): Validator<Array<T>> {
@@ -89,6 +172,39 @@ export function TArray<T>(
   });
 }
 
+/**
+ * @returns
+ * A validator that checks if the given value matches the provided object shape.
+ *
+ * Accpets not-null objects, where all `keys`
+ * and `values` are accepted by the given shape `validators`.
+ * Similar in concept as TypeScript's `{[keys: string]: number}` type annotations.
+ *
+ * `validator.name`: `"{ [<keyType>]: <valueType> }"`
+ *
+ * @param shape
+ * The validators, which will validate the keys and values of the given object.
+ *
+ * @example
+ *  ```ts
+ * const validator = TObjectShape({
+ *   keys: TString,
+ *   values: TNumber,
+ * });
+ *
+ * validator.isValid({
+ *   avocado: 2,
+ *   orange: 5,
+ * }); // true
+ *
+ * validator.isValid({
+ *   avocado: "green",
+ *   orange: 5,
+ * }); // false
+ *
+ * validator.name === "{ [string]: number }"; // true
+ * ```
+ */
 export function TObjectOfShape<T>(shape: {
   keys: ValidatorOrConstructor<string>;
   values: ValidatorOrConstructor<T>;
@@ -109,6 +225,22 @@ export function TObjectOfShape<T>(shape: {
   });
 }
 
+/**
+ * @returns
+ * A validator that accepts a value when it was **not** accepted by the given validator.
+ *
+ * `validator.name`: `"!<type>"`
+ *
+ * @param validator The validator, which will be negated.
+ *
+ * @example
+ * ```ts
+ * const validator = TNot(TNumber);
+ * validator.isValid(1); // false
+ * validator.isValid("foo"); // true
+ * validator.name === "!number"; // true
+ * ```
+ */
 export function TNot<T>(
   validator: ValidatorOrConstructor<T>
 ): Validator<Exclude<any, T>> {
@@ -118,6 +250,22 @@ export function TNot<T>(
   return TValidate<Exclude<any, T>>(name, (value) => !guard.isValid(value));
 }
 
+/**
+ * @returns
+ * A validator that is similar in concept as the `|` operator in TypeScript.
+ * Accepts a value when it was accepted by at least one of the `validators`.
+ *
+ * `validator.name`: `"<typeA> | <typeB>"`
+ *
+ * @example
+ * ```ts
+ * const validator = TOr(TNumber, TString);
+ * validator.isValid(1); // true
+ * validator.isValid("foo"); // true
+ * validator.isValid(true); // false
+ * validator.name === "number | string"; // true
+ * ```
+ */
 export function TOr<A, B, T extends Array<ValidatorOrConstructor<unknown>>>(
   validatorA: ValidatorOrConstructor<A>,
   validatorB: ValidatorOrConstructor<B>,
@@ -140,6 +288,13 @@ export function TOr<A, B, T extends Array<ValidatorOrConstructor<unknown>>>(
   );
 }
 
+/**
+ * @returns
+ * A validator that is similar in concept as the `&` operator in TypeScript.
+ * Accepts a value when it was accepted by both `validatorA` and `validatorB`.
+ *
+ * `validator.name`: `"<typeA> & <typeB>"`
+ */
 export function TAnd<A, B>(
   validatorA: ValidatorOrConstructor<A>,
   validatorB: ValidatorOrConstructor<B>
@@ -159,12 +314,30 @@ export function TAnd<A, B>(
   );
 }
 
+/**
+ * @returns
+ * A validator that accepts only strings that matches the given `regexp`.
+ *
+ * `validator.name`: `"string(<regexpName>)"`
+ * 
+ * @param patternName Describes the regular expression in a user-readable manner.
+ * @param regexp The regexp to use for validation of incoming values.
+ * 
+ * @example
+ * ```ts
+ * const validator = TStringMatch("email", /^\S+@\S+$/);
+ * validator.isValid("foo@bar.com"); // true
+ * validator.isValid("foobar.com"); // false
+ * validator.name === "string(email)"; // true
+```
+ */
 export function TStringMatch(
   patternName: string,
   regexp: RegExp
 ): Validator<string> {
-  return TValidate<string>(`string(${patternName})`, (value) =>
-    regexp.test(value)
+  return TValidate<string>(
+    `string(${patternName})`,
+    (value) => typeof value === "string" && regexp.test(value)
   );
 }
 
