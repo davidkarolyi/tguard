@@ -2,15 +2,9 @@ import has from "lodash/has";
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
 import { Tree } from "./tree";
-import {
-  Constructor,
-  SchemaType,
-  Schema,
-  Validator,
-  ValidatorOrConstructor,
-} from "./types";
+import { SchemaType, Schema, Guard } from "./types";
 import { MissingValueError, InvalidValueError } from "./errors";
-import { TAnyObject } from "./validators";
+import { TAnyObject } from "./guards";
 
 /**
  * Guards a type defined by the given schema.
@@ -55,9 +49,9 @@ import { TAnyObject } from "./validators";
  * }
  * ```
  */
-export class Guard<S extends Schema> extends Validator<SchemaType<S>> {
+export class SchemaGuard<S extends Schema> extends Guard<SchemaType<S>> {
   readonly name;
-  private readonly schema: Tree<Validator<unknown>>;
+  private readonly schema: Tree<Guard<unknown>>;
 
   /**
    *
@@ -65,14 +59,14 @@ export class Guard<S extends Schema> extends Validator<SchemaType<S>> {
    */
   constructor(schema: S) {
     super();
-    this.schema = this.resolveSchema(schema);
+    this.schema = this.createTreeFromSchema(schema);
     this.name =
-      this.schema.value instanceof Validator
+      this.schema.value instanceof Guard
         ? this.schema.value.name
         : JSON.stringify(this.expectedSchema);
   }
 
-  get expectedSchema() {
+  private get expectedSchema() {
     return this.schema.map((validator) => validator.name).value;
   }
 
@@ -139,28 +133,17 @@ export class Guard<S extends Schema> extends Validator<SchemaType<S>> {
     throw new InvalidValueError(path, validator.name);
   }
 
-  private resolveSchema(schema: Schema): Tree<Validator<unknown>> {
-    return this.createTreeFromSchema(schema);
-  }
-
-  private createTreeFromSchema(schema: Schema): Tree<Validator<unknown>> {
-    const tree = new Tree({
+  private createTreeFromSchema(schema: Schema): Tree<Guard<unknown>> {
+    return new Tree({
       definition: schema,
-      isLeafNode: (
-        value: Schema
-      ): value is Validator<unknown> | Constructor<Validator<unknown>> =>
-        value instanceof Validator ||
-        typeof value === "function" ||
-        (typeof value === "object" && isEmpty(value)),
-    });
-
-    return tree.map(
+      isLeafNode: (value: Schema): value is Guard<unknown> =>
+        value instanceof Guard || (typeof value === "object" && isEmpty(value)),
+    }).map(
       (value) => {
-        if (value instanceof Validator) return value;
         if (typeof value === "object" && isEmpty(value)) return TAnyObject;
-        return new value();
+        return value;
       },
-      (value): value is Validator<unknown> => value instanceof Validator
+      (value): value is Guard<unknown> => value instanceof Guard
     );
   }
 }

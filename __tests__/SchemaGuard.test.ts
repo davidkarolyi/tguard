@@ -1,31 +1,31 @@
 import { ValidationError } from "../src/errors";
-import { Guard } from "../src/guard";
-import { Validator } from "../src/types";
-import { TNumber, TString } from "../src/validators";
+import { SchemaGuard } from "../src/SchemaGuard";
+import { Guard } from "../src/types";
+import { TNumber, TString } from "../src/guards";
 
-describe("Guard", () => {
+describe("SchemaGuard", () => {
   describe("constructor", () => {
     it("can accept a schema", () => {
-      expect(() => new Guard({ name: TString })).not.toThrow();
-      expect(() => new Guard(TString)).not.toThrow();
+      expect(() => new SchemaGuard({ name: TString })).not.toThrow();
+      expect(() => new SchemaGuard(TString)).not.toThrow();
     });
 
     it("returns an instance of a Validator", () => {
-      expect(new Guard({ name: TString })).toBeInstanceOf(Validator);
+      expect(new SchemaGuard({ name: TString })).toBeInstanceOf(Guard);
     });
   });
 
   describe("name", () => {
     describe("when a single validator is the schema", () => {
       it("is the name of the validator", () => {
-        const guard = new Guard(TString);
+        const guard = new SchemaGuard(TString);
         expect(guard.name).toBe("string");
       });
     });
 
     describe("when a schema object were provided", () => {
       it("is the object representation of the schema", () => {
-        const guard = new Guard({ name: TString, age: TNumber });
+        const guard = new SchemaGuard({ name: TString, age: TNumber });
         expect(guard.name).toBe('{"name":"string","age":"number"}');
       });
     });
@@ -34,35 +34,35 @@ describe("Guard", () => {
   describe("isValid", () => {
     describe("when used with a single validator", () => {
       it("returns true, if the validator accepts the value", () => {
-        const guard = new Guard(TString);
+        const guard = new SchemaGuard(TString);
         expect(guard.isValid("foo")).toBe(true);
       });
 
       it("returns false, if the validator rejects the value", () => {
-        const guard = new Guard(TString);
+        const guard = new SchemaGuard(TString);
         expect(guard.isValid(10)).toBe(false);
       });
     });
 
     describe("when used with a schema", () => {
       it("returns false, when the input is not an object", () => {
-        const guard = new Guard({ name: TString });
+        const guard = new SchemaGuard({ name: TString });
         expect(guard.isValid("")).toBe(false);
       });
 
       it("returns false, when there is a missing field in the input object", () => {
-        const guard = new Guard({ name: TString });
+        const guard = new SchemaGuard({ name: TString });
         expect(guard.isValid({})).toBe(false);
       });
 
       it("returns false, when there is an invalid field in the input object", () => {
-        const guard = new Guard({ name: TString });
+        const guard = new SchemaGuard({ name: TString });
         expect(guard.isValid({ name: 10 })).toBe(false);
       });
 
       describe("with nested schema", () => {
         it("returns false, when there is a missing field in a nested schema", () => {
-          const guard = new Guard({
+          const guard = new SchemaGuard({
             name: TString,
             cart: { carrots: TNumber },
           });
@@ -71,7 +71,7 @@ describe("Guard", () => {
         });
 
         it("returns true, when the input matches the schema", () => {
-          const guard = new Guard({
+          const guard = new SchemaGuard({
             name: TString,
             cart: { carrots: TNumber },
           });
@@ -88,14 +88,14 @@ describe("Guard", () => {
     describe("when the schema is a single validator", () => {
       describe("when the schema matches the input", () => {
         it("returns the given value", () => {
-          const guard = new Guard(TString);
+          const guard = new SchemaGuard(TString);
           expect(guard.cast("foo")).toBe("foo");
         });
       });
 
       describe("when the schema doesn't match the input", () => {
         it("throws an error, including path and expected type", () => {
-          const guard = new Guard(TNumber);
+          const guard = new SchemaGuard(TNumber);
           try {
             guard.cast("foo");
             throw new Error("Didn't throw an error");
@@ -112,7 +112,10 @@ describe("Guard", () => {
     });
 
     describe("when the schema is a validator tree", () => {
-      const guard = new Guard({ name: TString, cart: { peach: TNumber } });
+      const guard = new SchemaGuard({
+        name: TString,
+        cart: { peach: TNumber },
+      });
 
       describe("when the schema matches the input", () => {
         it("returns the given value", () => {

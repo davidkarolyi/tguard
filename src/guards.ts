@@ -1,11 +1,10 @@
-import { Guard } from "./guard";
+import { SchemaGuard } from "./SchemaGuard";
 import {
   ArrayType,
   GuardedType,
-  Schema,
+  ObjectSchema,
   SchemaType,
-  Validator,
-  ValidatorOrConstructor,
+  Guard,
 } from "./types";
 import isBase64 from "validator/lib/isBase64";
 import isByteLength from "validator/lib/isByteLength";
@@ -20,7 +19,7 @@ import isURL from "validator/lib/isURL";
 import isUUID, { UUIDVersion } from "validator/lib/isUUID";
 import isInt from "validator/lib/isInt";
 
-class GenericValidator<T> extends Validator<T> {
+class GenericGuard<T> extends Guard<T> {
   readonly name: string;
   isValid: (value: any) => value is T;
 
@@ -53,8 +52,8 @@ class GenericValidator<T> extends Validator<T> {
 export function TValidate<T = never>(
   name: string,
   isValid: (value: any) => boolean
-): Validator<T> {
-  return new GenericValidator(name, (value: any): value is T => isValid(value));
+): Guard<T> {
+  return new GenericGuard(name, (value: any): value is T => isValid(value));
 }
 
 /**
@@ -223,14 +222,12 @@ export const TIntegerAsString = TValidate<string>(
  * ```
  */
 export function TArray<T>(
-  validator: ValidatorOrConstructor<T>,
+  validator: Guard<T>,
   options?: { minLength?: number; maxLength?: number }
-): Validator<Array<T>> {
-  const guard = new Guard(validator);
-
+): Guard<Array<T>> {
   const isOptionEmpty =
     options?.minLength === undefined && options?.maxLength === undefined;
-  let name = `${guard.name}[]`;
+  let name = `${validator.name}[]`;
   if (!isOptionEmpty) name += "(";
   if (options?.minLength !== undefined)
     name += `minLength=${options.minLength}`;
@@ -248,7 +245,7 @@ export function TArray<T>(
     )
       return false;
     for (const item of value) {
-      if (!guard.isValid(item)) return false;
+      if (!validator.isValid(item)) return false;
     }
     return true;
   });
@@ -290,19 +287,17 @@ export function TArray<T>(
  * ```
  */
 export function TObjectOfShape<T>(shape: {
-  keys: ValidatorOrConstructor<string>;
-  values: ValidatorOrConstructor<T>;
-}): Validator<Record<string, T>> {
-  const keyGuard = new Guard(shape.keys);
-  const valueGuard = new Guard(shape.values);
-  const name = `{ [${keyGuard.name}]: ${valueGuard.name} }`;
+  keys: Guard<string>;
+  values: Guard<T>;
+}): Guard<Record<string, T>> {
+  const name = `{ [${shape.keys.name}]: ${shape.values.name} }`;
 
   return TValidate<Record<string, T>>(name, (value) => {
     {
       if (typeof value !== "object" || value === null) return false;
       for (const key in value) {
-        if (!keyGuard.isValid(key)) return false;
-        if (!valueGuard.isValid(value[key])) return false;
+        if (!shape.keys.isValid(key)) return false;
+        if (!shape.values.isValid(value[key])) return false;
       }
       return true;
     }
@@ -327,13 +322,10 @@ export function TObjectOfShape<T>(shape: {
  * validator.name === "!number"; // true
  * ```
  */
-export function TNot<T>(
-  validator: ValidatorOrConstructor<T>
-): Validator<Exclude<any, T>> {
-  const guard = new Guard(validator);
-  const name = `!${guard.name}`;
+export function TNot<T>(validator: Guard<T>): Guard<Exclude<any, T>> {
+  const name = `!${validator.name}`;
 
-  return TValidate<Exclude<any, T>>(name, (value) => !guard.isValid(value));
+  return TValidate<Exclude<any, T>>(name, (value) => !validator.isValid(value));
 }
 
 /**
@@ -354,14 +346,12 @@ export function TNot<T>(
  * validator.name === "number | string"; // true
  * ```
  */
-export function TOr<A, B, T extends Array<ValidatorOrConstructor<unknown>>>(
-  validatorA: ValidatorOrConstructor<A>,
-  validatorB: ValidatorOrConstructor<B>,
+export function TOr<A, B, T extends Array<Guard<unknown>>>(
+  validatorA: Guard<A>,
+  validatorB: Guard<B>,
   ...others: T
-): Validator<A | B | GuardedType<ArrayType<T>>> {
-  const validators = [validatorA, validatorB, ...others].map(
-    (validator) => new Guard(validator)
-  );
+): Guard<A | B | GuardedType<ArrayType<T>>> {
+  const validators = [validatorA, validatorB, ...others];
 
   return TValidate<A | B | GuardedType<ArrayType<T>>>(
     `(${validators.map(({ name }) => name).join(" | ")})`,
@@ -386,12 +376,10 @@ export function TOr<A, B, T extends Array<ValidatorOrConstructor<unknown>>>(
  * `validator.name`: `"<typeA> & <typeB>"`
  */
 export function TAnd<A, B>(
-  validatorA: ValidatorOrConstructor<A>,
-  validatorB: ValidatorOrConstructor<B>
-): Validator<A & B> {
-  const validators = [validatorA, validatorB].map(
-    (validator) => new Guard(validator)
-  );
+  validatorA: Guard<A>,
+  validatorB: Guard<B>
+): Guard<A & B> {
+  const validators = [validatorA, validatorB];
 
   return TValidate<A & B>(
     `(${validators.map(({ name }) => name).join(" & ")})`,
@@ -426,7 +414,7 @@ export function TAnd<A, B>(
 export function TStringMatch(
   patternName: string,
   regexp: RegExp
-): Validator<string> {
+): Guard<string> {
   return TValidate<string>(
     `string(${patternName})`,
     (value) => typeof value === "string" && regexp.test(value)
@@ -687,19 +675,15 @@ export function TStringUUID(options: { version: UUIDVersion }) {
  */
 export function TConstant<T extends string | number | boolean | BigInt>(
   constant: T
-): Validator<T> {
+): Guard<T> {
   return TValidate<T>(
     `constant(${typeof constant === "string" ? `"${constant}"` : constant})`,
     (value) => value === constant
   );
 }
 
-export type ObjectSchema = {
-  [fieldName: string]: ObjectSchema | Validator<any>;
-};
-
 export function TObject<T extends ObjectSchema>(
   schema: T
-): Validator<SchemaType<T>> {
-  return new Guard(schema);
+): Guard<SchemaType<T>> {
+  return new SchemaGuard(schema);
 }

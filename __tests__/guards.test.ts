@@ -1,5 +1,5 @@
-import { Guard } from "../src/guard";
-import { GuardedType, Validator } from "../src/types";
+import { SchemaGuard } from "../src/SchemaGuard";
+import { Guard } from "../src/types";
 import {
   TString,
   TNumber,
@@ -33,13 +33,13 @@ import {
   TValidate,
   TConstant,
   TObject,
-} from "../src/validators";
+} from "../src/guards";
 
 describe("Validators", () => {
   describe("primitive types", () => {
     describe("TString", () => {
       it("is an instance of Validator", () => {
-        expect(TString).toBeInstanceOf(Validator);
+        expect(TString).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string'", () => {
@@ -57,7 +57,7 @@ describe("Validators", () => {
 
     describe("TNumber", () => {
       it("is an instance of Validator", () => {
-        expect(TNumber).toBeInstanceOf(Validator);
+        expect(TNumber).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'number'", () => {
@@ -78,7 +78,7 @@ describe("Validators", () => {
 
     describe("TInteger", () => {
       it("is an instance of Validator", () => {
-        expect(TInteger).toBeInstanceOf(Validator);
+        expect(TInteger).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'integer'", () => {
@@ -98,7 +98,7 @@ describe("Validators", () => {
 
     describe("TNumberAsString", () => {
       it("is an instance of Validator", () => {
-        expect(TNumberAsString).toBeInstanceOf(Validator);
+        expect(TNumberAsString).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'number'", () => {
@@ -127,7 +127,7 @@ describe("Validators", () => {
 
     describe("TIntegerAsString", () => {
       it("is an instance of Validator", () => {
-        expect(TIntegerAsString).toBeInstanceOf(Validator);
+        expect(TIntegerAsString).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'number'", () => {
@@ -156,7 +156,7 @@ describe("Validators", () => {
 
     describe("TBoolean", () => {
       it("is an instance of Validator", () => {
-        expect(TBoolean).toBeInstanceOf(Validator);
+        expect(TBoolean).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'boolean'", () => {
@@ -175,7 +175,7 @@ describe("Validators", () => {
 
     describe("TFunction", () => {
       it("is an instance of Validator", () => {
-        expect(TFunction).toBeInstanceOf(Validator);
+        expect(TFunction).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'function'", () => {
@@ -193,7 +193,7 @@ describe("Validators", () => {
 
     describe("TAnyObject", () => {
       it("is an instance of Validator", () => {
-        expect(TAnyObject).toBeInstanceOf(Validator);
+        expect(TAnyObject).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'object'", () => {
@@ -213,7 +213,7 @@ describe("Validators", () => {
 
     describe("TUndefined", () => {
       it("is an instance of Validator", () => {
-        expect(TUndefined).toBeInstanceOf(Validator);
+        expect(TUndefined).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'undefined'", () => {
@@ -231,7 +231,7 @@ describe("Validators", () => {
 
     describe("TBigInt", () => {
       it("is an instance of Validator", () => {
-        expect(TBigInt).toBeInstanceOf(Validator);
+        expect(TBigInt).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'bigint'", () => {
@@ -250,7 +250,7 @@ describe("Validators", () => {
 
     describe("TNull", () => {
       it("is an instance of Validator", () => {
-        expect(TNull).toBeInstanceOf(Validator);
+        expect(TNull).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'null'", () => {
@@ -270,7 +270,7 @@ describe("Validators", () => {
 
     describe("TAny", () => {
       it("is an instance of Validator", () => {
-        expect(TAny).toBeInstanceOf(Validator);
+        expect(TAny).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'any'", () => {
@@ -293,7 +293,7 @@ describe("Validators", () => {
       const validator = TArray(TString);
 
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(validator).toBeInstanceOf(Guard);
       });
 
       it("it's name is '<type>[]'", () => {
@@ -349,7 +349,7 @@ describe("Validators", () => {
       });
 
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(validator).toBeInstanceOf(Guard);
       });
 
       it("returns true, if the given object has the correct shape", () => {
@@ -366,12 +366,7 @@ describe("Validators", () => {
 
       it("returns false, if the key is invalid", () => {
         const validator = TObjectOfShape({
-          keys: class TFalse extends Validator<string> {
-            readonly name = "false";
-            isValid(value: any): value is string {
-              return false;
-            }
-          },
+          keys: TValidate("false", () => false),
           values: TNumber,
         });
 
@@ -387,7 +382,7 @@ describe("Validators", () => {
       const validator = TNot(TString);
 
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(validator).toBeInstanceOf(Guard);
       });
 
       it("it's name is '!<type>'", () => {
@@ -407,7 +402,7 @@ describe("Validators", () => {
       const validator = TOr(TString, TNumber, TBoolean, TBigInt);
 
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(validator).toBeInstanceOf(Guard);
       });
 
       it("it's name is '(<type1> | <type2> | ...)'", () => {
@@ -425,12 +420,12 @@ describe("Validators", () => {
 
     describe("TAnd", () => {
       const validator = TAnd(
-        new Guard({ name: TString }),
-        new Guard({ age: TNumber })
+        new SchemaGuard({ name: TString }),
+        new SchemaGuard({ age: TNumber })
       );
 
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(validator).toBeInstanceOf(Guard);
       });
 
       it("it's name is '(<type1> & <type2> & ...)'", () => {
@@ -450,7 +445,7 @@ describe("Validators", () => {
       const validator = TStringMatch("contains 'match'", /match/);
 
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(validator).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(<patterName>)'", () => {
@@ -470,7 +465,7 @@ describe("Validators", () => {
       const validator = TStringBase64({ urlSafe: false });
 
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(validator).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(base64(?URL))'", () => {
@@ -489,7 +484,7 @@ describe("Validators", () => {
 
     describe("TStringEmail", () => {
       it("is an instance of Validator", () => {
-        expect(TStringEmail).toBeInstanceOf(Validator);
+        expect(TStringEmail).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(email)'", () => {
@@ -507,7 +502,7 @@ describe("Validators", () => {
 
     describe("TStringISODate", () => {
       it("is an instance of Validator", () => {
-        expect(TStringISODate).toBeInstanceOf(Validator);
+        expect(TStringISODate).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(date)'", () => {
@@ -525,7 +520,7 @@ describe("Validators", () => {
 
     describe("TStringJSON", () => {
       it("is an instance of Validator", () => {
-        expect(TStringJSON).toBeInstanceOf(Validator);
+        expect(TStringJSON).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(JSON)'", () => {
@@ -543,7 +538,7 @@ describe("Validators", () => {
 
     describe("TStringJWT", () => {
       it("is an instance of Validator", () => {
-        expect(TStringJWT).toBeInstanceOf(Validator);
+        expect(TStringJWT).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(JWT)'", () => {
@@ -565,7 +560,7 @@ describe("Validators", () => {
 
     describe("TStringMIMEType", () => {
       it("is an instance of Validator", () => {
-        expect(TStringMIMEType).toBeInstanceOf(Validator);
+        expect(TStringMIMEType).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(MIME type)'", () => {
@@ -583,7 +578,7 @@ describe("Validators", () => {
 
     describe("TStringPhoneNumber", () => {
       it("is an instance of Validator", () => {
-        expect(TStringPhoneNumber).toBeInstanceOf(Validator);
+        expect(TStringPhoneNumber).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(phone number)'", () => {
@@ -601,7 +596,7 @@ describe("Validators", () => {
 
     describe("TStringSemVer", () => {
       it("is an instance of Validator", () => {
-        expect(TStringSemVer).toBeInstanceOf(Validator);
+        expect(TStringSemVer).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(SemVer)'", () => {
@@ -621,7 +616,7 @@ describe("Validators", () => {
       const validator = TStringOfLength({ minLength: 5 });
 
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(validator).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(minLength=<minLength>,maxLength=<maxLength>)'", () => {
@@ -645,7 +640,7 @@ describe("Validators", () => {
 
     describe("TStringURL", () => {
       it("is an instance of Validator", () => {
-        expect(TStringURL).toBeInstanceOf(Validator);
+        expect(TStringURL).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(URL)'", () => {
@@ -665,7 +660,7 @@ describe("Validators", () => {
       const validator = TStringUUID({ version: 4 });
 
       it("is an instance of Validator", () => {
-        expect(validator).toBeInstanceOf(Validator);
+        expect(validator).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'string(UUID-v4)'", () => {
@@ -686,7 +681,7 @@ describe("Validators", () => {
 
     describe("TValidate", () => {
       it("is an instance of Validator", () => {
-        expect(TValidate("custom", () => true)).toBeInstanceOf(Validator);
+        expect(TValidate("custom", () => true)).toBeInstanceOf(Guard);
       });
 
       it("it's name is the name provided as an argument", () => {
@@ -704,7 +699,7 @@ describe("Validators", () => {
 
     describe("TConstant", () => {
       it("is an instance of Validator", () => {
-        expect(TConstant(5)).toBeInstanceOf(Validator);
+        expect(TConstant(5)).toBeInstanceOf(Guard);
       });
 
       it("it's name is 'constant(<constant>)'", () => {
@@ -731,7 +726,7 @@ describe("Validators", () => {
 
     describe("TObject", () => {
       it("is an instance of Validator", () => {
-        expect(TObject({})).toBeInstanceOf(Validator);
+        expect(TObject({})).toBeInstanceOf(Guard);
       });
 
       it("it's name is the object schema as a JSON", () => {

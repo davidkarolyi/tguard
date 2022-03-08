@@ -1,12 +1,12 @@
-import { Guard, TArray, TNumber, TString } from "../src";
+import { TArray, TNumber, TObject, TString } from "../src";
 
 describe("Example", () => {
-  const TPost = new Guard({
+  const TPost = TObject({
     title: TString,
     body: TString,
   });
 
-  const TUser = new Guard({
+  const TUser = TObject({
     name: TString,
     age: TNumber,
     posts: TArray(TPost),

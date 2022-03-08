@@ -1,12 +1,11 @@
 import { ValidationError } from "./errors";
-import { TreeDefinition } from "./tree";
 
 /**
  * An abstract class, which has an `isValid` method, and a `name` property, which represents the name of the guarded type.
  *
  * ⚠️ Don't use this directly to create custom validators, use `TValidate` instead.
  */
-export abstract class Validator<T> {
+export abstract class Guard<T> {
   abstract readonly name: string;
   abstract isValid(value: any): value is T;
   cast(value: any): T {
@@ -19,30 +18,19 @@ export abstract class Validator<T> {
   }
 }
 
-export type ValidatorOrConstructor<T = unknown> =
-  | Validator<T>
-  | Constructor<Validator<T>>;
-
 /**
  * Infers the type, that the given `Validator` guards.
  */
-export type GuardedType<C extends ValidatorOrConstructor<unknown>> =
-  C extends Validator<infer T>
-    ? T
-    : C extends Constructor<Validator<infer T>>
-    ? T
-    : unknown;
+export type GuardedType<C extends Guard<unknown>> = C extends Guard<infer T>
+  ? T
+  : unknown;
 
-export type Schema<T = any> = TreeDefinition<ValidatorOrConstructor<T>>;
+export type Schema<T = any> = ObjectSchema | Guard<T>;
 
 /**
  * Infers the type, that the given `Schema` represents.
  */
-export type SchemaType<C extends Schema> = C extends Constructor<
-  Validator<unknown>
->
-  ? GuardedType<InstanceType<C>>
-  : C extends Validator<unknown>
+export type SchemaType<C extends Schema> = C extends Guard<unknown>
   ? GuardedType<C>
   : C extends {
       [fieldName: string]: Schema;
@@ -54,4 +42,6 @@ export type ArrayType<C extends Array<unknown>> = C extends Array<infer T>
   ? T
   : unknown;
 
-export type Constructor<T> = new () => T;
+export type ObjectSchema = {
+  [fieldName: string]: ObjectSchema | Guard<any>;
+};

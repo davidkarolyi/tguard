@@ -1,15 +1,4 @@
-export { Guard } from "./guard";
-export * from "./validators";
+export * from "./guards";
 export { ValidationError } from "./errors";
 
-export {
-  Validator,
-  Schema,
-  GuardedType,
-  SchemaType,
-  ValidatorOrConstructor,
-  Constructor,
-  ArrayType,
-} from "./types";
-
-export { TreeDefinition } from "./tree";
+export { Guard as Validator, GuardedType, SchemaType } from "./types";
