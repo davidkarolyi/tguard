@@ -1,0 +1,13 @@
+import TValidate from "../TValidate";
+
+/**
+ * Primitive guard that only accepts the JS type `boolean`.
+ *
+ * `guard.name`: `"boolean"`
+ */
+const TBoolean = TValidate<boolean>(
+  "boolean",
+  (value) => typeof value === "boolean"
+);
+
+export default TBoolean;

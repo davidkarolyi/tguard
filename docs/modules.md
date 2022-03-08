@@ -8,21 +8,16 @@
 
 - [Guard](classes/Guard.md)
 - [ValidationError](classes/ValidationError.md)
-- [Validator](classes/Validator.md)
 
 ### Type aliases
 
-- [ArrayType](modules.md#arraytype)
-- [Constructor](modules.md#constructor)
 - [GuardedType](modules.md#guardedtype)
-- [Schema](modules.md#schema)
 - [SchemaType](modules.md#schematype)
-- [TreeDefinition](modules.md#treedefinition)
-- [ValidatorOrConstructor](modules.md#validatororconstructor)
 
 ### Variables
 
 - [TAny](modules.md#tany)
+- [TAnyObject](modules.md#tanyobject)
 - [TBigInt](modules.md#tbigint)
 - [TBoolean](modules.md#tboolean)
 - [TFunction](modules.md#tfunction)
@@ -31,16 +26,15 @@
 - [TNull](modules.md#tnull)
 - [TNumber](modules.md#tnumber)
 - [TNumberAsString](modules.md#tnumberasstring)
-- [TObject](modules.md#tobject)
 - [TString](modules.md#tstring)
 - [TStringEmail](modules.md#tstringemail)
 - [TStringISODate](modules.md#tstringisodate)
-- [TStringJSON](modules.md#tstringjson)
 - [TStringJWT](modules.md#tstringjwt)
 - [TStringMIMEType](modules.md#tstringmimetype)
 - [TStringPhoneNumber](modules.md#tstringphonenumber)
 - [TStringSemVer](modules.md#tstringsemver)
 - [TStringURL](modules.md#tstringurl)
+- [TStringUUID](modules.md#tstringuuid)
 - [TUndefined](modules.md#tundefined)
 
 ### Functions
@@ -49,89 +43,37 @@
 - [TArray](modules.md#tarray)
 - [TConstant](modules.md#tconstant)
 - [TNot](modules.md#tnot)
+- [TObject](modules.md#tobject)
 - [TObjectOfShape](modules.md#tobjectofshape)
 - [TOr](modules.md#tor)
 - [TStringBase64](modules.md#tstringbase64)
 - [TStringMatch](modules.md#tstringmatch)
-- [TStringOfLength](modules.md#tstringoflength)
-- [TStringUUID](modules.md#tstringuuid)
+- [TStringWithLength](modules.md#tstringwithlength)
 - [TValidate](modules.md#tvalidate)
 
 ## Type aliases
 
-### ArrayType
-
-Ƭ **ArrayType**<`C`\>: `C` extends infer T[] ? `T` : `unknown`
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `C` | extends `unknown`[] |
-
-#### Defined in
-
-[src/types.ts:44](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L44)
-
-___
-
-### Constructor
-
-Ƭ **Constructor**<`T`\>: () => `T`
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `T` |
-
-#### Type declaration
-
-• ()
-
-#### Defined in
-
-[src/types.ts:48](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L48)
-
-___
-
 ### GuardedType
 
-Ƭ **GuardedType**<`C`\>: `C` extends [`Validator`](classes/Validator.md)<infer T\> ? `T` : `C` extends [`Constructor`](modules.md#constructor)<[`Validator`](classes/Validator.md)<infer T\>\> ? `T` : `unknown`
+Ƭ **GuardedType**<`C`\>: `C` extends [`Guard`](classes/Guard.md)<infer T\> ? `T` : `unknown`
 
-Infers the type, that the given `Validator` guards.
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `C` | extends [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`unknown`\> |
-
-#### Defined in
-
-[src/types.ts:20](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L20)
-
-___
-
-### Schema
-
-Ƭ **Schema**<`T`\>: [`TreeDefinition`](modules.md#treedefinition)<[`ValidatorOrConstructor`](modules.md#validatororconstructor)<`T`\>\>
+Infers the type, that the given `Guard` guards.
 
 #### Type parameters
 
 | Name | Type |
 | :------ | :------ |
-| `T` | `any` |
+| `C` | extends [`Guard`](classes/Guard.md)<`unknown`\> |
 
 #### Defined in
 
-[src/types.ts:27](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L27)
+[src/Guard.ts:20](https://github.com/davidkarolyi/tguard/blob/9309bca/src/Guard.ts#L20)
 
 ___
 
 ### SchemaType
 
-Ƭ **SchemaType**<`C`\>: `C` extends [`Constructor`](modules.md#constructor)<[`Validator`](classes/Validator.md)<`unknown`\>\> ? [`GuardedType`](modules.md#guardedtype)<`InstanceType`<`C`\>\> : `C` extends [`Validator`](classes/Validator.md)<`unknown`\> ? [`GuardedType`](modules.md#guardedtype)<`C`\> : `C` extends { `[fieldName: string]`: [`Schema`](modules.md#schema);  } ? { [Property in keyof C]: SchemaType<C[Property]\> } : `unknown`
+Ƭ **SchemaType**<`C`\>: `C` extends [`Guard`](classes/Guard.md)<`unknown`\> ? [`GuardedType`](modules.md#guardedtype)<`C`\> : `C` extends { `[fieldName: string]`: `Schema`;  } ? { [Property in keyof C]: SchemaType<C[Property]\> } : `unknown`
 
 Infers the type, that the given `Schema` represents.
 
@@ -139,109 +81,92 @@ Infers the type, that the given `Schema` represents.
 
 | Name | Type |
 | :------ | :------ |
-| `C` | extends [`Schema`](modules.md#schema) |
+| `C` | extends `Schema` |
 
 #### Defined in
 
-[src/types.ts:32](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L32)
-
-___
-
-### TreeDefinition
-
-Ƭ **TreeDefinition**<`T`\>: { `[fieldName: string]`: [`TreeDefinition`](modules.md#treedefinition)<`T`\>;  } \| `T`
-
-#### Type parameters
-
-| Name |
-| :------ |
-| `T` |
-
-#### Defined in
-
-[src/tree.ts:1](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/tree.ts#L1)
-
-___
-
-### ValidatorOrConstructor
-
-Ƭ **ValidatorOrConstructor**<`T`\>: [`Validator`](classes/Validator.md)<`T`\> \| [`Constructor`](modules.md#constructor)<[`Validator`](classes/Validator.md)<`T`\>\>
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `T` | `unknown` |
-
-#### Defined in
-
-[src/types.ts:13](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/types.ts#L13)
+[src/guards/TObject/types.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TObject/types.ts#L8)
 
 ## Variables
 
 ### TAny
 
-• `Const` **TAny**: [`Validator`](classes/Validator.md)<`any`\>
+• `Const` **TAny**: [`Guard`](classes/Guard.md)<`any`\>
 
-Validator that accepts any value.
+Guard that accepts any value.
 
-`validator.name`: `"any"`
+`guard.name`: `"any"`
 
 #### Defined in
 
-[src/validators.ts:142](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L142)
+[src/guards/TAny/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TAny/index.ts#L8)
+
+___
+
+### TAnyObject
+
+• `Const` **TAnyObject**: [`Guard`](classes/Guard.md)<`Object`\>
+
+Primitive guard that only accepts objects.
+Does not accept null.
+
+`guard.name`: `"object"`
+
+#### Defined in
+
+[src/guards/TAnyObject/index.ts:9](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TAnyObject/index.ts#L9)
 
 ___
 
 ### TBigInt
 
-• `Const` **TBigInt**: [`Validator`](classes/Validator.md)<`BigInt`\>
+• `Const` **TBigInt**: [`Guard`](classes/Guard.md)<`BigInt`\>
 
-Primitive validator that only accepts the JS type `bigint`.
+Primitive guard that only accepts the JS type `bigint`.
 
-`validator.name`: `"bigint"`
+`guard.name`: `"bigint"`
 
 #### Defined in
 
-[src/validators.ts:125](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L125)
+[src/guards/TBigInt/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TBigInt/index.ts#L8)
 
 ___
 
 ### TBoolean
 
-• `Const` **TBoolean**: [`Validator`](classes/Validator.md)<`boolean`\>
+• `Const` **TBoolean**: [`Guard`](classes/Guard.md)<`boolean`\>
 
-Primitive validator that only accepts the JS type `boolean`.
+Primitive guard that only accepts the JS type `boolean`.
 
-`validator.name`: `"boolean"`
+`guard.name`: `"boolean"`
 
 #### Defined in
 
-[src/validators.ts:84](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L84)
+[src/guards/TBoolean/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TBoolean/index.ts#L8)
 
 ___
 
 ### TFunction
 
-• `Const` **TFunction**: [`Validator`](classes/Validator.md)<`Function`\>
+• `Const` **TFunction**: [`Guard`](classes/Guard.md)<`Function`\>
 
-Primitive validator that only accepts the JS type `function`.
+Primitive guard that only accepts the JS type `function`.
 
-`validator.name`: `"function"`
+`guard.name`: `"function"`
 
 #### Defined in
 
-[src/validators.ts:94](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L94)
+[src/guards/TFunction/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TFunction/index.ts#L8)
 
 ___
 
 ### TInteger
 
-• `Const` **TInteger**: [`Validator`](classes/Validator.md)<`number`\>
+• `Const` **TInteger**: [`Guard`](classes/Guard.md)<`number`\>
 
-Validator that accepts whole numbers.
+Guard that accepts whole numbers.
 
-`validator.name`: `"integer"`
+`guard.name`: `"integer"`
 
 **`example`**
  ```ts
@@ -252,17 +177,17 @@ TInteger.isValid(15); // true
 
 #### Defined in
 
-[src/validators.ts:156](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L156)
+[src/guards/TInteger/index.ts:15](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TInteger/index.ts#L15)
 
 ___
 
 ### TIntegerAsString
 
-• `Const` **TIntegerAsString**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TIntegerAsString**: [`Guard`](classes/Guard.md)<`string`\>
 
-Validator that accepts strings, which can be parsed as a valid integer.
+Guard that accepts strings, which can be parsed as a valid integer.
 
-`validator.name`: `"integer(as a string)"`
+`guard.name`: `"integer(as a string)"`
 
 **`example`**
  ```ts
@@ -273,46 +198,46 @@ TIntegerAsString.isValid("15"); // true
 
 #### Defined in
 
-[src/validators.ts:194](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L194)
+[src/guards/TIntegerAsString/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TIntegerAsString/index.ts#L16)
 
 ___
 
 ### TNull
 
-• `Const` **TNull**: [`Validator`](classes/Validator.md)<``null``\>
+• `Const` **TNull**: [`Guard`](classes/Guard.md)<``null``\>
 
-Validator that only accepts `null`.
+Guard that only accepts `null`.
 
-`validator.name`: `"null"`
+`guard.name`: `"null"`
 
 #### Defined in
 
-[src/validators.ts:135](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L135)
+[src/guards/TNull/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TNull/index.ts#L8)
 
 ___
 
 ### TNumber
 
-• `Const` **TNumber**: [`Validator`](classes/Validator.md)<`number`\>
+• `Const` **TNumber**: [`Guard`](classes/Guard.md)<`number`\>
 
-Primitive validator that only accepts numbers.
+Primitive guard that only accepts numbers.
 Not accepts NaN.
 
-`validator.name`: `"number"`
+`guard.name`: `"number"`
 
 #### Defined in
 
-[src/validators.ts:74](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L74)
+[src/guards/TNumber/index.ts:9](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TNumber/index.ts#L9)
 
 ___
 
 ### TNumberAsString
 
-• `Const` **TNumberAsString**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TNumberAsString**: [`Guard`](classes/Guard.md)<`string`\>
 
-Validator that accepts strings, which represents a valid number.
+Guard that accepts strings, which represents a valid number.
 
-`validator.name`: `"number(as a string)"`
+`guard.name`: `"number(as a string)"`
 
 **`example`**
  ```ts
@@ -323,46 +248,31 @@ TNumberAsString.isValid("15.223"); // true
 
 #### Defined in
 
-[src/validators.ts:173](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L173)
-
-___
-
-### TObject
-
-• `Const` **TObject**: [`Validator`](classes/Validator.md)<`Object`\>
-
-Primitive validator that only accepts objects.
-Does not accept null.
-
-`validator.name`: `"object"`
-
-#### Defined in
-
-[src/validators.ts:105](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L105)
+[src/guards/TNumberAsString/index.ts:15](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TNumberAsString/index.ts#L15)
 
 ___
 
 ### TString
 
-• `Const` **TString**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TString**: [`Guard`](classes/Guard.md)<`string`\>
 
-Primitive validator that only accepts the JS type `string`.
+Primitive guard that only accepts the JS type `string`.
 
-`validator.name`: `string`
+`guard.name`: `string`
 
 #### Defined in
 
-[src/validators.ts:63](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L63)
+[src/guards/TString/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TString/index.ts#L8)
 
 ___
 
 ### TStringEmail
 
-• `Const` **TStringEmail**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TStringEmail**: [`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` which validates if a string is a valid email.
+A `Guard` which validates if a string is a valid email.
 
-`validator.name`: `"string(email)"`
+`guard.name`: `"string(email)"`
 
 **`example`**
 ```ts
@@ -373,17 +283,17 @@ TStringEmail.name === "string(email)"; // true
 
 #### Defined in
 
-[src/validators.ts:512](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L512)
+[src/guards/TStringEmail/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringEmail/index.ts#L16)
 
 ___
 
 ### TStringISODate
 
-• `Const` **TStringISODate**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TStringISODate**: [`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` which validates if a string is a valid ISO date string.
+A `Guard` which validates if a string is a valid ISO date string.
 
-`validator.name`: `"string(date)"`
+`guard.name`: `"string(date)"`
 
 **`example`**
 ```ts
@@ -394,38 +304,17 @@ TStringISODate.name === "string(date)"; // true
 
 #### Defined in
 
-[src/validators.ts:529](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L529)
-
-___
-
-### TStringJSON
-
-• `Const` **TStringJSON**: [`Validator`](classes/Validator.md)<`string`\>
-
-A `Validator` which validates if a string is a valid JSON.
-
-`validator.name`: `"string(JSON)"`
-
-**`example`**
-```ts
-TStringJSON.isValid("1234"); // false
-TStringJSON.isValid("{\"foo\": 2}"); // true
-TStringJSON.name === "string(JSON)"; // true
-```
-
-#### Defined in
-
-[src/validators.ts:546](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L546)
+[src/guards/TStringISODate/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringISODate/index.ts#L16)
 
 ___
 
 ### TStringJWT
 
-• `Const` **TStringJWT**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TStringJWT**: [`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` which validates if a string is a valid JSON Web Token.
+A `Guard` which validates if a string is a valid JSON Web Token.
 
-`validator.name`: `"string(JWT)"`
+`guard.name`: `"string(JWT)"`
 
 **`example`**
 ```ts
@@ -436,17 +325,17 @@ TStringJWT.name === "string(JSON)"; // true
 
 #### Defined in
 
-[src/validators.ts:563](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L563)
+[src/guards/TStringJWT/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringJWT/index.ts#L16)
 
 ___
 
 ### TStringMIMEType
 
-• `Const` **TStringMIMEType**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TStringMIMEType**: [`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` which validates if a string is a valid [MIME type](https://en.wikipedia.org/wiki/Media_type).
+A `Guard` which validates if a string is a valid [MIME type](https://en.wikipedia.org/wiki/Media_type).
 
-`validator.name`: `"string(MIME type)"`
+`guard.name`: `"string(MIME type)"`
 
 **`example`**
 ```ts
@@ -457,18 +346,18 @@ TStringMIMEType.name === "string(MIME type)"; // true
 
 #### Defined in
 
-[src/validators.ts:580](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L580)
+[src/guards/TStringMIMEType/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringMIMEType/index.ts#L16)
 
 ___
 
 ### TStringPhoneNumber
 
-• `Const` **TStringPhoneNumber**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TStringPhoneNumber**: [`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` which validates if a string is a valid phone number.
+A `Guard` which validates if a string is a valid phone number.
 (all locale formats are accepted)
 
-`validator.name`: `"string(phone number)"`
+`guard.name`: `"string(phone number)"`
 
 **`example`**
 ```ts
@@ -479,17 +368,17 @@ TStringPhoneNumber.name === "string(phone number)"; // true
 
 #### Defined in
 
-[src/validators.ts:598](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L598)
+[src/guards/TStringPhoneNumber/index.ts:17](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringPhoneNumber/index.ts#L17)
 
 ___
 
 ### TStringSemVer
 
-• `Const` **TStringSemVer**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TStringSemVer**: [`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` which checks if the string is a Semantic Versioning Specification (SemVer).
+A `Guard` which checks if the string is a Semantic Versioning Specification (SemVer).
 
-`validator.name`: `"string(SemVer)"`
+`guard.name`: `"string(SemVer)"`
 
 **`example`**
 ```ts
@@ -500,17 +389,17 @@ TStringSemVer.name === "string(SemVer)"; // true
 
 #### Defined in
 
-[src/validators.ts:615](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L615)
+[src/guards/TStringSemVer/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringSemVer/index.ts#L16)
 
 ___
 
 ### TStringURL
 
-• `Const` **TStringURL**: [`Validator`](classes/Validator.md)<`string`\>
+• `Const` **TStringURL**: [`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` which checks if the string is a valid URL.
+A `Guard` which checks if the string is a valid URL.
 
-`validator.name`: `"string(URL)"`
+`guard.name`: `"string(URL)"`
 
 **`example`**
 ```ts
@@ -521,27 +410,51 @@ TStringURL.name === "string(URL)"; // true
 
 #### Defined in
 
-[src/validators.ts:632](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L632)
+[src/guards/TStringURL/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringURL/index.ts#L16)
+
+___
+
+### TStringUUID
+
+• `Const` **TStringUUID**: [`Guard`](classes/Guard.md)<`string`\>
+
+Checks if the string is a valid UUID v4.
+
+**`returns`**
+A `Guard` which checks if the string is a valid v4 UUID.
+
+`guard.name`: `"string(UUID)"`
+
+**`example`**
+```ts
+TStringUUID.isValid("foobar"); // false
+TStringUUID.isValid("936a0dd4-cf7f-497d-a0cd-7c891416c719"); // true
+TStringUUID.name === "string(UUID)"; // true
+```
+
+#### Defined in
+
+[src/guards/TStringUUID/index.ts:19](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringUUID/index.ts#L19)
 
 ___
 
 ### TUndefined
 
-• `Const` **TUndefined**: [`Validator`](classes/Validator.md)<`undefined`\>
+• `Const` **TUndefined**: [`Guard`](classes/Guard.md)<`undefined`\>
 
-Primitive validator that only accepts the JS type `undefined`.
+Primitive guard that only accepts the JS type `undefined`.
 
-`validator.name`: `"undefined"`
+`guard.name`: `"undefined"`
 
 #### Defined in
 
-[src/validators.ts:115](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L115)
+[src/guards/TUndefined/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TUndefined/index.ts#L8)
 
 ## Functions
 
 ### TAnd
 
-▸ **TAnd**<`A`, `B`\>(`validatorA`, `validatorB`): [`Validator`](classes/Validator.md)<`A` & `B`\>
+▸ **TAnd**<`A`, `B`\>(`guardA`, `guardB`): [`Guard`](classes/Guard.md)<`A` & `B`\>
 
 Validates if criterias of two types are both met.
 
@@ -556,36 +469,36 @@ Validates if criterias of two types are both met.
 
 | Name | Type |
 | :------ | :------ |
-| `validatorA` | [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`A`\> |
-| `validatorB` | [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`B`\> |
+| `guardA` | [`Guard`](classes/Guard.md)<`A`\> |
+| `guardB` | [`Guard`](classes/Guard.md)<`B`\> |
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`A` & `B`\>
+[`Guard`](classes/Guard.md)<`A` & `B`\>
 
-A `Validator` that is similar in concept as the `&` operator in TypeScript.
-Accepts a value when it was accepted by both `validatorA` and `validatorB`.
+A `Guard` that is similar in concept as the `&` operator in TypeScript.
+Accepts a value when it was accepted by both `guardA` and `guardB`.
 
-`validator.name`: `"<typeA> & <typeB>"`
+`guard.name`: `"<typeA> & <typeB>"`
 
 #### Defined in
 
-[src/validators.ts:386](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L386)
+[src/guards/TAnd/index.ts:13](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TAnd/index.ts#L13)
 
 ___
 
 ### TArray
 
-▸ **TArray**<`T`\>(`validator`, `options?`): [`Validator`](classes/Validator.md)<`T`[]\>
+▸ **TArray**<`T`\>(`guard`, `options?`): [`Guard`](classes/Guard.md)<`T`[]\>
 
 Validates an array of elements.
 
 **`example`**
 ```ts
-const validator = TArray(TNumber);
-validator.isValid([1, 2, 3]); // true
-validator.isValid([1, 2, "3"]); // false
-validator.name === "number[]"; // true
+const guard = TArray(TNumber);
+guard.isValid([1, 2, 3]); // true
+guard.isValid([1, 2, "3"]); // false
+guard.name === "number[]"; // true
 ```
 
 #### Type parameters
@@ -598,40 +511,40 @@ validator.name === "number[]"; // true
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `validator` | [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`T`\> | The validator, which validates the elements of the array. |
+| `guard` | [`Guard`](classes/Guard.md)<`T`\> | The guard, which validates the elements of the array. |
 | `options?` | `Object` | - |
 | `options.maxLength?` | `number` | The array can't be longer than this. |
 | `options.minLength?` | `number` | The array must be at least this long. |
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`T`[]\>
+[`Guard`](classes/Guard.md)<`T`[]\>
 
-A `Validator` that checks if the given value is an array of the given type.
+A `Guard` that checks if the given value is an array of the given type.
 
-`validator.name`: `"<type>[](minLength:<minLength>,maxLength:<maxLength>)"`
+`guard.name`: `"<type>[](minLength:<minLength>,maxLength:<maxLength>)"`
 
 #### Defined in
 
-[src/validators.ts:223](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L223)
+[src/guards/TArray/index.ts:25](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TArray/index.ts#L25)
 
 ___
 
 ### TConstant
 
-▸ **TConstant**<`T`\>(`constant`): [`Validator`](classes/Validator.md)<`T`\>
+▸ **TConstant**<`T`\>(`constant`): [`Guard`](classes/Guard.md)<`T`\>
 
 Validates equality to a literal value.
 
 **`example`**
 ```ts
-const validator = TConstant("foo")
+const guard = TConstant("foo")
 
-validator.isValid("foobar"); // false
-validator.isValid("bar"); // false
-validator.isValid("foo"); // true
+guard.isValid("foobar"); // false
+guard.isValid("bar"); // false
+guard.isValid("foo"); // true
 
-validator.name === 'constant("foo")'; // true
+guard.name === 'constant("foo")'; // true
 TConstant(2).name === 'constant(2)'; // true
 ```
 
@@ -649,30 +562,30 @@ TConstant(2).name === 'constant(2)'; // true
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`T`\>
+[`Guard`](classes/Guard.md)<`T`\>
 
-A `Validator` which checks if the given value is equals to the `constant` literal.
+A `Guard` which checks if the given value is equals to the `constant` literal.
 
-`validator.name`: `"constant(<constant>)"`
+`guard.name`: `"constant(<constant>)"`
 
 #### Defined in
 
-[src/validators.ts:686](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L686)
+[src/guards/TConstant/index.ts:27](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TConstant/index.ts#L27)
 
 ___
 
 ### TNot
 
-▸ **TNot**<`T`\>(`validator`): [`Validator`](classes/Validator.md)<`Exclude`<`any`, `T`\>\>
+▸ **TNot**<`T`\>(`guard`): [`Guard`](classes/Guard.md)<`Exclude`<`any`, `T`\>\>
 
 Negates a type criteria.
 
 **`example`**
 ```ts
-const validator = TNot(TNumber);
-validator.isValid(1); // false
-validator.isValid("foo"); // true
-validator.name === "!number"; // true
+const guard = TNot(TNumber);
+guard.isValid(1); // false
+guard.isValid("foo"); // true
+guard.name === "!number"; // true
 ```
 
 #### Type parameters
@@ -685,46 +598,91 @@ validator.name === "!number"; // true
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `validator` | [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`T`\> | The validator, which will be negated. |
+| `guard` | [`Guard`](classes/Guard.md)<`T`\> | The guard, which will be negated. |
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`Exclude`<`any`, `T`\>\>
+[`Guard`](classes/Guard.md)<`Exclude`<`any`, `T`\>\>
 
-A `Validator` that accepts a value when it was **not** accepted by the given validator.
+A `Guard` that accepts a value when it was **not** accepted by the given guard.
 
-`validator.name`: `"!<type>"`
+`guard.name`: `"!<type>"`
 
 #### Defined in
 
-[src/validators.ts:328](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L328)
+[src/guards/TNot/index.ts:22](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TNot/index.ts#L22)
+
+___
+
+### TObject
+
+▸ **TObject**<`T`\>(`schema`): [`Guard`](classes/Guard.md)<[`SchemaType`](modules.md#schematype)<`T`\>\>
+
+It will validate that the given values is matching the object schema.
+
+**`example`**
+```ts
+const TUser = TObject({
+  id: TInteger,
+  name: TString,
+  cart: {
+    mangos: TInteger,
+    avocados: TInteger,
+  },
+});
+
+TUser.isValid({id: 1, name: "John" cart: {apples: 1}}) // false
+TUser.isValid({id: 1, name: "John" cart: {mangos: 1, avocados: 2}}) // true
+```
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends `ObjectSchema` |
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `schema` | `T` | Is a tree of guards. (Just a normal JS object, but it with `Guard` values) |
+
+#### Returns
+
+[`Guard`](classes/Guard.md)<[`SchemaType`](modules.md#schematype)<`T`\>\>
+
+A `Guard`.
+
+#### Defined in
+
+[src/guards/TObject/index.ts:27](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TObject/index.ts#L27)
 
 ___
 
 ### TObjectOfShape
 
-▸ **TObjectOfShape**<`T`\>(`shape`): [`Validator`](classes/Validator.md)<`Record`<`string`, `T`\>\>
+▸ **TObjectOfShape**<`T`\>(`shape`): [`Guard`](classes/Guard.md)<`Record`<`string`, `T`\>\>
 
 Validates the shape of an object.
 
 **`example`**
  ```ts
-const validator = TObjectShape({
+const guard = TObjectShape({
   keys: TString,
   values: TNumber,
 });
 
-validator.isValid({
+guard.isValid({
   avocado: 2,
   orange: 5,
 }); // true
 
-validator.isValid({
+guard.isValid({
   avocado: "green",
   orange: 5,
 }); // false
 
-validator.name === "{ [string]: number }"; // true
+guard.name === "{ [string]: number }"; // true
 ```
 
 #### Type parameters
@@ -737,41 +695,41 @@ validator.name === "{ [string]: number }"; // true
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `shape` | `Object` | The validators, which will validate the keys and values of the given object. |
-| `shape.keys` | [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`string`\> | - |
-| `shape.values` | [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`T`\> | - |
+| `shape` | `Object` | The guards, which will validate the keys and values of the given object. |
+| `shape.keys` | [`Guard`](classes/Guard.md)<`string`\> | - |
+| `shape.values` | [`Guard`](classes/Guard.md)<`T`\> | - |
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`Record`<`string`, `T`\>\>
+[`Guard`](classes/Guard.md)<`Record`<`string`, `T`\>\>
 
-A `Validator` that checks if the given value matches the provided object shape.
+A `Guard` that checks if the given value matches the provided object shape.
 
 Accpets not-null objects, where all `keys`
-and `values` are accepted by the given shape `validators`.
+and `values` are accepted by the given shape `guards`.
 Similar in concept as TypeScript's `{[keys: string]: number}` type annotations.
 
-`validator.name`: `"{ [<keyType>]: <valueType> }"`
+`guard.name`: `"{ [<keyType>]: <valueType> }"`
 
 #### Defined in
 
-[src/validators.ts:290](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L290)
+[src/guards/TObjectOfShape/index.ts:39](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TObjectOfShape/index.ts#L39)
 
 ___
 
 ### TOr
 
-▸ **TOr**<`A`, `B`, `T`\>(`validatorA`, `validatorB`, ...`others`): [`Validator`](classes/Validator.md)<`A` \| `B` \| [`GuardedType`](modules.md#guardedtype)<[`ArrayType`](modules.md#arraytype)<`T`\>\>\>
+▸ **TOr**<`A`, `B`, `T`\>(`guardA`, `guardB`, ...`others`): [`Guard`](classes/Guard.md)<`A` \| `B` \| [`GuardedType`](modules.md#guardedtype)<`ArrayType`<`T`\>\>\>
 
 Validates if at least one type criteria is met.
 
 **`example`**
 ```ts
-const validator = TOr(TNumber, TString);
-validator.isValid(1); // true
-validator.isValid("foo"); // true
-validator.isValid(true); // false
-validator.name === "number | string"; // true
+const guard = TOr(TNumber, TString);
+guard.isValid(1); // true
+guard.isValid("foo"); // true
+guard.isValid(true); // false
+guard.name === "number | string"; // true
 ```
 
 #### Type parameters
@@ -780,43 +738,43 @@ validator.name === "number | string"; // true
 | :------ | :------ |
 | `A` | `A` |
 | `B` | `B` |
-| `T` | extends [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`unknown`\>[] |
+| `T` | extends [`Guard`](classes/Guard.md)<`unknown`\>[] |
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `validatorA` | [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`A`\> |
-| `validatorB` | [`ValidatorOrConstructor`](modules.md#validatororconstructor)<`B`\> |
+| `guardA` | [`Guard`](classes/Guard.md)<`A`\> |
+| `guardB` | [`Guard`](classes/Guard.md)<`B`\> |
 | `...others` | `T` |
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`A` \| `B` \| [`GuardedType`](modules.md#guardedtype)<[`ArrayType`](modules.md#arraytype)<`T`\>\>\>
+[`Guard`](classes/Guard.md)<`A` \| `B` \| [`GuardedType`](modules.md#guardedtype)<`ArrayType`<`T`\>\>\>
 
-A `Validator` that is similar in concept as the `|` operator in TypeScript.
-Accepts a value when it was accepted by at least one of the `validators`.
+A `Guard` that is similar in concept as the `|` operator in TypeScript.
+Accepts a value when it was accepted by at least one of the `guards`.
 
-`validator.name`: `"<typeA> | <typeB>"`
+`guard.name`: `"<typeA> | <typeB>"`
 
 #### Defined in
 
-[src/validators.ts:355](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L355)
+[src/guards/TOr/index.ts:22](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TOr/index.ts#L22)
 
 ___
 
 ### TStringBase64
 
-▸ **TStringBase64**(`options`): [`Validator`](classes/Validator.md)<`string`\>
+▸ **TStringBase64**(`options`): [`Guard`](classes/Guard.md)<`string`\>
 
 Validates if a string is a base64 encoded data.
 
 **`example`**
 ```ts
-const validator = TStringBase64({ urlSafe: true });
-validator.isValid("foobar"); // false
-validator.isValid("c29tZXRoaW5n"); // true
-validator.name === "string(base64URL)"; // true
+const guard = TStringBase64({ urlSafe: true });
+guard.isValid("foobar"); // false
+guard.isValid("c29tZXRoaW5n"); // true
+guard.name === "string(base64URL)"; // true
 ```
 
 #### Parameters
@@ -828,30 +786,30 @@ validator.name === "string(base64URL)"; // true
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`string`\>
+[`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` that accepts only strings that are base64 encoded.
+A `Guard` that accepts only strings that are base64 encoded.
 
-`validator.name`: `"string(base64<?URL>)"`
+`guard.name`: `"string(base64<?URL>)"`
 
 #### Defined in
 
-[src/validators.ts:452](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L452)
+[src/guards/TStringBase64/index.ts:22](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringBase64/index.ts#L22)
 
 ___
 
 ### TStringMatch
 
-▸ **TStringMatch**(`patternName`, `regexp`): [`Validator`](classes/Validator.md)<`string`\>
+▸ **TStringMatch**(`patternName`, `regexp`): [`Guard`](classes/Guard.md)<`string`\>
 
 Validates if a string matches a regexp.
 
 **`example`**
 ```ts
-const validator = TStringMatch("email", /^\S+@\S+$/);
-validator.isValid("foo@bar.com"); // true
-validator.isValid("foobar.com"); // false
-validator.name === "string(email)"; // true
+const guard = TStringMatch("email", /^\S+@\S+$/);
+guard.isValid("foo@bar.com"); // true
+guard.isValid("foobar.com"); // false
+guard.name === "string(email)"; // true
 ```
 
 #### Parameters
@@ -863,30 +821,30 @@ validator.name === "string(email)"; // true
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`string`\>
+[`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` that accepts only strings that matches the given `regexp`.
+A `Guard` that accepts only strings that matches the given `regexp`.
 
-`validator.name`: `"string(<regexpName>)"`
+`guard.name`: `"string(<regexpName>)"`
 
 #### Defined in
 
-[src/validators.ts:424](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L424)
+[src/guards/TStringMatch/index.ts:23](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringMatch/index.ts#L23)
 
 ___
 
-### TStringOfLength
+### TStringWithLength
 
-▸ **TStringOfLength**(`options`): [`Validator`](classes/Validator.md)<`string`\>
+▸ **TStringWithLength**(`options`): [`Guard`](classes/Guard.md)<`string`\>
 
 Validates if a string is in the given length range.
 
 **`example`**
 ```ts
-const validator = TStringOfLength({ minLength: 5 });
-validator.isValid("1234"); // false
-validator.isValid("123456789"); // true
-validator.name === "string(minLength=5)"; // true
+const guard = TStringOfLength({ minLength: 5 });
+guard.isValid("1234"); // false
+guard.isValid("123456789"); // true
+guard.name === "string(minLength=5)"; // true
 ```
 
 #### Parameters
@@ -899,61 +857,26 @@ validator.name === "string(minLength=5)"; // true
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`string`\>
+[`Guard`](classes/Guard.md)<`string`\>
 
-A `Validator` that accepts only strings, which is the given length.
+A `Guard` that accepts only strings, which is the given length.
 
-`validator.name`: `"string(minLength=<minLength>,maxLength=<maxLength>)"`
-
-#### Defined in
-
-[src/validators.ts:478](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L478)
-
-___
-
-### TStringUUID
-
-▸ **TStringUUID**(`options`): [`Validator`](classes/Validator.md)<`string`\>
-
-Checks if the string is a valid UUID.
-
-**`example`**
-```ts
-const validator = TStringUUID({ version: 4 })
-TStringURL.isValid("foobar"); // false
-TStringURL.isValid("936a0dd4-cf7f-497d-a0cd-7c891416c719"); // true
-TStringURL.name === "string(UUID-v4)"; // true
-```
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `options` | `Object` | - |
-| `options.version` | `UUIDVersion` | The uuid version (3 \| 4 \| 5 \| "3" \| "4" \| "5" \| "all") |
-
-#### Returns
-
-[`Validator`](classes/Validator.md)<`string`\>
-
-A `Validator` which checks if the string is a valid UUID of the given `version`.
-
-`validator.name`: `"string(UUID-v<version>)"`
+`guard.name`: `"string(minLength=<minLength>,maxLength=<maxLength>)"`
 
 #### Defined in
 
-[src/validators.ts:655](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L655)
+[src/guards/TStringWithLength/index.ts:23](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringWithLength/index.ts#L23)
 
 ___
 
 ### TValidate
 
-▸ **TValidate**<`T`\>(`name`, `isValid`): [`Validator`](classes/Validator.md)<`T`\>
+▸ **TValidate**<`T`\>(`name`, `isValid`): [`Guard`](classes/Guard.md)<`T`\>
 
-Creates a custom `Validator` from the given params.
+Creates a custom `Guard` from the given params.
 
 **`example`**
-Defining a validator that validates if a number is bigger than 10:
+Defining a guard that validates if a number is bigger than 10:
 ```ts
 const TBiggerThan10 = TValidate<number>(
   "number(bigger than 10)",
@@ -965,19 +888,19 @@ const TBiggerThan10 = TValidate<number>(
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `T` | `never` | The type the created validator will guard.  > ⚠️ Don't forget to provide `T` type parameter! |
+| `T` | `never` | The type the created guard will guard.  > ⚠️ Don't forget to provide `T` type parameter! |
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `name` | `string` | The name of the type this validator will guard. |
+| `name` | `string` | The name of the type this guard will guard. |
 | `isValid` | (`value`: `any`) => `boolean` | Callback function, decides if a given value is valid or not |
 
 #### Returns
 
-[`Validator`](classes/Validator.md)<`T`\>
+[`Guard`](classes/Guard.md)<`T`\>
 
 #### Defined in
 
-[src/validators.ts:51](https://github.com/davidkarolyi/tguard/blob/bdc8bc0/src/validators.ts#L51)
+[src/guards/TValidate/index.ts:22](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TValidate/index.ts#L22)
