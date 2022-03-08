@@ -1,3 +1,4 @@
+import { ValidationError } from "./errors";
 import { TreeDefinition } from "./tree";
 
 /**
@@ -8,6 +9,14 @@ import { TreeDefinition } from "./tree";
 export abstract class Validator<T> {
   abstract readonly name: string;
   abstract isValid(value: any): value is T;
+  cast(value: any): T {
+    if (this.isValid(value)) return value as T;
+    throw new ValidationError(
+      `The given value is not a valid ${this.name}`,
+      [],
+      this.name
+    );
+  }
 }
 
 export type ValidatorOrConstructor<T = unknown> =

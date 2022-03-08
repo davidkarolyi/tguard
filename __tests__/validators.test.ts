@@ -1,11 +1,11 @@
 import { Guard } from "../src/guard";
-import { Validator } from "../src/types";
+import { GuardedType, Validator } from "../src/types";
 import {
   TString,
   TNumber,
   TBoolean,
   TFunction,
-  TObject,
+  TAnyObject,
   TUndefined,
   TBigInt,
   TNull,
@@ -32,6 +32,7 @@ import {
   TStringUUID,
   TValidate,
   TConstant,
+  TObject,
 } from "../src/validators";
 
 describe("Validators", () => {
@@ -190,23 +191,23 @@ describe("Validators", () => {
       });
     });
 
-    describe("TObject", () => {
+    describe("TAnyObject", () => {
       it("is an instance of Validator", () => {
-        expect(TObject).toBeInstanceOf(Validator);
+        expect(TAnyObject).toBeInstanceOf(Validator);
       });
 
       it("it's name is 'object'", () => {
-        expect(TObject.name).toBe("object");
+        expect(TAnyObject.name).toBe("object");
       });
 
       it("returns true if an object was given", () => {
-        expect(TObject.isValid({})).toBe(true);
+        expect(TAnyObject.isValid({})).toBe(true);
       });
 
       it("returns false if not an object value was given", () => {
-        expect(TObject.isValid(() => 10)).toBe(false);
-        expect(TObject.isValid(null)).toBe(false);
-        expect(TObject.isValid(BigInt(100))).toBe(false);
+        expect(TAnyObject.isValid(() => 10)).toBe(false);
+        expect(TAnyObject.isValid(null)).toBe(false);
+        expect(TAnyObject.isValid(BigInt(100))).toBe(false);
       });
     });
 
@@ -725,6 +726,42 @@ describe("Validators", () => {
         expect(TConstant(2).isValid(2)).toBe(true);
         expect(TConstant(false).isValid(false)).toBe(true);
         expect(TConstant("2").isValid("2")).toBe(true);
+      });
+    });
+
+    describe("TObject", () => {
+      it("is an instance of Validator", () => {
+        expect(TObject({})).toBeInstanceOf(Validator);
+      });
+
+      it("it's name is the object schema as a JSON", () => {
+        expect(TObject({ name: TString, age: TNumber }).name).toBe(
+          '{"name":"string","age":"number"}'
+        );
+        expect(
+          TObject({ name: TString, age: TArray(TOr(TNumber, TString)) }).name
+        ).toBe('{"name":"string","age":"(number | string)[]"}');
+      });
+
+      it("returns false, if the given value not matches the object schema", () => {
+        expect(TObject({ foo: TString }).isValid({ foo: 5 })).toBe(false);
+        expect(TObject({ foo: TString }).isValid(5)).toBe(false);
+        expect(TObject({}).isValid(10)).toBe(false);
+        expect(
+          TObject({ foo: { bar: TNumber }, baz: TString }).isValid({
+            foo: { bar: 10 },
+            baz: 10,
+          })
+        ).toBe(false);
+        expect(TObject({ foo: {} }).isValid({ foo: 10 })).toBe(false);
+      });
+
+      it("returns true, if the given value matches the object schema", () => {
+        expect(TObject({ foo: TString }).isValid({ foo: "bar" })).toBe(true);
+        expect(TObject({}).isValid({ foo: "bar" })).toBe(true);
+        expect(TObject({}).isValid({})).toBe(true);
+        expect(TObject({ foo: {} }).isValid({ foo: {} })).toBe(true);
+        expect(TObject({ foo: {} }).isValid({ foo: { bar: 20 } })).toBe(true);
       });
     });
   });

@@ -2,6 +2,8 @@ import { Guard } from "./guard";
 import {
   ArrayType,
   GuardedType,
+  Schema,
+  SchemaType,
   Validator,
   ValidatorOrConstructor,
 } from "./types";
@@ -102,7 +104,7 @@ export const TFunction = TValidate<Function>(
  *
  * `validator.name`: `"object"`
  */
-export const TObject = TValidate<Object>(
+export const TAnyObject = TValidate<Object>(
   "object",
   (value) => typeof value === "object" && value !== null
 );
@@ -690,4 +692,14 @@ export function TConstant<T extends string | number | boolean | BigInt>(
     `constant(${typeof constant === "string" ? `"${constant}"` : constant})`,
     (value) => value === constant
   );
+}
+
+export type ObjectSchema = {
+  [fieldName: string]: ObjectSchema | Validator<any>;
+};
+
+export function TObject<T extends ObjectSchema>(
+  schema: T
+): Validator<SchemaType<T>> {
+  return new Guard(schema);
 }

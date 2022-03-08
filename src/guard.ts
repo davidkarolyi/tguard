@@ -1,5 +1,6 @@
 import has from "lodash/has";
 import get from "lodash/get";
+import isEmpty from "lodash/isEmpty";
 import { Tree } from "./tree";
 import {
   Constructor,
@@ -9,6 +10,7 @@ import {
   ValidatorOrConstructor,
 } from "./types";
 import { MissingValueError, InvalidValueError } from "./errors";
+import { TAnyObject } from "./validators";
 
 /**
  * Guards a type defined by the given schema.
@@ -122,10 +124,13 @@ export class Guard<S extends Schema> extends Validator<SchemaType<S>> {
       return value as SchemaType<S>;
     }
 
-    const result = this.schema.find(
-      (validator, path) =>
-        !has(value, path) || !validator.isValid(get(value, path))
-    );
+    if (typeof value !== "object") {
+      throw new InvalidValueError([], this.name);
+    }
+
+    const result = this.schema.find((validator, path) => {
+      return !has(value, path) || !validator.isValid(get(value, path));
+    });
 
     if (!result) return value;
 
@@ -135,28 +140,25 @@ export class Guard<S extends Schema> extends Validator<SchemaType<S>> {
   }
 
   private resolveSchema(schema: Schema): Tree<Validator<unknown>> {
-    const tree = this.createTreeFromSchema(schema);
-    return this.instantiateValidatorsInSchemaTree(tree);
+    return this.createTreeFromSchema(schema);
   }
 
-  private createTreeFromSchema(schema: Schema): Tree<ValidatorOrConstructor> {
-    const isValidatorOrConstructor = (
-      value: Schema
-    ): value is Validator<unknown> | Constructor<Validator<unknown>> =>
-      value instanceof Validator || typeof value === "function";
-
-    return new Tree({
+  private createTreeFromSchema(schema: Schema): Tree<Validator<unknown>> {
+    const tree = new Tree({
       definition: schema,
-      isLeafNode: isValidatorOrConstructor,
+      isLeafNode: (
+        value: Schema
+      ): value is Validator<unknown> | Constructor<Validator<unknown>> =>
+        value instanceof Validator ||
+        typeof value === "function" ||
+        (typeof value === "object" && isEmpty(value)),
     });
-  }
 
-  private instantiateValidatorsInSchemaTree(
-    tree: Tree<ValidatorOrConstructor>
-  ): Tree<Validator<unknown>> {
     return tree.map(
       (value) => {
-        return value instanceof Validator ? value : new value();
+        if (value instanceof Validator) return value;
+        if (typeof value === "object" && isEmpty(value)) return TAnyObject;
+        return new value();
       },
       (value): value is Validator<unknown> => value instanceof Validator
     );
