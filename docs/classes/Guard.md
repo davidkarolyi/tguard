@@ -2,15 +2,15 @@
 
 # Class: Guard<T\>
 
-An abstract class, which has an `isValid` method, and a `name` property, which represents the name of the guarded type.
+An abstract class, which is the parent class of all Guards. (Names starting with a `T`)
 
 ⚠️ Don't use this directly to create custom guards, use `TValidate` instead.
 
 ## Type parameters
 
-| Name |
-| :------ |
-| `T` |
+| Name | Description |
+| :------ | :------ |
+| `T` | Guarded type |
 
 ## Table of contents
 
@@ -47,7 +47,7 @@ An abstract class, which has an `isValid` method, and a `name` property, which r
 
 #### Defined in
 
-[src/Guard.ts:9](https://github.com/davidkarolyi/tguard/blob/9309bca/src/Guard.ts#L9)
+[src/Guard.ts:11](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/Guard.ts#L11)
 
 ## Methods
 
@@ -67,7 +67,7 @@ An abstract class, which has an `isValid` method, and a `name` property, which r
 
 #### Defined in
 
-[src/Guard.ts:11](https://github.com/davidkarolyi/tguard/blob/9309bca/src/Guard.ts#L11)
+[src/Guard.ts:13](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/Guard.ts#L13)
 
 ___
 
@@ -87,4 +87,4 @@ value is T
 
 #### Defined in
 
-[src/Guard.ts:10](https://github.com/davidkarolyi/tguard/blob/9309bca/src/Guard.ts#L10)
+[src/Guard.ts:12](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/Guard.ts#L12)

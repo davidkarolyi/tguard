@@ -11,7 +11,7 @@ import TValidate from "../TValidate";
  * and `values` are accepted by the given shape `guards`.
  * Similar in concept as TypeScript's `{[keys: string]: number}` type annotations.
  *
- * `guard.name`: `"{ [<keyType>]: <valueType> }"`
+ * `guard.name: "{ [<keyType>]: <valueType> }"`
  *
  * @param shape
  * The guards, which will validate the keys and values of the given object.

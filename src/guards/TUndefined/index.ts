@@ -1,9 +1,9 @@
 import TValidate from "../TValidate";
 
 /**
- * Primitive guard that only accepts the JS type `undefined`.
+ * Primitive guard that only accepts `undefined` values.
  *
- * `guard.name`: `"undefined"`
+ * `guard.name: "undefined"`
  */
 const TUndefined = TValidate<undefined>(
   "undefined",

@@ -7,17 +7,17 @@ import TValidate from "../TValidate";
  * @returns
  * A `Guard` that accepts only strings that matches the given `regexp`.
  *
- * `guard.name`: `"string(<regexpName>)"`
+ * `guard.name: "string(<regexpName>)"`
  * 
- * @param patternName - Describes the regular expression in a user-readable manner.
+ * @param patternName - Describes the regular expression in a user-readable form.
  * @param regexp - The regexp to use for validation of incoming values.
  * 
  * @example
  * ```ts
- * const guard = TStringMatch("email", /^\S+@\S+$/);
- * guard.isValid("foo@bar.com"); // true
- * guard.isValid("foobar.com"); // false
- * guard.name === "string(email)"; // true
+ * const TStringUpperCase = TStringMatch("string(upper-case)",/^[A-Z]/);
+ * TStringUpperCase.isValid("Foo"); // true
+ * TStringUpperCase.isValid("foo"); // false
+ * TStringUpperCase.name === "string(upper-case)"; // true
 ```
  */
 export default function TStringMatch(

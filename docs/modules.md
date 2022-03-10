@@ -67,7 +67,7 @@ Infers the type, that the given `Guard` guards.
 
 #### Defined in
 
-[src/Guard.ts:20](https://github.com/davidkarolyi/tguard/blob/9309bca/src/Guard.ts#L20)
+[src/Guard.ts:22](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/Guard.ts#L22)
 
 ___
 
@@ -85,7 +85,7 @@ Infers the type, that the given `Schema` represents.
 
 #### Defined in
 
-[src/guards/TObject/types.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TObject/types.ts#L8)
+[src/guards/TObject/types.ts:8](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TObject/types.ts#L8)
 
 ## Variables
 
@@ -95,11 +95,11 @@ Infers the type, that the given `Schema` represents.
 
 Guard that accepts any value.
 
-`guard.name`: `"any"`
+`guard.name: "any"`
 
 #### Defined in
 
-[src/guards/TAny/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TAny/index.ts#L8)
+[src/guards/TAny/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TAny/index.ts#L8)
 
 ___
 
@@ -107,14 +107,14 @@ ___
 
 • `Const` **TAnyObject**: [`Guard`](classes/Guard.md)<`Object`\>
 
-Primitive guard that only accepts objects.
+Primitive guard that accepts all objects.
 Does not accept null.
 
-`guard.name`: `"object"`
+`guard.name: "object"`
 
 #### Defined in
 
-[src/guards/TAnyObject/index.ts:9](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TAnyObject/index.ts#L9)
+[src/guards/TAnyObject/index.ts:9](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TAnyObject/index.ts#L9)
 
 ___
 
@@ -122,13 +122,13 @@ ___
 
 • `Const` **TBigInt**: [`Guard`](classes/Guard.md)<`BigInt`\>
 
-Primitive guard that only accepts the JS type `bigint`.
+Primitive guard that only accepts `bigint` values.
 
-`guard.name`: `"bigint"`
+`guard.name: "bigint"`
 
 #### Defined in
 
-[src/guards/TBigInt/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TBigInt/index.ts#L8)
+[src/guards/TBigInt/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TBigInt/index.ts#L8)
 
 ___
 
@@ -136,13 +136,13 @@ ___
 
 • `Const` **TBoolean**: [`Guard`](classes/Guard.md)<`boolean`\>
 
-Primitive guard that only accepts the JS type `boolean`.
+Primitive guard that only accepts `boolean` values.
 
-`guard.name`: `"boolean"`
+`guard.name: "boolean"`
 
 #### Defined in
 
-[src/guards/TBoolean/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TBoolean/index.ts#L8)
+[src/guards/TBoolean/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TBoolean/index.ts#L8)
 
 ___
 
@@ -150,13 +150,13 @@ ___
 
 • `Const` **TFunction**: [`Guard`](classes/Guard.md)<`Function`\>
 
-Primitive guard that only accepts the JS type `function`.
+Primitive guard that only accepts `function` values.
 
-`guard.name`: `"function"`
+`guard.name: "function"`
 
 #### Defined in
 
-[src/guards/TFunction/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TFunction/index.ts#L8)
+[src/guards/TFunction/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TFunction/index.ts#L8)
 
 ___
 
@@ -166,7 +166,7 @@ ___
 
 Guard that accepts whole numbers.
 
-`guard.name`: `"integer"`
+`guard.name: "integer"`
 
 **`example`**
  ```ts
@@ -177,7 +177,7 @@ TInteger.isValid(15); // true
 
 #### Defined in
 
-[src/guards/TInteger/index.ts:15](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TInteger/index.ts#L15)
+[src/guards/TInteger/index.ts:15](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TInteger/index.ts#L15)
 
 ___
 
@@ -187,7 +187,7 @@ ___
 
 Guard that accepts strings, which can be parsed as a valid integer.
 
-`guard.name`: `"integer(as a string)"`
+`guard.name: "integer(as a string)"`
 
 **`example`**
  ```ts
@@ -198,7 +198,7 @@ TIntegerAsString.isValid("15"); // true
 
 #### Defined in
 
-[src/guards/TIntegerAsString/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TIntegerAsString/index.ts#L16)
+[src/guards/TIntegerAsString/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TIntegerAsString/index.ts#L16)
 
 ___
 
@@ -208,11 +208,11 @@ ___
 
 Guard that only accepts `null`.
 
-`guard.name`: `"null"`
+`guard.name: "null"`
 
 #### Defined in
 
-[src/guards/TNull/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TNull/index.ts#L8)
+[src/guards/TNull/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TNull/index.ts#L8)
 
 ___
 
@@ -221,13 +221,13 @@ ___
 • `Const` **TNumber**: [`Guard`](classes/Guard.md)<`number`\>
 
 Primitive guard that only accepts numbers.
-Not accepts NaN.
+Not accepts `NaN`.
 
-`guard.name`: `"number"`
+`guard.name: "number"`
 
 #### Defined in
 
-[src/guards/TNumber/index.ts:9](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TNumber/index.ts#L9)
+[src/guards/TNumber/index.ts:9](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TNumber/index.ts#L9)
 
 ___
 
@@ -237,7 +237,7 @@ ___
 
 Guard that accepts strings, which represents a valid number.
 
-`guard.name`: `"number(as a string)"`
+`guard.name: "number(as a string)"`
 
 **`example`**
  ```ts
@@ -248,7 +248,7 @@ TNumberAsString.isValid("15.223"); // true
 
 #### Defined in
 
-[src/guards/TNumberAsString/index.ts:15](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TNumberAsString/index.ts#L15)
+[src/guards/TNumberAsString/index.ts:15](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TNumberAsString/index.ts#L15)
 
 ___
 
@@ -256,13 +256,13 @@ ___
 
 • `Const` **TString**: [`Guard`](classes/Guard.md)<`string`\>
 
-Primitive guard that only accepts the JS type `string`.
+Primitive guard that only accepts `string` values.
 
-`guard.name`: `string`
+`guard.name: "string"`
 
 #### Defined in
 
-[src/guards/TString/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TString/index.ts#L8)
+[src/guards/TString/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TString/index.ts#L8)
 
 ___
 
@@ -272,7 +272,7 @@ ___
 
 A `Guard` which validates if a string is a valid email.
 
-`guard.name`: `"string(email)"`
+`guard.name: "string(email)"`
 
 **`example`**
 ```ts
@@ -283,7 +283,7 @@ TStringEmail.name === "string(email)"; // true
 
 #### Defined in
 
-[src/guards/TStringEmail/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringEmail/index.ts#L16)
+[src/guards/TStringEmail/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringEmail/index.ts#L16)
 
 ___
 
@@ -293,7 +293,7 @@ ___
 
 A `Guard` which validates if a string is a valid ISO date string.
 
-`guard.name`: `"string(date)"`
+`guard.name: "string(date)"`
 
 **`example`**
 ```ts
@@ -304,7 +304,7 @@ TStringISODate.name === "string(date)"; // true
 
 #### Defined in
 
-[src/guards/TStringISODate/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringISODate/index.ts#L16)
+[src/guards/TStringISODate/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringISODate/index.ts#L16)
 
 ___
 
@@ -314,7 +314,7 @@ ___
 
 A `Guard` which validates if a string is a valid JSON Web Token.
 
-`guard.name`: `"string(JWT)"`
+`guard.name: "string(JWT)"`
 
 **`example`**
 ```ts
@@ -325,7 +325,7 @@ TStringJWT.name === "string(JSON)"; // true
 
 #### Defined in
 
-[src/guards/TStringJWT/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringJWT/index.ts#L16)
+[src/guards/TStringJWT/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringJWT/index.ts#L16)
 
 ___
 
@@ -335,7 +335,7 @@ ___
 
 A `Guard` which validates if a string is a valid [MIME type](https://en.wikipedia.org/wiki/Media_type).
 
-`guard.name`: `"string(MIME type)"`
+`guard.name: "string(MIME type)"`
 
 **`example`**
 ```ts
@@ -346,7 +346,7 @@ TStringMIMEType.name === "string(MIME type)"; // true
 
 #### Defined in
 
-[src/guards/TStringMIMEType/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringMIMEType/index.ts#L16)
+[src/guards/TStringMIMEType/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringMIMEType/index.ts#L16)
 
 ___
 
@@ -357,7 +357,7 @@ ___
 A `Guard` which validates if a string is a valid phone number.
 (all locale formats are accepted)
 
-`guard.name`: `"string(phone number)"`
+`guard.name: "string(phone number)"`
 
 **`example`**
 ```ts
@@ -368,7 +368,7 @@ TStringPhoneNumber.name === "string(phone number)"; // true
 
 #### Defined in
 
-[src/guards/TStringPhoneNumber/index.ts:17](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringPhoneNumber/index.ts#L17)
+[src/guards/TStringPhoneNumber/index.ts:17](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringPhoneNumber/index.ts#L17)
 
 ___
 
@@ -376,9 +376,9 @@ ___
 
 • `Const` **TStringSemVer**: [`Guard`](classes/Guard.md)<`string`\>
 
-A `Guard` which checks if the string is a Semantic Versioning Specification (SemVer).
+A `Guard` which checks if the string follows the Semantic Versioning Specification (SemVer).
 
-`guard.name`: `"string(SemVer)"`
+`guard.name: "string(SemVer)"`
 
 **`example`**
 ```ts
@@ -389,7 +389,7 @@ TStringSemVer.name === "string(SemVer)"; // true
 
 #### Defined in
 
-[src/guards/TStringSemVer/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringSemVer/index.ts#L16)
+[src/guards/TStringSemVer/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringSemVer/index.ts#L16)
 
 ___
 
@@ -399,7 +399,7 @@ ___
 
 A `Guard` which checks if the string is a valid URL.
 
-`guard.name`: `"string(URL)"`
+`guard.name: "string(URL)"`
 
 **`example`**
 ```ts
@@ -410,7 +410,7 @@ TStringURL.name === "string(URL)"; // true
 
 #### Defined in
 
-[src/guards/TStringURL/index.ts:16](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringURL/index.ts#L16)
+[src/guards/TStringURL/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringURL/index.ts#L16)
 
 ___
 
@@ -423,7 +423,7 @@ Checks if the string is a valid UUID v4.
 **`returns`**
 A `Guard` which checks if the string is a valid v4 UUID.
 
-`guard.name`: `"string(UUID)"`
+`guard.name: "string(UUID)"`
 
 **`example`**
 ```ts
@@ -434,7 +434,7 @@ TStringUUID.name === "string(UUID)"; // true
 
 #### Defined in
 
-[src/guards/TStringUUID/index.ts:19](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringUUID/index.ts#L19)
+[src/guards/TStringUUID/index.ts:19](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringUUID/index.ts#L19)
 
 ___
 
@@ -442,13 +442,13 @@ ___
 
 • `Const` **TUndefined**: [`Guard`](classes/Guard.md)<`undefined`\>
 
-Primitive guard that only accepts the JS type `undefined`.
+Primitive guard that only accepts `undefined` values.
 
-`guard.name`: `"undefined"`
+`guard.name: "undefined"`
 
 #### Defined in
 
-[src/guards/TUndefined/index.ts:8](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TUndefined/index.ts#L8)
+[src/guards/TUndefined/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TUndefined/index.ts#L8)
 
 ## Functions
 
@@ -457,6 +457,8 @@ Primitive guard that only accepts the JS type `undefined`.
 ▸ **TAnd**<`A`, `B`\>(`guardA`, `guardB`): [`Guard`](classes/Guard.md)<`A` & `B`\>
 
 Validates if criterias of two types are both met.
+
+`guard.name: "<typeA.name> & <typeB.name>"`
 
 #### Type parameters
 
@@ -479,11 +481,9 @@ Validates if criterias of two types are both met.
 A `Guard` that is similar in concept as the `&` operator in TypeScript.
 Accepts a value when it was accepted by both `guardA` and `guardB`.
 
-`guard.name`: `"<typeA> & <typeB>"`
-
 #### Defined in
 
-[src/guards/TAnd/index.ts:13](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TAnd/index.ts#L13)
+[src/guards/TAnd/index.ts:14](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TAnd/index.ts#L14)
 
 ___
 
@@ -493,12 +493,14 @@ ___
 
 Validates an array of elements.
 
+`guard.name: "<type>[](minLength:<minLength>,maxLength:<maxLength>)"`
+
 **`example`**
 ```ts
-const guard = TArray(TNumber);
-guard.isValid([1, 2, 3]); // true
-guard.isValid([1, 2, "3"]); // false
-guard.name === "number[]"; // true
+const TNumbers = TArray(TNumber);
+TNumbers.isValid([1, 2, 3]); // true
+TNumbers.isValid([1, 2, "3"]); // false
+TNumbers.name === "number[]"; // true
 ```
 
 #### Type parameters
@@ -522,11 +524,9 @@ guard.name === "number[]"; // true
 
 A `Guard` that checks if the given value is an array of the given type.
 
-`guard.name`: `"<type>[](minLength:<minLength>,maxLength:<maxLength>)"`
-
 #### Defined in
 
-[src/guards/TArray/index.ts:25](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TArray/index.ts#L25)
+[src/guards/TArray/index.ts:24](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TArray/index.ts#L24)
 
 ___
 
@@ -538,13 +538,12 @@ Validates equality to a literal value.
 
 **`example`**
 ```ts
-const guard = TConstant("foo")
 
-guard.isValid("foobar"); // false
-guard.isValid("bar"); // false
-guard.isValid("foo"); // true
+TConstant("foo").isValid("foobar"); // false
+TConstant("foo").isValid("bar"); // false
+TConstant("foo").isValid("foo"); // true
 
-guard.name === 'constant("foo")'; // true
+TConstant("foo").name === 'constant("foo")'; // true
 TConstant(2).name === 'constant(2)'; // true
 ```
 
@@ -558,7 +557,7 @@ TConstant(2).name === 'constant(2)'; // true
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `constant` | `T` | The literal to compare values against. Only can be a string, number, boolean or bigint. |
+| `constant` | `T` | The literal to compare values against. Only can be a `string`, `number`, `boolean` or `bigint`. |
 
 #### Returns
 
@@ -566,11 +565,11 @@ TConstant(2).name === 'constant(2)'; // true
 
 A `Guard` which checks if the given value is equals to the `constant` literal.
 
-`guard.name`: `"constant(<constant>)"`
+`guard.name: "constant(<constant.name>)"`
 
 #### Defined in
 
-[src/guards/TConstant/index.ts:27](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TConstant/index.ts#L27)
+[src/guards/TConstant/index.ts:26](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TConstant/index.ts#L26)
 
 ___
 
@@ -578,14 +577,13 @@ ___
 
 ▸ **TNot**<`T`\>(`guard`): [`Guard`](classes/Guard.md)<`Exclude`<`any`, `T`\>\>
 
-Negates a type criteria.
+Negates a `Guard`.
 
 **`example`**
 ```ts
-const guard = TNot(TNumber);
-guard.isValid(1); // false
-guard.isValid("foo"); // true
-guard.name === "!number"; // true
+TNot(TNumber).isValid(1); // false
+TNot(TNumber).isValid("foo"); // true
+TNot(TNumber).name === "!number"; // true
 ```
 
 #### Type parameters
@@ -606,11 +604,11 @@ guard.name === "!number"; // true
 
 A `Guard` that accepts a value when it was **not** accepted by the given guard.
 
-`guard.name`: `"!<type>"`
+`guard.name: "!<type>"`
 
 #### Defined in
 
-[src/guards/TNot/index.ts:22](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TNot/index.ts#L22)
+[src/guards/TNot/index.ts:21](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TNot/index.ts#L21)
 
 ___
 
@@ -618,7 +616,9 @@ ___
 
 ▸ **TObject**<`T`\>(`schema`): [`Guard`](classes/Guard.md)<[`SchemaType`](modules.md#schematype)<`T`\>\>
 
-It will validate that the given values is matching the object schema.
+It will validate that the given value is matching the object schema.
+
+`guard.name: JSON representation of the object`
 
 **`example`**
 ```ts
@@ -633,6 +633,7 @@ const TUser = TObject({
 
 TUser.isValid({id: 1, name: "John" cart: {apples: 1}}) // false
 TUser.isValid({id: 1, name: "John" cart: {mangos: 1, avocados: 2}}) // true
+TUser.name === '{"id": "string(UUID)", "name": "string" cart: {"mangos": "integer", "avocados": "integeer"}}' // true
 ```
 
 #### Type parameters
@@ -645,7 +646,7 @@ TUser.isValid({id: 1, name: "John" cart: {mangos: 1, avocados: 2}}) // true
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `schema` | `T` | Is a tree of guards. (Just a normal JS object, but it with `Guard` values) |
+| `schema` | `T` | Is a tree of guards. (Just a normal JS object, but with `Guard` values) |
 
 #### Returns
 
@@ -655,7 +656,7 @@ A `Guard`.
 
 #### Defined in
 
-[src/guards/TObject/index.ts:27](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TObject/index.ts#L27)
+[src/guards/TObject/index.ts:30](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TObject/index.ts#L30)
 
 ___
 
@@ -709,11 +710,11 @@ Accpets not-null objects, where all `keys`
 and `values` are accepted by the given shape `guards`.
 Similar in concept as TypeScript's `{[keys: string]: number}` type annotations.
 
-`guard.name`: `"{ [<keyType>]: <valueType> }"`
+`guard.name: "{ [<keyType>]: <valueType> }"`
 
 #### Defined in
 
-[src/guards/TObjectOfShape/index.ts:39](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TObjectOfShape/index.ts#L39)
+[src/guards/TObjectOfShape/index.ts:39](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TObjectOfShape/index.ts#L39)
 
 ___
 
@@ -755,11 +756,11 @@ guard.name === "number | string"; // true
 A `Guard` that is similar in concept as the `|` operator in TypeScript.
 Accepts a value when it was accepted by at least one of the `guards`.
 
-`guard.name`: `"<typeA> | <typeB>"`
+`guard.name: "<typeA> | <typeB>"`
 
 #### Defined in
 
-[src/guards/TOr/index.ts:22](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TOr/index.ts#L22)
+[src/guards/TOr/index.ts:22](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TOr/index.ts#L22)
 
 ___
 
@@ -771,10 +772,9 @@ Validates if a string is a base64 encoded data.
 
 **`example`**
 ```ts
-const guard = TStringBase64({ urlSafe: true });
-guard.isValid("foobar"); // false
-guard.isValid("c29tZXRoaW5n"); // true
-guard.name === "string(base64URL)"; // true
+TStringBase64({ urlSafe: true }).isValid("foobar"); // false
+TStringBase64({ urlSafe: true }).isValid("c29tZXRoaW5n"); // true
+TStringBase64({ urlSafe: true }).name === "string(base64URL)"; // true
 ```
 
 #### Parameters
@@ -790,11 +790,11 @@ guard.name === "string(base64URL)"; // true
 
 A `Guard` that accepts only strings that are base64 encoded.
 
-`guard.name`: `"string(base64<?URL>)"`
+`guard.name: "string(base64<?URL>)"`
 
 #### Defined in
 
-[src/guards/TStringBase64/index.ts:22](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringBase64/index.ts#L22)
+[src/guards/TStringBase64/index.ts:21](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringBase64/index.ts#L21)
 
 ___
 
@@ -806,17 +806,17 @@ Validates if a string matches a regexp.
 
 **`example`**
 ```ts
-const guard = TStringMatch("email", /^\S+@\S+$/);
-guard.isValid("foo@bar.com"); // true
-guard.isValid("foobar.com"); // false
-guard.name === "string(email)"; // true
+const TStringUpperCase = TStringMatch("string(upper-case)",/^[A-Z]/);
+TStringUpperCase.isValid("Foo"); // true
+TStringUpperCase.isValid("foo"); // false
+TStringUpperCase.name === "string(upper-case)"; // true
 ```
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `patternName` | `string` | Describes the regular expression in a user-readable manner. |
+| `patternName` | `string` | Describes the regular expression in a user-readable form. |
 | `regexp` | `RegExp` | The regexp to use for validation of incoming values. |
 
 #### Returns
@@ -825,11 +825,11 @@ guard.name === "string(email)"; // true
 
 A `Guard` that accepts only strings that matches the given `regexp`.
 
-`guard.name`: `"string(<regexpName>)"`
+`guard.name: "string(<regexpName>)"`
 
 #### Defined in
 
-[src/guards/TStringMatch/index.ts:23](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringMatch/index.ts#L23)
+[src/guards/TStringMatch/index.ts:23](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringMatch/index.ts#L23)
 
 ___
 
@@ -841,10 +841,9 @@ Validates if a string is in the given length range.
 
 **`example`**
 ```ts
-const guard = TStringOfLength({ minLength: 5 });
-guard.isValid("1234"); // false
-guard.isValid("123456789"); // true
-guard.name === "string(minLength=5)"; // true
+TStringOfLength({ minLength: 5 }).isValid("1234"); // false
+TStringOfLength({ minLength: 5 }).isValid("123456789"); // true
+TStringOfLength({ minLength: 5 }).name === "string(minLength=5)"; // true
 ```
 
 #### Parameters
@@ -859,13 +858,13 @@ guard.name === "string(minLength=5)"; // true
 
 [`Guard`](classes/Guard.md)<`string`\>
 
-A `Guard` that accepts only strings, which is the given length.
+A `Guard` that accepts only strings, that is in the given length range.
 
-`guard.name`: `"string(minLength=<minLength>,maxLength=<maxLength>)"`
+`guard.name: "string(minLength=<minLength>,maxLength=<maxLength>)"`
 
 #### Defined in
 
-[src/guards/TStringWithLength/index.ts:23](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TStringWithLength/index.ts#L23)
+[src/guards/TStringWithLength/index.ts:22](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TStringWithLength/index.ts#L22)
 
 ___
 
@@ -895,7 +894,7 @@ const TBiggerThan10 = TValidate<number>(
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `name` | `string` | The name of the type this guard will guard. |
-| `isValid` | (`value`: `any`) => `boolean` | Callback function, decides if a given value is valid or not |
+| `isValid` | (`value`: `any`) => `boolean` | A function, which decides if a given value is valid or not. |
 
 #### Returns
 
@@ -903,4 +902,4 @@ const TBiggerThan10 = TValidate<number>(
 
 #### Defined in
 
-[src/guards/TValidate/index.ts:22](https://github.com/davidkarolyi/tguard/blob/9309bca/src/guards/TValidate/index.ts#L22)
+[src/guards/TValidate/index.ts:22](https://github.com/davidkarolyi/tguard/blob/d0ca035/src/guards/TValidate/index.ts#L22)

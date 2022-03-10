@@ -4,7 +4,7 @@ import Guard from "../../Guard";
  * Creates a custom `Guard` from the given params.
  *
  * @param name - The name of the type this guard will guard.
- * @param isValid - Callback function, decides if a given value is valid or not
+ * @param isValid - A function, which decides if a given value is valid or not.
  *
  * @typeParam T - The type the created guard will guard.
  *

@@ -1,10 +1,10 @@
 import TValidate from "../TValidate";
 
 /**
- * Primitive guard that only accepts objects.
+ * Primitive guard that accepts all objects.
  * Does not accept null.
  *
- * `guard.name`: `"object"`
+ * `guard.name: "object"`
  */
 const TAnyObject = TValidate<Object>(
   "object",

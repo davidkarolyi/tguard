@@ -3,7 +3,7 @@ import TValidate from "../TValidate";
 /**
  * Guard that accepts strings, which represents a valid number.
  *
- * `guard.name`: `"number(as a string)"`
+ * `guard.name: "number(as a string)"`
  *
  * @example
  *  ```ts

@@ -4,7 +4,7 @@ import isEmail from "validator/lib/isEmail";
 /**
  * A `Guard` which validates if a string is a valid email.
  *
- * `guard.name`: `"string(email)"`
+ * `guard.name: "string(email)"`
  *
  * @example
  * ```ts

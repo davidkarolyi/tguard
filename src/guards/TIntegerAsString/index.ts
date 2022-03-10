@@ -4,7 +4,7 @@ import TValidate from "../TValidate";
 /**
  * Guard that accepts strings, which can be parsed as a valid integer.
  *
- * `guard.name`: `"integer(as a string)"`
+ * `guard.name: "integer(as a string)"`
  *
  * @example
  *  ```ts

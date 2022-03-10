@@ -5,22 +5,21 @@ import TValidate from "../TValidate";
  * Validates equality to a literal value.
  *
  * @param constant - The literal to compare values against.
- * Only can be a string, number, boolean or bigint.
+ * Only can be a `string`, `number`, `boolean` or `bigint`.
  *
  * @returns
  * A `Guard` which checks if the given value is equals to the `constant` literal.
  *
- * `guard.name`: `"constant(<constant>)"`
+ * `guard.name: "constant(<constant.name>)"`
  *
  * @example
  * ```ts
- * const guard = TConstant("foo")
  *
- * guard.isValid("foobar"); // false
- * guard.isValid("bar"); // false
- * guard.isValid("foo"); // true
+ * TConstant("foo").isValid("foobar"); // false
+ * TConstant("foo").isValid("bar"); // false
+ * TConstant("foo").isValid("foo"); // true
  *
- * guard.name === 'constant("foo")'; // true
+ * TConstant("foo").name === 'constant("foo")'; // true
  * TConstant(2).name === 'constant(2)'; // true
  * ```
  */

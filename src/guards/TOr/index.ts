@@ -8,7 +8,7 @@ import TValidate from "../TValidate";
  * A `Guard` that is similar in concept as the `|` operator in TypeScript.
  * Accepts a value when it was accepted by at least one of the `guards`.
  *
- * `guard.name`: `"<typeA> | <typeB>"`
+ * `guard.name: "<typeA> | <typeB>"`
  *
  * @example
  * ```ts

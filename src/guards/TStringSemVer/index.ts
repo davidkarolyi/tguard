@@ -2,9 +2,9 @@ import TValidate from "../TValidate";
 import isSemVer from "validator/lib/isSemVer";
 
 /**
- * A `Guard` which checks if the string is a Semantic Versioning Specification (SemVer).
+ * A `Guard` which checks if the string follows the Semantic Versioning Specification (SemVer).
  *
- * `guard.name`: `"string(SemVer)"`
+ * `guard.name: "string(SemVer)"`
  *
  * @example
  * ```ts

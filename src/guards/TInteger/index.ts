@@ -3,7 +3,7 @@ import TValidate from "../TValidate";
 /**
  * Guard that accepts whole numbers.
  *
- * `guard.name`: `"integer"`
+ * `guard.name: "integer"`
  *
  * @example
  *  ```ts

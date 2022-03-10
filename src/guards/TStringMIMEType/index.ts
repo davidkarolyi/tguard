@@ -4,7 +4,7 @@ import isMimeType from "validator/lib/isMimeType";
 /**
  * A `Guard` which validates if a string is a valid [MIME type](https://en.wikipedia.org/wiki/Media_type).
  *
- * `guard.name`: `"string(MIME type)"`
+ * `guard.name: "string(MIME type)"`
  *
  * @example
  * ```ts

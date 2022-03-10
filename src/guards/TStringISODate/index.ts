@@ -4,7 +4,7 @@ import isISO8601 from "validator/lib/isISO8601";
 /**
  * A `Guard` which validates if a string is a valid ISO date string.
  *
- * `guard.name`: `"string(date)"`
+ * `guard.name: "string(date)"`
  *
  * @example
  * ```ts

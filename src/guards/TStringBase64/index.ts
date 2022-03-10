@@ -9,14 +9,13 @@ import TValidate from "../TValidate";
  * @returns
  * A `Guard` that accepts only strings that are base64 encoded.
  *
- * `guard.name`: `"string(base64<?URL>)"`
+ * `guard.name: "string(base64<?URL>)"`
  *
  * @example
  * ```ts
- * const guard = TStringBase64({ urlSafe: true });
- * guard.isValid("foobar"); // false
- * guard.isValid("c29tZXRoaW5n"); // true
- * guard.name === "string(base64URL)"; // true
+ * TStringBase64({ urlSafe: true }).isValid("foobar"); // false
+ * TStringBase64({ urlSafe: true }).isValid("c29tZXRoaW5n"); // true
+ * TStringBase64({ urlSafe: true }).name === "string(base64URL)"; // true
  * ```
  */
 export default function TStringBase64(options: { urlSafe: boolean }) {

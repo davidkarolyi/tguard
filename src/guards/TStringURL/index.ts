@@ -4,7 +4,7 @@ import isURL from "validator/lib/isURL";
 /**
  * A `Guard` which checks if the string is a valid URL.
  *
- * `guard.name`: `"string(URL)"`
+ * `guard.name: "string(URL)"`
  *
  * @example
  * ```ts

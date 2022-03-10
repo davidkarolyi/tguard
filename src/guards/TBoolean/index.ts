@@ -1,9 +1,9 @@
 import TValidate from "../TValidate";
 
 /**
- * Primitive guard that only accepts the JS type `boolean`.
+ * Primitive guard that only accepts `boolean` values.
  *
- * `guard.name`: `"boolean"`
+ * `guard.name: "boolean"`
  */
 const TBoolean = TValidate<boolean>(
   "boolean",

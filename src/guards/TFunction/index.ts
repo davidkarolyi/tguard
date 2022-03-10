@@ -1,9 +1,9 @@
 import TValidate from "../TValidate";
 
 /**
- * Primitive guard that only accepts the JS type `function`.
+ * Primitive guard that only accepts `function` values.
  *
- * `guard.name`: `"function"`
+ * `guard.name: "function"`
  */
 const TFunction = TValidate<Function>(
   "function",

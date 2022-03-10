@@ -2,9 +2,9 @@ import TValidate from "../TValidate";
 
 /**
  * Primitive guard that only accepts numbers.
- * Not accepts NaN.
+ * Not accepts `NaN`.
  *
- * `guard.name`: `"number"`
+ * `guard.name: "number"`
  */
 const TNumber = TValidate<number>(
   "number",

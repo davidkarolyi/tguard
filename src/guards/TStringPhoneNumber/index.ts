@@ -5,7 +5,7 @@ import isMobilePhone from "validator/lib/isMobilePhone";
  * A `Guard` which validates if a string is a valid phone number.
  * (all locale formats are accepted)
  *
- * `guard.name`: `"string(phone number)"`
+ * `guard.name: "string(phone number)"`
  *
  * @example
  * ```ts

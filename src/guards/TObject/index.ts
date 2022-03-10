@@ -3,9 +3,11 @@ import { ObjectSchema, SchemaType } from "./types";
 import { SchemaGuard } from "./SchemaGuard";
 
 /**
- * It will validate that the given values is matching the object schema.
+ * It will validate that the given value is matching the object schema.
  *
- * @param schema - Is a tree of guards. (Just a normal JS object, but it with `Guard` values)
+ * `guard.name: JSON representation of the object`
+ *
+ * @param schema - Is a tree of guards. (Just a normal JS object, but with `Guard` values)
  *
  * @returns A `Guard`.
  *
@@ -22,6 +24,7 @@ import { SchemaGuard } from "./SchemaGuard";
  *
  * TUser.isValid({id: 1, name: "John" cart: {apples: 1}}) // false
  * TUser.isValid({id: 1, name: "John" cart: {mangos: 1, avocados: 2}}) // true
+ * TUser.name === '{"id": "string(UUID)", "name": "string" cart: {"mangos": "integer", "avocados": "integeer"}}' // true
  * ```
  */
 export default function TObject<T extends ObjectSchema>(

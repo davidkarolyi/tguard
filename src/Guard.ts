@@ -1,9 +1,11 @@
 import { InvalidValueError } from "./errors";
 
 /**
- * An abstract class, which has an `isValid` method, and a `name` property, which represents the name of the guarded type.
+ * An abstract class, which is the parent class of all Guards. (Names starting with a `T`)
  *
  * ⚠️ Don't use this directly to create custom guards, use `TValidate` instead.
+ *
+ * @typeParam T - Guarded type
  */
 export default abstract class Guard<T> {
   abstract readonly name: string;

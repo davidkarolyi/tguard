@@ -4,7 +4,7 @@ import isJSON from "validator/lib/isJSON";
 /**
  * A `Guard` which validates if a string is a valid JSON.
  *
- * `guard.name`: `"string(JSON)"`
+ * `guard.name: "string(JSON)"`
  *
  * @example
  * ```ts

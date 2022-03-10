@@ -176,4 +176,5 @@ All guards can be imported as a single module, which enables tree-shaking:
 
 ```ts
 import TString from "tguard/guards/TString";
+import { GuardedType } from "tguard/Guard";
 ```

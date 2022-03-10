@@ -4,7 +4,7 @@ import isJWT from "validator/lib/isJWT";
 /**
  * A `Guard` which validates if a string is a valid JSON Web Token.
  *
- * `guard.name`: `"string(JWT)"`
+ * `guard.name: "string(JWT)"`
  *
  * @example
  * ```ts

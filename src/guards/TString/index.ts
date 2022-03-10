@@ -1,9 +1,9 @@
 import TValidate from "../TValidate";
 
 /**
- * Primitive guard that only accepts the JS type `string`.
+ * Primitive guard that only accepts `string` values.
  *
- * `guard.name`: `string`
+ * `guard.name: "string"`
  */
 const TString = TValidate<string>(
   "string",

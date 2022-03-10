@@ -4,22 +4,21 @@ import TValidate from "../TValidate";
 /**
  * Validates an array of elements.
  *
+ * `guard.name: "<type>[](minLength:<minLength>,maxLength:<maxLength>)"`
+ *
  * @returns
  * A `Guard` that checks if the given value is an array of the given type.
  *
- * `guard.name`: `"<type>[](minLength:<minLength>,maxLength:<maxLength>)"`
- *
  * @param guard - The guard, which validates the elements of the array.
- *
  * @param options.minLength - The array must be at least this long.
  * @param options.maxLength - The array can't be longer than this.
  *
  * @example
  * ```ts
- * const guard = TArray(TNumber);
- * guard.isValid([1, 2, 3]); // true
- * guard.isValid([1, 2, "3"]); // false
- * guard.name === "number[]"; // true
+ * const TNumbers = TArray(TNumber);
+ * TNumbers.isValid([1, 2, 3]); // true
+ * TNumbers.isValid([1, 2, "3"]); // false
+ * TNumbers.name === "number[]"; // true
  * ```
  */
 export default function TArray<T>(

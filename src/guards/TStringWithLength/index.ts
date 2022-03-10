@@ -4,20 +4,19 @@ import isByteLength from "validator/lib/isByteLength";
 /**
  * Validates if a string is in the given length range.
  *
- * @param options.min - Be at list this long.
+ * @param options.min - Be at least this long.
  * @param options.max - Don't be longer than this.
  *
  * @returns
- * A `Guard` that accepts only strings, which is the given length.
+ * A `Guard` that accepts only strings, that is in the given length range.
  *
- * `guard.name`: `"string(minLength=<minLength>,maxLength=<maxLength>)"`
+ * `guard.name: "string(minLength=<minLength>,maxLength=<maxLength>)"`
  *
  * @example
  * ```ts
- * const guard = TStringOfLength({ minLength: 5 });
- * guard.isValid("1234"); // false
- * guard.isValid("123456789"); // true
- * guard.name === "string(minLength=5)"; // true
+ * TStringOfLength({ minLength: 5 }).isValid("1234"); // false
+ * TStringOfLength({ minLength: 5 }).isValid("123456789"); // true
+ * TStringOfLength({ minLength: 5 }).name === "string(minLength=5)"; // true
  * ```
  */
 export default function TStringWithLength(options: {

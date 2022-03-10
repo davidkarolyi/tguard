@@ -1,9 +1,9 @@
 import TValidate from "../TValidate";
 
 /**
- * Primitive guard that only accepts the JS type `bigint`.
+ * Primitive guard that only accepts `bigint` values.
  *
- * `guard.name`: `"bigint"`
+ * `guard.name: "bigint"`
  */
 const TBigInt = TValidate<BigInt>(
   "bigint",

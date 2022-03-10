@@ -7,7 +7,7 @@ import isUUID, { UUIDVersion } from "validator/lib/isUUID";
  * @returns
  * A `Guard` which checks if the string is a valid v4 UUID.
  *
- * `guard.name`: `"string(UUID)"`
+ * `guard.name: "string(UUID)"`
  *
  * @example
  * ```ts
