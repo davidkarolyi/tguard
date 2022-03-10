@@ -1,32 +1,35 @@
 import TArray from ".";
 import Guard from "../../Guard";
 import TString from "../TString";
+import TObject from "../TObject";
 
 describe("TArray", () => {
-  const guard = TArray(TString);
-
   it("is an instance of Guard", () => {
-    expect(guard).toBeInstanceOf(Guard);
+    expect(TArray(TString)).toBeInstanceOf(Guard);
   });
 
   it("it's name is '<type>[]'", () => {
-    expect(guard.name).toBe("string[]");
+    expect(TArray(TString).name).toBe("string[]");
   });
 
   it("returns true if the provided value is a valid array", () => {
-    expect(guard.isValid(["foo", "bar"])).toBe(true);
+    expect(TArray(TString).isValid(["foo", "bar"])).toBe(true);
+    expect(TArray(TArray(TString)).isValid([["foo", "bar", "baz"]])).toBe(true);
+    expect(TArray(TObject({})).isValid([{}])).toBe(true);
   });
 
   it("returns false if the provided value is not an array", () => {
-    expect(guard.isValid({})).toBe(false);
+    expect(TArray(TString).isValid({})).toBe(false);
   });
 
   it("returns false if one element is not valid", () => {
-    expect(guard.isValid(["foo", "bar", 2])).toBe(false);
+    expect(TArray(TString).isValid(["foo", "bar", 2])).toBe(false);
+    expect(TArray(TArray(TString)).isValid(["foo", "bar", "baz"])).toBe(false);
+    expect(TArray(TObject({})).isValid([null])).toBe(false);
   });
 
   it("returns true, if the array is empty", () => {
-    expect(guard.isValid([])).toBe(true);
+    expect(TArray(TString).isValid([])).toBe(true);
   });
 
   describe("when options were provided", () => {

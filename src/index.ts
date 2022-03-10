@@ -23,6 +23,7 @@ export { default as TString } from "./guards/TString";
 export { default as TStringBase64 } from "./guards/TStringBase64";
 export { default as TStringEmail } from "./guards/TStringEmail";
 export { default as TStringISODate } from "./guards/TStringISODate";
+export { default as TStringJSON } from "./guards/TStringJSON";
 export { default as TStringJWT } from "./guards/TStringJWT";
 export { default as TStringMatch } from "./guards/TStringMatch";
 export { default as TStringMIMEType } from "./guards/TStringMIMEType";
