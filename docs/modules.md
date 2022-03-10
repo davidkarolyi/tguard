@@ -12,7 +12,7 @@
 ### Type aliases
 
 - [GuardedType](modules.md#guardedtype)
-- [SchemaType](modules.md#schematype)
+- [ObjectSchema](modules.md#objectschema)
 
 ### Variables
 
@@ -68,25 +68,21 @@ Infers the type, that the given `Guard` guards.
 
 #### Defined in
 
-[src/Guard.ts:22](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/Guard.ts#L22)
+[src/Guard.ts:22](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/Guard.ts#L22)
 
 ___
 
-### SchemaType
+### ObjectSchema
 
-Ƭ **SchemaType**<`C`\>: `C` extends [`Guard`](classes/Guard.md)<`unknown`\> ? [`GuardedType`](modules.md#guardedtype)<`C`\> : `C` extends { `[fieldName: string]`: `Schema`;  } ? { [Property in keyof C]: SchemaType<C[Property]\> } : `unknown`
+Ƭ **ObjectSchema**: `Object`
 
-Infers the type, that the given `Schema` represents.
+#### Index signature
 
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `C` | extends `Schema` |
+▪ [fieldName: `string`]: [`ObjectSchema`](modules.md#objectschema) \| [`Guard`](classes/Guard.md)<`unknown`\>
 
 #### Defined in
 
-[src/guards/TObject/types.ts:8](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TObject/types.ts#L8)
+[src/guards/TObject/types.ts:16](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TObject/types.ts#L16)
 
 ## Variables
 
@@ -100,7 +96,7 @@ Guard that accepts any value.
 
 #### Defined in
 
-[src/guards/TAny/index.ts:8](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TAny/index.ts#L8)
+[src/guards/TAny/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TAny/index.ts#L8)
 
 ___
 
@@ -115,7 +111,7 @@ Does not accept null.
 
 #### Defined in
 
-[src/guards/TAnyObject/index.ts:9](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TAnyObject/index.ts#L9)
+[src/guards/TAnyObject/index.ts:9](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TAnyObject/index.ts#L9)
 
 ___
 
@@ -129,7 +125,7 @@ Primitive guard that only accepts `bigint` values.
 
 #### Defined in
 
-[src/guards/TBigInt/index.ts:8](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TBigInt/index.ts#L8)
+[src/guards/TBigInt/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TBigInt/index.ts#L8)
 
 ___
 
@@ -143,7 +139,7 @@ Primitive guard that only accepts `boolean` values.
 
 #### Defined in
 
-[src/guards/TBoolean/index.ts:8](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TBoolean/index.ts#L8)
+[src/guards/TBoolean/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TBoolean/index.ts#L8)
 
 ___
 
@@ -157,7 +153,7 @@ Primitive guard that only accepts `function` values.
 
 #### Defined in
 
-[src/guards/TFunction/index.ts:8](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TFunction/index.ts#L8)
+[src/guards/TFunction/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TFunction/index.ts#L8)
 
 ___
 
@@ -178,7 +174,7 @@ TInteger.isValid(15); // true
 
 #### Defined in
 
-[src/guards/TInteger/index.ts:15](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TInteger/index.ts#L15)
+[src/guards/TInteger/index.ts:15](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TInteger/index.ts#L15)
 
 ___
 
@@ -199,7 +195,7 @@ TIntegerAsString.isValid("15"); // true
 
 #### Defined in
 
-[src/guards/TIntegerAsString/index.ts:16](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TIntegerAsString/index.ts#L16)
+[src/guards/TIntegerAsString/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TIntegerAsString/index.ts#L16)
 
 ___
 
@@ -213,7 +209,7 @@ Guard that only accepts `null`.
 
 #### Defined in
 
-[src/guards/TNull/index.ts:8](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TNull/index.ts#L8)
+[src/guards/TNull/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TNull/index.ts#L8)
 
 ___
 
@@ -228,7 +224,7 @@ Not accepts `NaN`.
 
 #### Defined in
 
-[src/guards/TNumber/index.ts:9](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TNumber/index.ts#L9)
+[src/guards/TNumber/index.ts:9](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TNumber/index.ts#L9)
 
 ___
 
@@ -249,7 +245,7 @@ TNumberAsString.isValid("15.223"); // true
 
 #### Defined in
 
-[src/guards/TNumberAsString/index.ts:15](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TNumberAsString/index.ts#L15)
+[src/guards/TNumberAsString/index.ts:15](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TNumberAsString/index.ts#L15)
 
 ___
 
@@ -263,7 +259,7 @@ Primitive guard that only accepts `string` values.
 
 #### Defined in
 
-[src/guards/TString/index.ts:8](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TString/index.ts#L8)
+[src/guards/TString/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TString/index.ts#L8)
 
 ___
 
@@ -284,7 +280,7 @@ TStringEmail.name === "string(email)"; // true
 
 #### Defined in
 
-[src/guards/TStringEmail/index.ts:16](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringEmail/index.ts#L16)
+[src/guards/TStringEmail/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringEmail/index.ts#L16)
 
 ___
 
@@ -305,7 +301,7 @@ TStringISODate.name === "string(date)"; // true
 
 #### Defined in
 
-[src/guards/TStringISODate/index.ts:16](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringISODate/index.ts#L16)
+[src/guards/TStringISODate/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringISODate/index.ts#L16)
 
 ___
 
@@ -326,7 +322,7 @@ TStringJSON.name === "string(JSON)"; // true
 
 #### Defined in
 
-[src/guards/TStringJSON/index.ts:16](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringJSON/index.ts#L16)
+[src/guards/TStringJSON/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringJSON/index.ts#L16)
 
 ___
 
@@ -347,7 +343,7 @@ TStringJWT.name === "string(JSON)"; // true
 
 #### Defined in
 
-[src/guards/TStringJWT/index.ts:16](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringJWT/index.ts#L16)
+[src/guards/TStringJWT/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringJWT/index.ts#L16)
 
 ___
 
@@ -368,7 +364,7 @@ TStringMIMEType.name === "string(MIME type)"; // true
 
 #### Defined in
 
-[src/guards/TStringMIMEType/index.ts:16](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringMIMEType/index.ts#L16)
+[src/guards/TStringMIMEType/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringMIMEType/index.ts#L16)
 
 ___
 
@@ -390,7 +386,7 @@ TStringPhoneNumber.name === "string(phone number)"; // true
 
 #### Defined in
 
-[src/guards/TStringPhoneNumber/index.ts:17](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringPhoneNumber/index.ts#L17)
+[src/guards/TStringPhoneNumber/index.ts:17](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringPhoneNumber/index.ts#L17)
 
 ___
 
@@ -411,7 +407,7 @@ TStringSemVer.name === "string(SemVer)"; // true
 
 #### Defined in
 
-[src/guards/TStringSemVer/index.ts:16](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringSemVer/index.ts#L16)
+[src/guards/TStringSemVer/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringSemVer/index.ts#L16)
 
 ___
 
@@ -432,7 +428,7 @@ TStringURL.name === "string(URL)"; // true
 
 #### Defined in
 
-[src/guards/TStringURL/index.ts:16](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringURL/index.ts#L16)
+[src/guards/TStringURL/index.ts:16](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringURL/index.ts#L16)
 
 ___
 
@@ -456,7 +452,7 @@ TStringUUID.name === "string(UUID)"; // true
 
 #### Defined in
 
-[src/guards/TStringUUID/index.ts:19](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringUUID/index.ts#L19)
+[src/guards/TStringUUID/index.ts:19](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringUUID/index.ts#L19)
 
 ___
 
@@ -470,24 +466,25 @@ Primitive guard that only accepts `undefined` values.
 
 #### Defined in
 
-[src/guards/TUndefined/index.ts:8](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TUndefined/index.ts#L8)
+[src/guards/TUndefined/index.ts:8](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TUndefined/index.ts#L8)
 
 ## Functions
 
 ### TAnd
 
-▸ **TAnd**<`A`, `B`\>(`guardA`, `guardB`): [`Guard`](classes/Guard.md)<`A` & `B`\>
+▸ **TAnd**<`A`, `B`, `T`\>(`guardA`, `guardB`, ...`others`): [`Guard`](classes/Guard.md)<`A` & `B` & `UnionToIntersection`<[`GuardedType`](modules.md#guardedtype)<`ArrayType`<`T`\>\>\>\>
 
-Validates if criterias of two types are both met.
+Validates if criterias of two (or more) types are all met.
 
 `guard.name: "<typeA.name> & <typeB.name>"`
 
 #### Type parameters
 
-| Name |
-| :------ |
-| `A` |
-| `B` |
+| Name | Type |
+| :------ | :------ |
+| `A` | `A` |
+| `B` | `B` |
+| `T` | extends [`Guard`](classes/Guard.md)<`unknown`\>[] |
 
 #### Parameters
 
@@ -495,17 +492,18 @@ Validates if criterias of two types are both met.
 | :------ | :------ |
 | `guardA` | [`Guard`](classes/Guard.md)<`A`\> |
 | `guardB` | [`Guard`](classes/Guard.md)<`B`\> |
+| `...others` | `T` |
 
 #### Returns
 
-[`Guard`](classes/Guard.md)<`A` & `B`\>
+[`Guard`](classes/Guard.md)<`A` & `B` & `UnionToIntersection`<[`GuardedType`](modules.md#guardedtype)<`ArrayType`<`T`\>\>\>\>
 
 A `Guard` that is similar in concept as the `&` operator in TypeScript.
-Accepts a value when it was accepted by both `guardA` and `guardB`.
+Accepts a value when it was accepted by all `guardA` and `guardB`, and others.
 
 #### Defined in
 
-[src/guards/TAnd/index.ts:14](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TAnd/index.ts#L14)
+[src/guards/TAnd/index.ts:14](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TAnd/index.ts#L14)
 
 ___
 
@@ -548,7 +546,7 @@ A `Guard` that checks if the given value is an array of the given type.
 
 #### Defined in
 
-[src/guards/TArray/index.ts:24](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TArray/index.ts#L24)
+[src/guards/TArray/index.ts:24](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TArray/index.ts#L24)
 
 ___
 
@@ -591,7 +589,7 @@ A `Guard` which checks if the given value is equals to the `constant` literal.
 
 #### Defined in
 
-[src/guards/TConstant/index.ts:26](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TConstant/index.ts#L26)
+[src/guards/TConstant/index.ts:26](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TConstant/index.ts#L26)
 
 ___
 
@@ -630,13 +628,13 @@ A `Guard` that accepts a value when it was **not** accepted by the given guard.
 
 #### Defined in
 
-[src/guards/TNot/index.ts:21](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TNot/index.ts#L21)
+[src/guards/TNot/index.ts:21](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TNot/index.ts#L21)
 
 ___
 
 ### TObject
 
-▸ **TObject**<`T`\>(`schema`): [`Guard`](classes/Guard.md)<[`SchemaType`](modules.md#schematype)<`T`\>\>
+▸ **TObject**<`T`\>(`schema`): [`Guard`](classes/Guard.md)<`SchemaType`<`T`\>\>
 
 It will validate that the given value is matching the object schema.
 
@@ -662,7 +660,7 @@ TUser.name === '{"id": "string(UUID)", "name": "string" cart: {"mangos": "intege
 
 | Name | Type |
 | :------ | :------ |
-| `T` | extends `ObjectSchema` |
+| `T` | extends [`ObjectSchema`](modules.md#objectschema) |
 
 #### Parameters
 
@@ -672,13 +670,13 @@ TUser.name === '{"id": "string(UUID)", "name": "string" cart: {"mangos": "intege
 
 #### Returns
 
-[`Guard`](classes/Guard.md)<[`SchemaType`](modules.md#schematype)<`T`\>\>
+[`Guard`](classes/Guard.md)<`SchemaType`<`T`\>\>
 
 A `Guard`.
 
 #### Defined in
 
-[src/guards/TObject/index.ts:30](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TObject/index.ts#L30)
+[src/guards/TObject/index.ts:31](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TObject/index.ts#L31)
 
 ___
 
@@ -736,7 +734,7 @@ Similar in concept as TypeScript's `{[keys: string]: number}` type annotations.
 
 #### Defined in
 
-[src/guards/TObjectOfShape/index.ts:39](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TObjectOfShape/index.ts#L39)
+[src/guards/TObjectOfShape/index.ts:39](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TObjectOfShape/index.ts#L39)
 
 ___
 
@@ -782,7 +780,7 @@ Accepts a value when it was accepted by at least one of the `guards`.
 
 #### Defined in
 
-[src/guards/TOr/index.ts:22](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TOr/index.ts#L22)
+[src/guards/TOr/index.ts:22](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TOr/index.ts#L22)
 
 ___
 
@@ -816,7 +814,7 @@ A `Guard` that accepts only strings that are base64 encoded.
 
 #### Defined in
 
-[src/guards/TStringBase64/index.ts:21](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringBase64/index.ts#L21)
+[src/guards/TStringBase64/index.ts:21](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringBase64/index.ts#L21)
 
 ___
 
@@ -851,7 +849,7 @@ A `Guard` that accepts only strings that matches the given `regexp`.
 
 #### Defined in
 
-[src/guards/TStringMatch/index.ts:23](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringMatch/index.ts#L23)
+[src/guards/TStringMatch/index.ts:23](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringMatch/index.ts#L23)
 
 ___
 
@@ -886,7 +884,7 @@ A `Guard` that accepts only strings, that is in the given length range.
 
 #### Defined in
 
-[src/guards/TStringWithLength/index.ts:22](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TStringWithLength/index.ts#L22)
+[src/guards/TStringWithLength/index.ts:22](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TStringWithLength/index.ts#L22)
 
 ___
 
@@ -924,4 +922,4 @@ const TBiggerThan10 = TValidate<number>(
 
 #### Defined in
 
-[src/guards/TValidate/index.ts:22](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/guards/TValidate/index.ts#L22)
+[src/guards/TValidate/index.ts:22](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/guards/TValidate/index.ts#L22)

@@ -1,6 +1,5 @@
 export { ValidationError } from "./errors";
 export { default as Guard, GuardedType } from "./Guard";
-export { SchemaType } from "./guards/TObject/types";
 
 export { default as TAnd } from "./guards/TAnd";
 export { default as TAny } from "./guards/TAny";
@@ -16,7 +15,7 @@ export { default as TNot } from "./guards/TNot";
 export { default as TNull } from "./guards/TNull";
 export { default as TNumber } from "./guards/TNumber";
 export { default as TNumberAsString } from "./guards/TNumberAsString";
-export { default as TObject } from "./guards/TObject";
+export { default as TObject, ObjectSchema } from "./guards/TObject";
 export { default as TObjectOfShape } from "./guards/TObjectOfShape";
 export { default as TOr } from "./guards/TOr";
 export { default as TString } from "./guards/TString";

@@ -47,7 +47,7 @@ An abstract class, which is the parent class of all Guards. (Names starting with
 
 #### Defined in
 
-[src/Guard.ts:11](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/Guard.ts#L11)
+[src/Guard.ts:11](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/Guard.ts#L11)
 
 ## Methods
 
@@ -67,7 +67,7 @@ An abstract class, which is the parent class of all Guards. (Names starting with
 
 #### Defined in
 
-[src/Guard.ts:13](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/Guard.ts#L13)
+[src/Guard.ts:13](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/Guard.ts#L13)
 
 ___
 
@@ -87,4 +87,4 @@ value is T
 
 #### Defined in
 
-[src/Guard.ts:12](https://github.com/davidkarolyi/tguard/blob/0dd2269/src/Guard.ts#L12)
+[src/Guard.ts:12](https://github.com/davidkarolyi/tguard/blob/d84cda9/src/Guard.ts#L12)

@@ -1,23 +1,24 @@
-import Guard from "../../Guard";
+import Guard, { GuardedType } from "../../Guard";
 import TValidate from "../TValidate";
 
 /**
- * Validates if criterias of two types are both met.
+ * Validates if criterias of two (or more) types are all met.
  *
  * `guard.name: "<typeA.name> & <typeB.name>"`
  *
  * @returns
  * A `Guard` that is similar in concept as the `&` operator in TypeScript.
- * Accepts a value when it was accepted by both `guardA` and `guardB`.
+ * Accepts a value when it was accepted by all `guardA` and `guardB`, and others.
  *
  */
-export default function TAnd<A, B>(
+export default function TAnd<A, B, T extends Array<Guard<unknown>>>(
   guardA: Guard<A>,
-  guardB: Guard<B>
-): Guard<A & B> {
-  const guards = [guardA, guardB];
+  guardB: Guard<B>,
+  ...others: T
+): Guard<A & B & UnionToIntersection<GuardedType<ArrayType<T>>>> {
+  const guards = [guardA, guardB, ...others];
 
-  return TValidate<A & B>(
+  return TValidate(
     `(${guards.map(({ name }) => name).join(" & ")})`,
     (value) => {
       for (const guard of guards) {
@@ -27,3 +28,13 @@ export default function TAnd<A, B>(
     }
   );
 }
+
+type ArrayType<C extends Array<unknown>> = C extends Array<infer T>
+  ? T
+  : unknown;
+
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I
+) => void
+  ? I
+  : never;

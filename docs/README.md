@@ -170,7 +170,7 @@ const TNumberBiggerThan10 = TValidate(
 ## Exported utility tpyes
 
 - [GuardedType](/docs/modules.md#guardedtype)
-- [SchemaType](/docs/modules.md#schematype)
+- [ValidationError](/docs/classes/ValidationError.md)
 
 ## Tree shaking
 

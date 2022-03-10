@@ -1,6 +1,7 @@
 import Guard from "../../Guard";
 import { ObjectSchema, SchemaType } from "./types";
 import { SchemaGuard } from "./SchemaGuard";
+export { ObjectSchema } from "./types";
 
 /**
  * It will validate that the given value is matching the object schema.
