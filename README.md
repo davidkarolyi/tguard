@@ -175,6 +175,6 @@ const TNumberBiggerThan10 = TValidate(
 All guards can be imported as a single module, which enables tree-shaking:
 
 ```ts
-import TString from "tguard/guards/TString";
-import { GuardedType } from "tguard/Guard";
+import TString from "tguard/lib/guards/TString";
+import Guard, { GuardedType } from "tguard/lib/Guard";
 ```
