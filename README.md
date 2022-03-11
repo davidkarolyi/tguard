@@ -159,7 +159,7 @@ You can define any custom Guard with [`TValidate`](/docs/modules.md#tvalidate).
 Defining a guard that validates if a number is bigger than 10:
 
 ```ts
-const TNumberBiggerThan10 = TValidate(
+const TNumberBiggerThan10 = TValidate<number>(
   "number(bigger than 10)",
   (value) => typeof value === "number" && value > 10
 );
