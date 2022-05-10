@@ -39,10 +39,10 @@ import TValidate from "../TValidate";
 export default function TObjectOfShape<T>(shape: {
   keys: Guard<string>;
   values: Guard<T>;
-}): Guard<Record<string, T>> {
+}): Guard<{ [key: string]: T }> {
   const name = `{ [${shape.keys.name}]: ${shape.values.name} }`;
 
-  return TValidate<Record<string, T>>(name, (value) => {
+  return TValidate<{ [key: string]: T }>(name, (value) => {
     {
       if (typeof value !== "object" || value === null) return false;
       for (const key in value) {
